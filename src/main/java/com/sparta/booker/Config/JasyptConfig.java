@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Configuration
 public class JasyptConfig {
-	@Value("${jasypt.password}")
+	@Value("${jasypt.pw}")
 	private String encryptKey;
 
 	@Bean("jasyptStringEncryptor")
