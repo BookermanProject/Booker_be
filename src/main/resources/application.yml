@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ENC(8e8UgY80g4NObX6unMMifQ==)
+    url: jdbc:mysql://artist.cqjw1iajcspu.ap-northeast-2.rds.amazonaws.com:3306/artist
+    password: ENC(/3z8Harkr/oVAzleU5yVI9DHvwj1OsX/)
+
+# jatsypt
+
+
