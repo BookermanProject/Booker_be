@@ -4,6 +4,29 @@ spring:
     username: ENC(8e8UgY80g4NObX6unMMifQ==)
     url: jdbc:mysql://artist.cqjw1iajcspu.ap-northeast-2.rds.amazonaws.com:3306/artist
     password: ENC(/3z8Harkr/oVAzleU5yVI9DHvwj1OsX/)
+    jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL8Dialect
+          format_sql: 'true'
+      hibernate:
+        ddl-auto: update
+      show-sql: 'true'
+    servlet:
+      multipart:
+        max-request-size: 100MB
+        max-file-size: 100MB
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
+        web: trace
+      hibernate: info
+
+
 
 # jatsypt
 
