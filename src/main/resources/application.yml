@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ENC(8e8UgY80g4NObX6unMMifQ==)
-    url: jdbc:mysql://artist.cqjw1iajcspu.ap-northeast-2.rds.amazonaws.com:3306/artist
-    password: ENC(/3z8Harkr/oVAzleU5yVI9DHvwj1OsX/)
+    username: ENC(riXhex1+dAiROV4M9XXaCQ==)
+    url: jdbc:mysql://211.178.235.51:3306
+    password: ENC(W3iXiTErZT8x5c8E8tkqvuaYxFKEbLr3)
     jpa:
       properties:
         hibernate:
@@ -16,6 +16,20 @@ spring:
       multipart:
         max-request-size: 100MB
         max-file-size: 100MB
+
+  kafka:
+    bootstrap-servers:
+      - 192.168.0.4:9092
+    consumer:
+      bootstrap-servers: 211.178.235.51:9092
+      group-id: foo
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 
 logging:

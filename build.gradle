@@ -39,19 +39,16 @@ dependencies {
     implementation 'org.apache.poi:poi:4.0.0'
     implementation 'org.apache.poi:poi-ooxml:4.0.0'
 
-
     //QUERY DSL
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    
+    /* kafka */
+    implementation 'org.springframework.kafka:spring-kafka'
 
 }
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
 
 sourceSets {
     main {
@@ -61,4 +58,9 @@ sourceSets {
     }
 }
 
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
 
