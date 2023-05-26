@@ -39,7 +39,7 @@ logging:
         security: trace
         web: trace
       hibernate: info
-
+  config: classpath:logback-spring.xml
 
 
 # jatsypt
