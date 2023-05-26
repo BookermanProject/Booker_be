@@ -38,7 +38,6 @@ dependencies {
 
     implementation 'org.apache.poi:poi:4.0.0'
     implementation 'org.apache.poi:poi-ooxml:4.0.0'
-
     //엘라스틱서치
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     // CurcuitBreaker
@@ -58,13 +57,12 @@ dependencies {
             "javax.annotation:javax.annotation-api",
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
     )
+    
+    /* kafka */
+    implementation 'org.springframework.kafka:spring-kafka'
+
 
 }
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
 
 sourceSets {
     main {
@@ -74,4 +72,9 @@ sourceSets {
     }
 }
 
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
 
