@@ -1,19 +1,25 @@
 package com.sparta.booker.service;
 
+import com.sparta.booker.common.exception.SuccessCode;
+import com.sparta.booker.dto.BookFilterDto;
+import com.sparta.booker.dto.BookDto;
+import com.sparta.booker.dto.BookListDto;
 import com.sparta.booker.entity.Book;
-import com.sparta.booker.exception.Message;
+import com.sparta.booker.repository.BookElasticOperation;
 import com.sparta.booker.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import com.sparta.booker.exception.StatusEnum;
+import com.sparta.booker.common.dto.Message;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,11 +27,14 @@ import java.nio.file.DirectoryIteratorException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookService {
     private final BookRepository bookRepository;
+    private final BookElasticOperation bookElasticOperation;
 
     @Transactional
     public ResponseEntity<Message> importExcel(MultipartFile excel) {
@@ -73,7 +82,53 @@ public class BookService {
         catch (IOException | DirectoryIteratorException ex) {
             System.err.println(ex);
         }
-        Message message = Message.setSuccess(StatusEnum.OK, "엑셀 업로드 성공");
-        return new ResponseEntity<>(message, HttpStatus.OK);
+        return Message.toResponseEntity(SuccessCode.IMPORT_SUCCESS, "엑셀 업로드 성공");
     }
+
+    @Transactional(readOnly = true)
+//    @CircuitBreaker(name = "ElasticError", fallbackMethod = "keywordSearchBySql")
+    public ResponseEntity<Message> searchWordByElastic(BookFilterDto bookFilterDto) {
+        //엘라스틱서치 검색결과를 해당클래스로 원하는 데이터타입으로 가져올 수 있음
+        SearchHits<BookDto> searchHits = bookElasticOperation.keywordSearchByElastic(bookFilterDto);
+        BookListDto bookListDto = resultToDto(searchHits, bookFilterDto);
+
+
+        return Message.toResponseEntity(SuccessCode.SEARCH_SUCCESS, bookListDto);
+    }
+
+    public ResponseEntity<Message> searchFilterByElastic(BookDto bookRequestDto) {
+
+        return Message.toResponseEntity(SuccessCode.SEARCH_SUCCESS, "test" );
+    }
+
+    private BookListDto resultToDto(SearchHits<BookDto> search, BookFilterDto bookFilterDto) {
+        List<SearchHit<BookDto>> searchHits = search.getSearchHits();
+        System.out.println(search.getTotalHits());
+        List<BookDto> bookDtoList = searchHits.stream().map(hit -> hit.getContent()).collect(Collectors.toList());
+
+        List<Object> searchAfter = setSearchAfter(searchHits, bookFilterDto);
+        String searchAfterSort = String.valueOf(searchAfter.get(0));
+        Long searchAfterId = Long.parseLong(String.valueOf(searchAfter.get(1)));
+
+        return new BookListDto(bookDtoList, searchAfterSort, searchAfterId, bookFilterDto.getPage(), true);
+    }
+
+    private List<Object> setSearchAfter(List<SearchHit<BookDto>> searchHits, BookFilterDto bookFilterDto) {
+        List<Object> lists = new ArrayList<>();
+        if (searchHits.size() == 0) {		// 검색 결과가 없는 경우
+            lists.add("-1");
+            lists.add("-1");
+            return lists;
+        } else if (searchHits.size() < bookFilterDto.getTotalRow()) {		// 검색 결과가 총 개수보다 작은 경우
+            lists.add("0");
+            lists.add("-1");
+            return lists;
+        }
+        return searchHits.get(searchHits.size() - 1).getSortValues();
+    }
+
+//    @Transactional(readOnly = true)
+//    public void keywordSearchBySql(BookFilterDto filter, Throwable t) {
+//        log.warn("keyword Elastic Down : " + t.getMessage());
+//    }
 }

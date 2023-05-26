@@ -2,7 +2,7 @@ package com.sparta.booker.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
-import com.sparta.booker.dto.BookRequestDto;
+import com.sparta.booker.dto.BookDto;
 import com.sparta.booker.entity.Book;
 import com.sparta.booker.entity.QBook;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -16,7 +16,7 @@ public class BookSearchImpl extends QuerydslRepositorySupport implements BookSea
     }
 
     @Override
-    public List<Book> QueryDslTest(BookRequestDto bookRequestDto) {
+    public List<Book> QueryDslTest(BookDto bookRequestDto) {
         QBook book = QBook.book;
         JPQLQuery<Book> query = from(book);
 
