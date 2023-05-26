@@ -1,0 +1,17 @@
+{
+  "properties" : {
+    "id" : {"type" : "keyword"},
+    "bookName" : {"type" : "text"},
+    "authors" : {"type" : "text"},
+    "publisher" : {"type" : "text"},
+    "publicationYear" : {"type" : "text"},
+    "isbn13" : {"type" : "text"},
+    "isbn13Set" : {"type" : "text"},
+    "addSign" : {"type" : "text"},
+    "bookCnt" : {"type" : "text"},
+    "kdcNum" : {"type" : "text"},
+    "totalNum" : {"type" : "text"},
+    "rentalNum" : {"type" : "text"},
+    "createDat" : {"type" : "text"}
+  }
+}
