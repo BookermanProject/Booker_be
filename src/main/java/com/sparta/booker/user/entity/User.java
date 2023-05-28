@@ -1,5 +1,6 @@
 package com.sparta.booker.user.entity;
 
+import com.sparta.booker.user.dto.SignupRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,9 +28,9 @@ public class User {
     @Column(nullable = false)
     private String address;
 
-    public User(String userId, String password, String address) {
-        this.userId = userId;
-        this.password = password;
-        this.address = address;
+    public User(SignupRequestDto requestDto) {
+        this.userId = requestDto.getUserId();
+        this.password = requestDto.getPassword();
+        this.address = requestDto.getAddress();
     }
 }
