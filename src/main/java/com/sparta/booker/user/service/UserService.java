@@ -33,7 +33,7 @@ public class UserService {
                 .address(address).build();
 
         userRepository.save(user);
-        return ResponseEntity.ok().body(new ResponseDto("회원가입에 성공"));
+        return ResponseEntity.ok().body(new ResponseDto("회원가입 성공"));
     }
 
     // 로그인
