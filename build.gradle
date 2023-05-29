@@ -49,6 +49,9 @@ dependencies {
     // stash
     implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
 
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+
+
 
     //QUERY DSL
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
@@ -59,7 +62,7 @@ dependencies {
     )
     
     /* kafka */
-    implementation 'org.springframework.kafka:spring-kafka'
+//    implementation 'org.springframework.kafka:spring-kafka'
 
 
     // logback

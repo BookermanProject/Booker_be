@@ -36,6 +36,3 @@ out/
 ### VS Code ###
 .vscode/
 
-### Custom ###
-application.properties
-application.yml
