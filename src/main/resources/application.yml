@@ -52,9 +52,9 @@ spring:
 #      hibernate: info
 
 elasticsearch:
-  password: lQy=2Fs2J+7keubUozrk
+  password: HYr740L5nQGHnkagqQ6d
   username: elastic
-  url: 211.178.235.12:9200
+  url: localhost:9200
 
 
 logging:
