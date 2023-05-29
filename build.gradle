@@ -59,7 +59,7 @@ dependencies {
     )
     
     // kafka
-    //implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework.kafka:spring-kafka'
 
     // logback
     implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
