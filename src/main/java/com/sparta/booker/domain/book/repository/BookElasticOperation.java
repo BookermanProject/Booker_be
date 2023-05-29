@@ -4,9 +4,7 @@ import com.sparta.booker.domain.book.dto.BookDto;
 import com.sparta.booker.domain.book.dto.BookFilterDto;
 import com.sparta.booker.domain.book.dto.autoMakerDto;
 import com.sparta.booker.elastic.custom.CustomBoolQueryBuilder;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
-import org.elasticsearch.index.query.PrefixQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
@@ -29,24 +27,16 @@ public class BookElasticOperation {
 
     // keyword 검색
     public SearchHits<BookDto> keywordSearchByElastic(BookFilterDto bookFilterDto) {
-        //네이티브 검색쿼리 인스턴스 생성
+        MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(bookFilterDto.getQuery(), "book_name", "authors");
+
         NativeSearchQuery build = new NativeSearchQueryBuilder()
-                //엘라스틱 서치는 BM25 알고리즘을 이용한 도큐먼트 점수계산을 함
-                //검색결과의 최소점수를 50으로 설정함
-                .withMinScore(50f)
-                .withQuery(new CustomBoolQueryBuilder()		//검색쿼리를 설정하는 부분 CustomBoolQueryBuilder 을 생성함으로써 커스텀한다는 뜻
-                        //must -> title, quthor 필드에 매칭되는 키워드가 필수로 있어야 함
-                        .must(multiMatchQuery(bookFilterDto.getBookCnt(), "bookName", "authors"))
-//                        .filter(CustomQueryBuilders.matchQuery("category.keyword", bookFilterDto.getQuery()))
-//                        .filter(CustomQueryBuilders.matchQuery("baby_category.keyword", bookFilterDto.getQuery()))
-//                        .should(new RangeQueryBuilder("inventory").gte(1).boost(40F))
-                        .should(matchPhraseQuery("bookName", bookFilterDto.getQuery()))
-                )
+                .withQuery(multiMatchQueryBuilder)
                 .withSorts(sortQuery(bookFilterDto.getSort()))
                 .build();
 
         return operations.search(build, BookDto.class);
     }
+
 
     // filter 검색
     public SearchHits<BookDto> filterSearchByElastic(BookFilterDto bookFilterDto, List<Object> searchAfter) {
