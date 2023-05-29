@@ -25,6 +25,10 @@ public class UserService {
         String password = signupRequestDto.getPassword();
         String address = signupRequestDto.getAddress();
 
+        if(userRepository.findByUserId(signupRequestDto.getUserId()).isPresent()) {
+            throw new IllegalArgumentException("중복된 아이디가 존재합니다.");
+        }
+
         User user = User.builder()
                 .userId(userId)
                 .password(password)

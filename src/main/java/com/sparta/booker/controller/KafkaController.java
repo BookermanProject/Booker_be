@@ -1,5 +1,4 @@
-package com.sparta.booker.kafka.controller;
-
+package com.sparta.booker.controller;
 
 import com.sparta.booker.service.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class KafkaController {
 
-	@Autowired
-	private KafkaProducer producer;
+    @Autowired
+    private KafkaProducer producer;
 
-	@PostMapping(value = "/sendMessage")
-	public void sendMessage(String message) {
-		producer.sendMessage(message);
-	}
+    @PostMapping(value = "/sendMessage")
+    public void sendMessage(String message) {
+        producer.sendMessage(message);
+    }
 }
