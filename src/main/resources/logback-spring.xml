@@ -2,34 +2,16 @@
 <configuration>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%-5level %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}]%green([%thread]) %highlight(%-5level) %logger{36}: %msg%n</pattern>
         </encoder>
     </appender>
 
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>localhost:50000</destination>
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <mdc />
-                <context />
-                <logLevel />
-                <loggerName />
-                <pattern>
-                    <pattern>
-                        {
-                        "app": "test-log"
-                        }
-                    </pattern>
-                </pattern>
-                <threadName />
-                <message />
-                <logstashMarkers />
-                <stackTrace />
-            </providers>
-        </encoder>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
-    <root level="info">
-        <appender-ref ref="logstash" />
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="stash" />
     </root>
 </configuration>
