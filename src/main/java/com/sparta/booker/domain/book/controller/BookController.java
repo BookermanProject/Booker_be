@@ -30,11 +30,6 @@ public class BookController {
          return bookService.searchWordByElastic(filterDto);
     }
 
-    @GetMapping("/test")
-    public void logTest() {
-        log.info("testtest");
-    }
-
     //단어로 검색
     @PostMapping("/search/Filter")
     public ResponseEntity<Message> searchFilter (@RequestBody BookDto bookRequestDto) {

@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/mysql/")
+@RequestMapping("/api/mysql/")
 public class MySQLBookController {
 }

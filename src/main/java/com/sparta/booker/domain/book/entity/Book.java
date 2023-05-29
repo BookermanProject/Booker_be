@@ -29,10 +29,10 @@ public class Book {
     private String kdcNum;
     private String totalNum;
     private String rentalNum;
-    private String createDat;
+    private String createDate;
     public Book(String bookName, String authors, String publisher, String publicationYear,
                 String isbn13, String isbn13Set, String addSign, String bookCnt, String kdcNum,
-                String totalNum, String rentalNum, String createDat) {
+                String totalNum, String rentalNum, String createDate) {
         this.bookName = bookName;
         this.authors = authors;
         this.publisher = publisher;
@@ -44,6 +44,6 @@ public class Book {
         this.kdcNum = kdcNum;
         this.totalNum = totalNum;
         this.rentalNum = rentalNum;
-        this.createDat = createDat;
+        this.createDate = createDate;
     }
 }
