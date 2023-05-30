@@ -16,26 +16,24 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         show_sql: true
         format_sql: true
 
-  #  kafka:
-  #    bootstrap-servers:
-  #      - localhost:9092
-  #    consumer:
-  #      bootstrap-servers: 211.178.235.51:9092
-  #      group-id: foo
-  #      auto-offset-reset: earliest
-  #      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-  #      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-  #    producer:
-  #      bootstrap-servers: localhost:9092
-  #      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-  #      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    kafka:
+      consumer:
+        bootstrap-servers: localhost:9092
+        group-id: foo
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      producer:
+        bootstrap-servers: localhost:9092
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 
   servlet:
@@ -52,7 +50,7 @@ spring:
 #      hibernate: info
 
 elasticsearch:
-  password: k0+iJRd99fYhAPRm-VLY
+  password: 0casq3rfn1fK2Xs7UUp8
   username: elastic
   url: localhost:9200
 
@@ -60,3 +58,10 @@ elasticsearch:
 logging:
   config: classpath:logback-spring.xml
 
+jwt:
+  secret:
+    key: 7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA=
+
+admin:
+  secret:
+    key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC
