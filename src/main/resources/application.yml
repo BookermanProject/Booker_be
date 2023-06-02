@@ -23,18 +23,18 @@ spring:
         show_sql: true
         format_sql: true
 
-    kafka:
-      consumer:
-        bootstrap-servers: localhost:9092
-        group-id: foo
-        auto-offset-reset: earliest
-        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      producer:
-        bootstrap-servers: localhost:9092
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: testGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
   servlet:
     multipart:
@@ -50,10 +50,9 @@ spring:
 #      hibernate: info
 
 elasticsearch:
-  password: 0casq3rfn1fK2Xs7UUp8
+  password: JkW_9rWbD_JztMXVKemd
   username: elastic
   url: localhost:9200
-
 
 logging:
   config: classpath:logback-spring.xml
