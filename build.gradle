@@ -73,6 +73,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
 
+    //주석 프로세서 구성
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
 
 }
 
