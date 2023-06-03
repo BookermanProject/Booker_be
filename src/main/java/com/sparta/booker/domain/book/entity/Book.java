@@ -1,51 +1,81 @@
 package com.sparta.booker.domain.book.entity;
 
+import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import com.sparta.booker.domain.book.dto.BookDto;
 import com.sparta.booker.domain.event.entity.Event;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.*;
-
-@Entity(name = "book")
+@Entity(name = "booker")
 @Getter
-@Setter
 @NoArgsConstructor
 public class Book {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String bookName;
-    private String authors;
+
+    @Column(nullable = false)
+    private String author;
+
+    @Column(nullable = false)
     private String publisher;
-    private String publicationYear;
-    private String isbn13;
-    private String isbn13Set;
-    private String addSign;
-    private String bookCnt;
-    private String kdcNum;
-    private String totalNum;
-    private String rentalNum;
-    private String createDate;
+
+    @Column(nullable = false)
+    private String pub_date;
+
+    @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false)
+    private String introduction;
+
+    @Column(nullable = false)
+    private double star;
+
+    @Column(nullable = false)
+    private String img_url;
+
+    @Column(nullable = false)
+    private LocalDateTime modification_time;
+
+    @Column(nullable = false)
+    private LocalDateTime insertion_time;
+
+    @Column(nullable = true)
+    private int likeCount;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private Event event;
+    private Event eventId;
 
-    public Book(String bookName, String authors, String publisher, String publicationYear,
-                String isbn13, String isbn13Set, String addSign, String bookCnt, String kdcNum,
-                String totalNum, String rentalNum, String createDate) {
-        this.bookName = bookName;
-        this.authors = authors;
-        this.publisher = publisher;
-        this.publicationYear = publicationYear;
-        this.isbn13 = isbn13;
-        this.isbn13Set = isbn13Set;
-        this.addSign = addSign;
-        this.bookCnt = bookCnt;
-        this.kdcNum = kdcNum;
-        this.totalNum = totalNum;
-        this.rentalNum = rentalNum;
-        this.createDate = createDate;
+
+    public Book(BookDto bookDto) {
+        this.bookName = bookDto.getBookName();
+        this.author = bookDto.getAuthor();
+        this.publisher = bookDto.getPublisher();
+        this.pub_date = bookDto.getPub_date();
+        this.category= bookDto.getCategory();
+        this.introduction = bookDto.getIntroduction();
+        this.star= bookDto.getStar();
+        this.img_url= bookDto.getImg_url();
+        this.eventId = bookDto.getEventid();
+    }
+
+
+    public void upLikeCount(){
+        this.likeCount = likeCount + 1;
     }
 }

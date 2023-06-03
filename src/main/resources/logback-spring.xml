@@ -7,9 +7,10 @@
     </appender>
 
     <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:50000</destination>
+        <destination>192.168.219.100:50000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
+
     <root level="INFO">
         <appender-ref ref="console"/>
         <appender-ref ref="stash" />
