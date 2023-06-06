@@ -31,7 +31,7 @@ public class KafkaProducer {
 		String message = String.format("%d 번째 메세지를 %s 에 전송 하였습니다.", runningId++, LocalDateTime.now());
 
 		// 이벤트 메시지 생성
-		String eventMessage = String.format("{\"eventId\": %d, \"userId\": \"%s\", \"timestamp\": \"%s\"}", eventId, user.getId(), LocalDateTime.now());
+		String eventMessage = String.format("{\"eventId\": %d, \"userId\": \"%s\", \"applicationTime\": \"%s\"}", eventId, user.getId(), LocalDateTime.now());
 
 		// 선택할 파티션 계산
 		// ex) eventId 1 -> partiction 0, eventId 2 -> partiction 1

@@ -49,7 +49,8 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<Long, String> factory
                 = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-        factory.setConcurrency(3);
+        // 이후 메시지 처리량을 고려해서 높은 값으로 수정
+        factory.setConcurrency(2);
         return factory;
     }
 
