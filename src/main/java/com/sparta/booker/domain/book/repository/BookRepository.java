@@ -12,11 +12,10 @@ import org.springframework.stereotype.Repository;
 public interface BookRepository extends JpaRepository<Book, Long>, BookSearch {
 
 	List<Book> findByBookNameOrAuthorOrderByLikeCountDesc(Pageable pageable,  String bookname, String author);
-
 	List<Book> findByBookNameOrAuthorOrderByLikeCountAsc(Pageable pageable,  String bookname, String author);
-
 	List<Book> findByBookNameOrAuthorOrderByStarDesc(Pageable pageable, String bookname, String author);
-
 	List<Book> findByBookNameOrAuthorOrderByStarAsc(Pageable pageable, String bookname, String author);
+	List<Book> findByBookName(String bookname);
 
+	List<Book> OrderByLikeCount();
 }

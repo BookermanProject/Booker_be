@@ -38,7 +38,7 @@ dependencies {
 
     implementation 'org.apache.poi:poi:4.0.0'
     implementation 'org.apache.poi:poi-ooxml:4.0.0'
-    //엘라스틱서치
+    //elasticsearch
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     // CurcuitBreaker
     implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.1'

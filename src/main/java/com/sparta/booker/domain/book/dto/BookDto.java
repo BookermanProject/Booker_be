@@ -42,14 +42,13 @@ public class BookDto {
         this.bookName = book.getBookName();
         this.author = book.getAuthor();
         this.publisher = book.getPublisher();
-        this.pub_date = book.getPub_date();
+        this.pub_date = book.getPubDate();
         this.category = book.getCategory();
         this.introduction = book.getIntroduction();
         this.star = book.getStar();
-        this.img_url = book.getImg_url();
-        this.modification_time = book.getModification_time();
-        this.insertion_time = book.getInsertion_time();
-        this.eventid = book.getEventId();
+        this.img_url = book.getImgUrl();
+        this.modification_time = book.getModificationTime();
+        this.insertion_time = book.getInsertionTime();
         this.like_count = book.getLikeCount();
     }
 

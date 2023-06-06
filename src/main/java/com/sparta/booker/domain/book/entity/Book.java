@@ -1,24 +1,18 @@
 package com.sparta.booker.domain.book.entity;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
 import com.sparta.booker.domain.book.dto.BookDto;
 import com.sparta.booker.domain.event.entity.Event;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity(name = "booker")
 @Getter
 @NoArgsConstructor
+@ToString
 public class Book {
 
     @Id
@@ -35,7 +29,7 @@ public class Book {
     private String publisher;
 
     @Column(nullable = false)
-    private String pub_date;
+    private String pubDate;
 
     @Column(nullable = false)
     private String category;
@@ -47,31 +41,26 @@ public class Book {
     private double star;
 
     @Column(nullable = false)
-    private String img_url;
+    private String imgUrl;
 
     @Column(nullable = false)
-    private LocalDateTime modification_time;
+    private LocalDateTime modificationTime;
 
     @Column(nullable = false)
-    private LocalDateTime insertion_time;
+    private LocalDateTime insertionTime;
 
     @Column(nullable = true)
     private int likeCount;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    private Event eventId;
-
 
     public Book(BookDto bookDto) {
         this.bookName = bookDto.getBookName();
         this.author = bookDto.getAuthor();
         this.publisher = bookDto.getPublisher();
-        this.pub_date = bookDto.getPub_date();
+        this.pubDate = bookDto.getPub_date();
         this.category= bookDto.getCategory();
         this.introduction = bookDto.getIntroduction();
         this.star= bookDto.getStar();
-        this.img_url= bookDto.getImg_url();
-        this.eventId = bookDto.getEventid();
+        this.imgUrl= bookDto.getImg_url();
     }
 
 

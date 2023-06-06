@@ -24,7 +24,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'corretto'
-    - name: gradlew에 실행 권한 부여
+    - name: gradlew에  권한 부여
       run: chmod +x ./gradlew
     - name: jasypt key주입
       run: echo ${{secrets.JASYPT}} | base64 --decode >> ./src/main/resources/application.yml
