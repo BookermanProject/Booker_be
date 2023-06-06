@@ -21,7 +21,7 @@ public class BookSearchImpl extends QuerydslRepositorySupport implements BookSea
         QBook book = QBook.book;
         JPQLQuery<Book> query = from(book);
 
-        query.where( bookNameEq(bookRequestDto.getBook_name(), book));
+        // query.where( bookNameEq(bookRequestDto.getBook_name(), book));
 
         return query.fetch();
     }

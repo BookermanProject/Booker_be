@@ -17,10 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class BookController {
     private final BookService bookService;
-    @PostMapping("/excel")
-    public ResponseEntity<Message> importExcel (@RequestPart("excel") MultipartFile excel) {
-        return bookService.importExcel(excel);
-    }
+    // @PostMapping("/excel")
+    // public ResponseEntity<Message> importExcel (@RequestPart("excel") MultipartFile excel) {
+    //     return bookService.importExcel(excel);
+    // }
 
     //필터검색
     @PostMapping("/search/Word")

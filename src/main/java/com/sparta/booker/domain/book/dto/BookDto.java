@@ -1,72 +1,74 @@
 package com.sparta.booker.domain.book.dto;
 
-import com.querydsl.core.annotations.QueryProjection;
+import java.time.LocalDateTime;
+
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Mapping;
+import org.springframework.data.elasticsearch.annotations.Setting;
+
 import com.sparta.booker.domain.book.entity.Book;
+import com.sparta.booker.domain.event.entity.Event;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Mapping;
-import org.springframework.data.elasticsearch.annotations.Setting;
 
 
 @Getter
 @Setter
 @Document(indexName = "book", createIndex = true)
-@Mapping(mappingPath = "static/mappings/es-mappings.json")
-@Setting(settingPath = "static/settings/es-settings.json")
+// @Mapping(mappingPath = "static/mappings/es-mappings.json")
+// @Setting(settingPath = "static/settings/es-settings.json")
 @NoArgsConstructor
 public class BookDto {
     private Long id;
-    private String book_name;
-    private String authors;
+    private String bookName;
+    private String author;
     private String publisher;
-    private String publication_year;
-    private String isbn13;
-    private String isbn13Set;
-    private String add_sign;
-    private String book_cnt;
-    private String kdc_num;
-    private String total_num;
-    private String rental_num;
-    private String create_date;
+    private String pub_date;
+    private String category;
+    private String introduction;
+    private double star;
+    private String img_url;
+    private LocalDateTime modification_time;
+    private LocalDateTime insertion_time;
+    private Event eventid;
+    private int like_count;
 
     @Builder
     public BookDto(Book book) {
         this.id = book.getId();
-        this.book_name = book.getBookName();
-        this.authors = book.getAuthors();
+        this.bookName = book.getBookName();
+        this.author = book.getAuthor();
         this.publisher = book.getPublisher();
-        this.publication_year = book.getPublicationYear();
-        this.isbn13 = book.getIsbn13();
-        this.isbn13Set = book.getIsbn13Set();
-        this.add_sign = book.getAddSign();
-        this.book_cnt = book.getBookCnt();
-        this.kdc_num = book.getKdcNum();
-        this.total_num = book.getTotalNum();
-        this.rental_num = book.getRentalNum();
-        this.create_date = book.getCreateDate();
+        this.pub_date = book.getPub_date();
+        this.category = book.getCategory();
+        this.introduction = book.getIntroduction();
+        this.star = book.getStar();
+        this.img_url = book.getImg_url();
+        this.modification_time = book.getModification_time();
+        this.insertion_time = book.getInsertion_time();
+        this.eventid = book.getEventId();
+        this.like_count = book.getLikeCount();
     }
 
-    @QueryProjection
-    public BookDto(Long id, String bookName, String authors, String publisher, String publicationYear,
-                   String isbn13, String isbn13Set, String addSign, String bookCnt, String kdcNum,
-                   String totalNum, String rentalNum, String createDate) {
-        this.id = id;
-        this.book_name = bookName;
-        this.authors = authors;
-        this.publisher = publisher;
-        this.publication_year = publicationYear;
-        this.isbn13 = isbn13;
-        this.isbn13Set = isbn13Set;
-        this.add_sign = addSign;
-        this.book_cnt = bookCnt;
-        this.kdc_num = kdcNum;
-        this.total_num = totalNum;
-        this.rental_num = rentalNum;
-        this.create_date = createDate;
-    }
+    // @QueryProjection
+    // public BookDto(Long id, String bookName, String authors, String publisher, String pub_date,
+    //                String category, String introduction, int star, String img_url, LocalDateTime modification_time,
+    //     LocalDateTime insertion_time) {
+    //     this.id = id;
+    //     this.bookName = bookName;
+    //     this.author = authors;
+    //     this.publisher = publisher;
+    //     this.pub_date = pub_date;
+    //     this.category = category;
+    //     this.introduction = introduction;
+    //     this.star = star;
+    //     this.img_url = img_url;
+    //     this.modification_time = modification_time;
+    //     this.insertion_time = insertion_time;
+    // }
+
 }
 

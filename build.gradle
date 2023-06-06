@@ -46,6 +46,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // slack
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     // stash
     //implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
 
