@@ -1,7 +1,10 @@
 package com.sparta.booker.kafka.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.booker.domain.event.entity.Event;
+import com.sparta.booker.domain.event.entity.EventRequest;
 import com.sparta.booker.domain.event.repository.EventRepository;
+import com.sparta.booker.domain.event.repository.EventRequestRepository;
 import com.sparta.booker.kafka.config.KafkaProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +16,8 @@ import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -20,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class KafkaConsumer {
 
 	private final EventRepository eventRepository;
+	private final EventRequestRepository eventRequestRepository;
 
 	// 0~4 partiction 처리
 	@KafkaListener(topicPartitions = @TopicPartition(topic = "book", partitions = {"0", "1", "2", "3", "4"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
@@ -42,24 +48,26 @@ public class KafkaConsumer {
 			JSONObject eventJson = new JSONObject(record.value());
 			Long eventId = eventJson.getLong("eventId");
 			String userId = eventJson.getString("userId");
+			String applicationTime = eventJson.getString("applicationTime");
 
 			// 이벤트 성공, 실패 여부 판단
 			// book_cnt가 0 보다 클 경우에만 성공으로 처리
 			Event event = eventRepository.findById(eventId).orElseThrow(
-					() -> new NullPointerException("해당 이벤트는 존재하지 않습니다")
+					() -> new IllegalArgumentException("해당 이벤트는 존재하지 않습니다")
 			);
+
 			int bookCnt = event.getBook_cnt();
 			boolean isSuccess = event.getBook_cnt() > 0;
 
 			// 이벤트 결과 메시지 전송
 			if (isSuccess) {
-				sendSuccessMessage(eventId, userId);
+				sendSuccessMessage(eventId, userId, applicationTime);
 				bookCnt--;
 
 				//book_cnt 업데이트
 				event.update(bookCnt);
 			} else {
-				sendFailureMessage(eventId, userId);
+				sendFailureMessage(eventId, userId, applicationTime);
 			}
 
 			// 데이터베이스에 저장
@@ -69,13 +77,13 @@ public class KafkaConsumer {
 		}
 	}
 
-	private void sendSuccessMessage(Long eventId, String userId) {
-		log.info("Event ID : {} for User ID : {} - 이벤트 신청 성공", eventId, userId);
-		// 이벤트 성공 메시지를 전송하는 로직을 구현합니다.
+	private void sendSuccessMessage(Long eventId, String userId, String applicationTime) {
+		log.info("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 성공", eventId, userId, applicationTime);
+		eventRequestRepository.save(new EventRequest(eventId, userId, applicationTime));
 	}
 
-	private void sendFailureMessage(Long eventId, String userId) {
-		log.info("Event ID : {} for User ID : {} - 이벤트 신청 실패", eventId, userId);
+	private void sendFailureMessage(Long eventId, String userId, String applicationTime) {
+		log.info("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 실패", eventId, userId, applicationTime);
 		// 이벤트 실패 메시지를 전송하는 로직을 구현합니다.
 	}
 
