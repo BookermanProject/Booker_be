@@ -28,7 +28,7 @@ public class KafkaConfig {
 
     // Producer config
     @Bean
-    // KafaTemplate은 producer를 wraps 하고 Topic에 데이터를 보내는 편리한 방법을 제공
+    // KafkaTemplate는 producer를 wraps 하고 Topic에 데이터를 보내는 편리한 방법을 제공
     public KafkaTemplate<Long, String> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
@@ -39,6 +39,7 @@ public class KafkaConfig {
         config.put(org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
         config.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "1");
 
         return new DefaultKafkaProducerFactory<>(config);
     }
