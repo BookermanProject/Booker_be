@@ -58,8 +58,6 @@ public class Book {
     @Column(nullable = true)
     private int likeCount;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Event eventId;
 
 
     public Book(BookDto bookDto) {
@@ -71,7 +69,6 @@ public class Book {
         this.introduction = bookDto.getIntroduction();
         this.star= bookDto.getStar();
         this.img_url= bookDto.getImg_url();
-        this.eventId = bookDto.getEventid();
     }
 
 

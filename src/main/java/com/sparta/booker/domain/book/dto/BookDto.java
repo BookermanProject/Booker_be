@@ -33,7 +33,6 @@ public class BookDto {
     private String img_url;
     private LocalDateTime modification_time;
     private LocalDateTime insertion_time;
-    private Event eventid;
     private int like_count;
 
     @Builder
@@ -49,7 +48,6 @@ public class BookDto {
         this.img_url = book.getImg_url();
         this.modification_time = book.getModification_time();
         this.insertion_time = book.getInsertion_time();
-        this.eventid = book.getEventId();
         this.like_count = book.getLikeCount();
     }
 

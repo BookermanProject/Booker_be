@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class KafkaProducer {
 
-	private static int runningId = 0;
+	private int runningId = 0;
 
 	// Kafka 메시지를 전송하기 위한 Spring Kafka의 KafkaTemplate 객체
 	// 이 객체를 통해 메시지를 생성하고 전송할 수 있다
@@ -48,12 +48,12 @@ public class KafkaProducer {
 		listenableFuture.addCallback(new ListenableFutureCallback<SendResult<Long, String>>() {
 			@Override
 			public void onFailure(Throwable ex) {
-				log.error("ERROR Kafka error happened", ex);
+				log.debug("ERROR Kafka error happened", ex);
 			}
 
 			@Override
 			public void onSuccess(SendResult<Long, String> result) {
-				log.info("SUCCESS!! This is the result: {}", result);
+				log.debug("SUCCESS!! This is the result: {}", result);
 			}
 		});
 

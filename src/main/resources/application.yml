@@ -21,15 +21,15 @@ spring:
         show_sql: true
         format_sql: true
   kafka:
-    bootstrap-servers: 192.168.219.100:9092
+    bootstrap-servers: localhost:9092
     consumer:
-      bootstrap-servers: 192.168.219.100:9092
-      group-id: testGroup
+      bootstrap-servers: localhost:9092
+      group-id: mysql-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: 192.168.219.100:9092
+      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   servlet:
@@ -44,11 +44,11 @@ spring:
 #        web: trace
 #      hibernate: info
 elasticsearch:
-  password: W4_vnX9rwqbPDEpmTzgF
+  password: JkW_9rWbD_JztMXVKemd
   username: elastic
-  url: 192.168.219.100:9200
+  url: localhost:9200
 redis:
-  host: 192.168.219.100
+  host: localhost
   port: 6379
 #logging:
 #  config: classpath:logback-spring.xml
