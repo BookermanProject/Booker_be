@@ -8,7 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 import com.sparta.booker.domain.book.dto.BookDto;
 import com.sparta.booker.domain.event.entity.Event;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "booker")
 @Getter
 @NoArgsConstructor
+@Table(indexes = {@Index(name = "idxLikeCount", columnList = "likeCount"), @Index(name = "idxStar", columnList = "star")})
 public class Book {
 
     @Id
@@ -50,16 +52,14 @@ public class Book {
     private String img_url;
 
     @Column(nullable = false)
-    private LocalDateTime modification_time;
+    private LocalDateTime modificationTime;
 
     @Column(nullable = false)
-    private LocalDateTime insertion_time;
+    private LocalDateTime insertionTime;
 
     @Column(nullable = true)
     private int likeCount;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Event eventId;
 
 
     public Book(BookDto bookDto) {
@@ -71,7 +71,6 @@ public class Book {
         this.introduction = bookDto.getIntroduction();
         this.star= bookDto.getStar();
         this.img_url= bookDto.getImg_url();
-        this.eventId = bookDto.getEventid();
     }
 
 
