@@ -36,5 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-###
-application.yml
+.gitignore
+/resources/application.yml
+/resources/logback-spring.xml
