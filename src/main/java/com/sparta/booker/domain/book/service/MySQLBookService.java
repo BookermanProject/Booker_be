@@ -21,25 +21,39 @@ import lombok.RequiredArgsConstructor;
 public class MySQLBookService {
 	private final BookRepository bookRepository;
 
-	// 책 리스트 가져오기/페이지네이션
-	public List<BookDto> getBookList(Pageable pageable){
-		long startTime = System.currentTimeMillis();
-		List<BookDto> bookerlist =  bookRepository.findAll(pageable).stream().map(BookDto::new)
-			.collect(Collectors.toList());
-		long endTime = System.currentTimeMillis();
-		System.out.println("페이지네이션 걸린 시간 : " + ((endTime-startTime)/1000.0)+ "초");
-		return bookerlist;
+			// 책 리스트 가져오기/페이지네이션
+		public List<BookDto> getBookList(Pageable pageable){
+			long startTime = System.currentTimeMillis();
+			List<BookDto> bookerlist =  bookRepository.findAll(pageable).stream().map(BookDto::new)
+				.collect(Collectors.toList());
+			long endTime = System.currentTimeMillis();
+			System.out.println("페이지네이션 걸린 시간 : " + ((endTime-startTime)/1000.0)+ "초");
+			return bookerlist;
+		}
+
+		public List<BookDto> searchFileterKeyword(Pageable pageable, String keyword){
+			long startTime = System.currentTimeMillis();
+			List<BookDto> bookDtoList = new ArrayList<>();
+
+			bookDtoList = bookRepository.findByBookNameContainingOrAuthorContainingOrderByInsertionTimeAsc(pageable,keyword,keyword).stream().map(BookDto::new).collect(
+				Collectors.toList());
+
+			long endTime = System.currentTimeMillis();
+
+			System.out.println("좋아요순서 걸린 시간 : " + ((endTime-startTime)/1000.0)+ "초");
+		return bookDtoList;
 	}
 
 	// 모든 책 검색하기(필터링추가)/좋아요순서
+
 	public List<BookDto> searchfileter(Pageable pageable, String keyword, String order){
 		long startTime = System.currentTimeMillis();
 		List<BookDto> bookDtoList = new ArrayList<>();
 		if(order.equals("ASC") || order.equals("asc")){
-			bookDtoList = bookRepository.findByBookNameOrAuthorOrderByLikeCountAsc(pageable,keyword,keyword).stream().map(BookDto::new).collect(
+			bookDtoList = bookRepository.findByBookNameContainingOrAuthorContainingOrderByLikeCountAsc(pageable,keyword,keyword).stream().map(BookDto::new).collect(
 				Collectors.toList());
 		}else {
-			bookDtoList = bookRepository.findByBookNameOrAuthorOrderByLikeCountDesc(pageable,keyword,keyword).stream()
+			bookDtoList = bookRepository.findByBookNameContainingOrAuthorContainingOrderByLikeCountDesc(pageable,keyword,keyword).stream()
 				.map(BookDto::new).collect(Collectors.toList());
 		}
 		long endTime = System.currentTimeMillis();
@@ -52,10 +66,10 @@ public class MySQLBookService {
 		long startTime = System.currentTimeMillis();
 		List<BookDto> bookDtoList = new ArrayList<>();
 		if(order.equals("ASC") || order.equals("asc")){
-			bookDtoList = bookRepository.findByBookNameOrAuthorOrderByStarAsc(pageable,keyword,keyword).stream().map(BookDto::new).collect(
+			bookDtoList = bookRepository.findByBookNameContainingOrAuthorContainingOrderByStarAsc(pageable,keyword,keyword).stream().map(BookDto::new).collect(
 				Collectors.toList());
 		}else{
-			bookDtoList = bookRepository.findByBookNameOrAuthorOrderByStarDesc(pageable,keyword,keyword).stream().map(BookDto::new).collect(
+			bookDtoList = bookRepository.findByBookNameContainingOrAuthorContainingOrderByStarDesc(pageable,keyword,keyword).stream().map(BookDto::new).collect(
 				Collectors.toList());
 		}
 		long endTime = System.currentTimeMillis();
