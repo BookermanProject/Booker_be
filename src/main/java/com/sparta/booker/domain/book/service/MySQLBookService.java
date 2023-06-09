@@ -86,9 +86,12 @@ public class MySQLBookService {
 			return new IllegalArgumentException("존재하지 않는 책입니다.");
 		});
 		findbook.upLikeCount();
-
 		long endTime = System.currentTimeMillis();
 		System.out.println("좋아요카운트 수정 걸린 시간 : "+ ((endTime-startTime)/1000.0)+"초");
 		return new LikeDto(findbook.getId(), findbook.getLikeCount());
 	}
+
+	// 좋아요 Top10 리스트
+
+
 }
