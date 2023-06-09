@@ -2,6 +2,7 @@ package com.sparta.booker.domain.book.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.core.RedisHash;
 
 @NoArgsConstructor
 @Getter

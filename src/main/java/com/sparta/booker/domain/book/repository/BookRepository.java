@@ -21,5 +21,5 @@ public interface BookRepository extends JpaRepository<Book, Long>{
 
 	List<Book> findByBookNameContainingOrAuthorContainingOrderByStarAsc(Pageable pageable, String bookname, String author);
 
-	List<Book> findTop10ByLikeCountBOrderByLikeCountAsc();
+	List<Book> OrderByLikeCount();
 }
