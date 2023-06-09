@@ -20,14 +20,18 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/mysql/")
 public class MySQLBookController {
 
-
 	private final MySQLBookService mySQLBookService;
-
 
 	//책 리스트 가져오기/페이지네이션
 	@GetMapping("/books")
 	public List<BookDto> getBookList(Pageable pageable) {
 		return mySQLBookService.getBookList(pageable);
+	}
+
+	//모든 책 검색하기(필터링추가)/페이지네이션/ 순서없음
+	@GetMapping("books/search/{keyword}")
+	public List<BookDto> searchFileterKeyword(Pageable pageable, @PathVariable String keyword){
+		return mySQLBookService.searchFileterKeyword(pageable, keyword);
 	}
 
 
