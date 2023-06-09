@@ -63,13 +63,13 @@ public class KafkaConsumer {
 	}
 
 	// 0~4 partiction 처리
-	@KafkaListener(topicPartitions = @TopicPartition(topic = "book", partitions = {"0", "1", "2", "3", "4"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "books", partitions = {"0", "1", "2", "3", "4"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
 	public void processPartitionOne(ConsumerRecord<Long, String> record) {
 		processMessage(record);
 	}
 
 	// 5~9 partiction 처리
-	@KafkaListener(topicPartitions = @TopicPartition(topic = "book", partitions = {"5", "6", "7", "8", "9"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "books", partitions = {"5", "6", "7", "8", "9"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
 	public void processPartitionTwo(ConsumerRecord<Long, String> record) {
 		processMessage(record);
 	}

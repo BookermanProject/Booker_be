@@ -21,15 +21,15 @@ spring:
         show_sql: true
         format_sql: true
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
       group-id: mysql-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   servlet:
