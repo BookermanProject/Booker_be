@@ -1,0 +1,60 @@
+## 로그 찍는 드라이버
+#spring:
+#  datasource:
+#    url: jdbc:log4jdbc:mysql://211.178.235.51:3306/BOOKER
+#    username: root
+#    password: haha5032
+#    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+# 기본 드라이버
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ENC(qlJNQTS8l1To7FbGyT6m1A==)
+    url: ENC(iaoon0t1k7A1VlZGodTTMa+mSnyroY5tbjeLXAAUTZ+c4TrHHzwyWJw0q7cH563LW9WHTz6q36aZsXPiTAnMrJQwyGnmis9QpBphuummoz5PSeUfHvhzccmlGURro3F4)
+    password: ENC(d4B1ht0mxIDZpWTHLvy56wZBaJa/EEm8)
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+  kafka:
+    bootstrap-servers: 192.168.219.100:9092
+    consumer:
+      bootstrap-servers: 192.168.219.100:9092
+      group-id: testGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: 192.168.219.100:9092
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  servlet:
+    multipart:
+      max-request-size: 1500MB
+      max-file-size: 1500MB
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: trace
+#        web: trace
+#      hibernate: info
+elasticsearch:
+  password: W4_vnX9rwqbPDEpmTzgF
+  username: elastic
+  url: 192.168.219.100:9200
+redis:
+  host: 192.168.219.100
+  port: 6379
+#logging:
+#  config: classpath:logback-spring.xml
+jwt:
+  secret:
+    key: 7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA=
+admin:
+  secret:
+    key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC

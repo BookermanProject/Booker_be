@@ -1,0 +1,20 @@
+{
+  "properties" : {
+    "id" : {"type" : "keyword"},
+    "book_name" : {"type" : "text",
+      "analyzer" : "korean"},
+    "authors" : {"type" : "text",
+      "analyzer" : "korean"},
+    "publisher" : {"type" : "text",
+      "analyzer" : "korean"},
+    "publication_year" : {"type" : "text"},
+    "isbn13" : {"type" : "text"},
+    "isbn13Set" : {"type" : "text"},
+    "add_sign" : {"type" : "text"},
+    "book_cnt" : {"type" : "text"},
+    "kdc_num" : {"type" : "text"},
+    "total_num" : {"type" : "text"},
+    "rental_num" : {"type" : "text"},
+    "create_date" : {"type" : "text"}
+  }
+}
