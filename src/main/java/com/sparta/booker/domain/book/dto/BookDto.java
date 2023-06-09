@@ -1,18 +1,13 @@
 package com.sparta.booker.domain.book.dto;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Mapping;
-import org.springframework.data.elasticsearch.annotations.Setting;
-
 import com.sparta.booker.domain.book.entity.Book;
-import com.sparta.booker.domain.event.entity.Event;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -41,16 +36,14 @@ public class BookDto {
         this.bookName = book.getBookName();
         this.author = book.getAuthor();
         this.publisher = book.getPublisher();
-        this.pub_date = book.getPub_date();
+        this.pub_date = book.getPubDate();
         this.category = book.getCategory();
         this.introduction = book.getIntroduction();
         this.star = book.getStar();
-        this.img_url = book.getImg_url();
+        this.img_url = book.getImgUrl();
         this.modificationTime = book.getModificationTime();
         this.insertionTime = book.getInsertionTime();
         this.like_count = book.getLikeCount();
     }
-
-
 }
 

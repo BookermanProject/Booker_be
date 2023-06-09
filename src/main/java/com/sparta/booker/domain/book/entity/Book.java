@@ -14,11 +14,13 @@ import com.sparta.booker.domain.book.dto.BookDto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity(name = "booker")
 @Getter
 @NoArgsConstructor
 @Table(indexes = {@Index(name = "idxLikeCount", columnList = "likeCount"), @Index(name = "idxStar", columnList = "star")})
+@ToString
 public class Book {
 
     @Id
@@ -35,7 +37,7 @@ public class Book {
     private String publisher;
 
     @Column(nullable = false)
-    private String pub_date;
+    private String pubDate;
 
     @Column(nullable = false)
     private String category;
@@ -47,7 +49,7 @@ public class Book {
     private double star;
 
     @Column(nullable = false)
-    private String img_url;
+    private String imgUrl;
 
     @Column(nullable = false)
     private LocalDateTime modificationTime;
@@ -58,19 +60,16 @@ public class Book {
     @Column(nullable = true)
     private int likeCount;
 
-
-
     public Book(BookDto bookDto) {
         this.bookName = bookDto.getBookName();
         this.author = bookDto.getAuthor();
         this.publisher = bookDto.getPublisher();
-        this.pub_date = bookDto.getPub_date();
+        this.pubDate = bookDto.getPub_date();
         this.category= bookDto.getCategory();
         this.introduction = bookDto.getIntroduction();
         this.star= bookDto.getStar();
-        this.img_url= bookDto.getImg_url();
+        this.imgUrl= bookDto.getImg_url();
     }
-
 
     public void upLikeCount(){
         this.likeCount = likeCount + 1;
