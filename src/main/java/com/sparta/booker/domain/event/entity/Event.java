@@ -32,6 +32,7 @@ public class Event {
     private int book_cnt;
 
     //이벤트 취소 사유
+    @Column(nullable = false)
     private String reason;
 
     @OneToOne(cascade = CascadeType.REMOVE)
