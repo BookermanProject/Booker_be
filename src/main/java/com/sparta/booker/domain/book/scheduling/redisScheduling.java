@@ -1,8 +1,7 @@
 package com.sparta.booker.domain.book.scheduling;
 
-import com.sparta.booker.domain.book.dto.LikeDto;
 import com.sparta.booker.domain.book.entity.Book;
-import com.sparta.booker.domain.book.redisUtil.RedisUtil;
+import com.sparta.booker.domain.book.util.RedisUtil;
 import com.sparta.booker.domain.book.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,16 +17,11 @@ public class redisScheduling {
     private final BookRepository bookRepository;
 
     //좋아요 TOP10 리스트
-//	@Scheduled(cron = "0 0 20 20 * ?")
-    @Scheduled(cron = "0 35 20 * * ?")
-    public List<LikeDto> likeList(){
-        System.out.println("스케줄러 시작합니다");
-        List<Book> booklikecount = bookRepository.OrderByLikeCount();
-        for(Book book : booklikecount){
-            System.out.println("좋아요카운트 순위");
-            System.out.println(book.toString());
-            System.out.println("================");
+    // @Scheduled(cron = "0/10 * * * * ?")
+    public void likeList(){
+        List<Book> booklikelist = bookRepository.findTop10ByOrderByLikeCountDesc();
+        for(int i = 0; i<booklikelist.size(); i++){
+            redisUtil.set(String.valueOf((i+1)), booklikelist.get(i).getBookName());
         }
-        return null;
     }
 }

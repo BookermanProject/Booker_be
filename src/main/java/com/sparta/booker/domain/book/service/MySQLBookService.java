@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class MySQLBookService {
 	private final BookRepository bookRepository;
 
-			// 책 리스트 가져오기/페이지네이션
+		// 책 리스트 가져오기/페이지네이션
 		public List<BookDto> getBookList(Pageable pageable){
 			return  bookRepository.findAll(pageable).stream().map(BookDto::new).collect(Collectors.toList());
 		}
@@ -30,7 +30,6 @@ public class MySQLBookService {
 	}
 
 	// 모든 책 검색하기(필터링추가)/좋아요순서
-
 	public List<BookDto> searchfileter(Pageable pageable, String keyword, String order){
 		List<BookDto> bookDtoList = new ArrayList<>();
 		if(order.equals("ASC") || order.equals("asc")){
@@ -63,12 +62,7 @@ public class MySQLBookService {
 			return new IllegalArgumentException("존재하지 않는 책입니다.");
 		});
 		findbook.upLikeCount();
-		long endTime = System.currentTimeMillis();
-
 		return new LikeDto(findbook.getId(), findbook.getLikeCount());
 	}
-
-	// 좋아요 Top10 리스트
-
 
 }

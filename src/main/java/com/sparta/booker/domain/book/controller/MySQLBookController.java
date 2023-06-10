@@ -46,11 +46,8 @@ public class MySQLBookController {
 		return mySQLBookService.likeCount(bookid);
 	}
 
-
 	//실시간 검색어 리스트
 	@GetMapping("api/books/like")
 	public void likerealtime() {
-
 	}
-
 }

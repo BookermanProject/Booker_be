@@ -61,7 +61,12 @@ dependencies {
             "javax.annotation:javax.annotation-api",
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
     )
-    
+
+    // blaze query dsl
+    implementation group: 'com.blazebit', name: 'blaze-persistence-integration-querydsl-expressions', version: '1.6.8'
+
+
+
     // kafka
     implementation 'org.springframework.kafka:spring-kafka'
 
@@ -79,6 +84,8 @@ dependencies {
 
     //주석 프로세서 구성
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    compileOnly group: 'com.querydsl', name: 'querydsl-sql', version: '5.0.0'
 
 
 }
