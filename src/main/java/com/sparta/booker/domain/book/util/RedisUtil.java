@@ -1,7 +1,8 @@
-package com.sparta.booker.domain.book.redisUtil;
+package com.sparta.booker.domain.book.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +14,11 @@ public class RedisUtil {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public void set(String key, Object o, int minutes) {
-        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(o.getClass()));
-        redisTemplate.opsForValue().set(key, o, minutes, TimeUnit.MINUTES);
+    public void set(String key, String value) {
+        ValueOperations<String, Object> ops = redisTemplate.opsForValue();
+        ops.set(key, value);
+        //        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(o.getClass()));
+        //        redisTemplate.opsForValue().set(key, o, minutes, TimeUnit.MINUTES);
     }
 
     public Object get(String key) {

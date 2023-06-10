@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sparta.booker.domain.book.dto.BookDto;
-import com.sparta.booker.domain.book.entity.Book;
 import com.sparta.booker.domain.book.service.QueryDslBookService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,35 +18,30 @@ import lombok.RequiredArgsConstructor;
 public class QueryDslBookController {
 
 	private final QueryDslBookService queryDslBookService;
-	// 모든 책 검색하기(필터링추가)/페이지네이션/ 순서없음
+	// 모든 책 검색하기(필터링추가)/페이지네이션/ 기본 인덱싱
 	@GetMapping("books/")
-	public List<BookDto> searchFileterLike(String keyword,Pageable pageable, String category, String order){
+	public List<BookDto> searchFileter(String keyword,Pageable pageable, String category, String order){
 		return queryDslBookService.getBookList(keyword, pageable,category, order);
 	}
 
-	//
-	// //모든 책 검색하기(필터링추가)/페이지네이션/ 좋아요순서
-	// @GetMapping("books/search/like/{keyword}/{order}")
-	// public List<BookDto> searchFileterLike(Pageable pageable, @PathVariable String keyword, @PathVariable String order){
-	// 	return mySQLBookService.searchfileter(pageable, keyword, order);
-	// }
-	//
-	// //모든 책 검색하기(필터링추가)/페이지네이션/ 별점순서
-	// @GetMapping("books/search/rating/{keyword}/{order}")
-	// public List<BookDto> searchFileterRating(Pageable pageable, @PathVariable String keyword,  @PathVariable String order){
-	// 	return mySQLBookService.searchFileterRating(pageable, keyword, order);
-	// }
-	//
-	// //좋아요 TOP10
-	// @PutMapping("book/{bookid}/like")
-	// public LikeDto likeCount(@PathVariable Long bookid){
-	// 	return mySQLBookService.likeCount(bookid);
-	// }
-	//
-	// //실시간 검색어 리스트
-	// @GetMapping("api/books/like")
-	// public void likerealtime(){
-	//
-	// }
+	//Fulltext index Like
+	@GetMapping("books/fulltext/Like")
+	public List<BookDto> searchFileterfulltextLike(String keyword,Pageable pageable, String order){
+		return queryDslBookService.getBookListbyFullTextLike(keyword, pageable, order);
+	}
+
+	//Fulltext index Star
+	@GetMapping("books/fulltext/Star")
+	public List<BookDto> searchFileterfulltextStar(String keyword,Pageable pageable, String order){
+		return queryDslBookService.getBookListbyFullTextStar(keyword, pageable, order);
+	}
+
+	//Covering index
+	@GetMapping("books/coveringIdx")
+	public List<BookDto> searchFiletercoverIdx(String keyword,Pageable pageable, String category, String order){
+		return queryDslBookService.getBookListbyCoverIdx(keyword, pageable,category, order);
+	}
+
+
 
 }
