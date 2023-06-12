@@ -1,6 +1,6 @@
 package com.sparta.booker.domain.event.entity;
 
-import com.sparta.booker.domain.book.entity.Book;
+import com.sparta.booker.domain.search.querydsl.entity.Book;
 import com.sparta.booker.domain.event.dto.EventRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
