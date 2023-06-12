@@ -18,9 +18,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    properties:
-      hibernate:
-        dialect: com.sparta.booker.config.MySQL8DialectCustom
+    properties:      hibernate:
+        dialect: com.sparta.booker.domain.search.querydsl.config.MySQL8DialectCustom
         show_sql: true
         format_sql: true
   kafka:

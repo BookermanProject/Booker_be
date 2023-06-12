@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 public class Message {
 	private final String msg;
 	private final int statusCode;
-
 	private final Object data;
 
 	public static ResponseEntity<Message> toResponseEntity(ErrorCode errorCode) {
