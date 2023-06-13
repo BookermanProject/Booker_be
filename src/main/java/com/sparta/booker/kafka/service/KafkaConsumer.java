@@ -1,9 +1,11 @@
 package com.sparta.booker.kafka.service;
 
+import com.sparta.booker.domain.event.document.sendFailure;
 import com.sparta.booker.domain.event.entity.Event;
 import com.sparta.booker.domain.event.entity.EventRequest;
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.event.repository.EventRequestRepository;
+import com.sparta.booker.domain.event.repository.SendFailureRepository;
 import com.sparta.booker.kafka.config.KafkaProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class KafkaConsumer {
 
 	private final EventRepository eventRepository;
 	private final EventRequestRepository eventRequestRepository;
+	private final SendFailureRepository sendFailureRepository;
 
 	private void processMessage(ConsumerRecord<Long, String> record) {
 		log.info("Received Message : {}", record.value());
@@ -83,8 +86,8 @@ public class KafkaConsumer {
 	public void sendFailureMessage(Long eventId, String userId, String applicationTime) {
 		log.info("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 실패", eventId, userId, applicationTime);
 		// (실패한 경우) 해당 이벤트 메시지 elasticsearch에 저장하는 로직
+		sendFailure sendFailure = new sendFailure(eventId, userId, applicationTime);
+		sendFailureRepository.save(sendFailure);
 	}
-
-
 
 }
