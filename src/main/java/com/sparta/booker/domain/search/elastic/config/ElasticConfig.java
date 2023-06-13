@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "com.sparta.booker.domain.search.elastic.repository")
+@EnableElasticsearchRepositories(basePackages = {"com.sparta.booker.domain.search.elastic.repository", "com.sparta.booker.domain.event.repository"})
 @ComponentScan(basePackages = {"com.sparta.booker"})
 public class ElasticConfig extends AbstractElasticsearchConfiguration {
 
