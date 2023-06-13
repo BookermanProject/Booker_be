@@ -1,6 +1,6 @@
 package com.sparta.booker.domain.event.entity;
 
-import com.sparta.booker.domain.book.entity.Book;
+import com.sparta.booker.domain.search.querydsl.entity.Book;
 import com.sparta.booker.domain.event.dto.EventRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +32,7 @@ public class Event {
     private int book_cnt;
 
     //이벤트 취소 사유
+    @Column(nullable = false)
     private String reason;
 
     @OneToOne(cascade = CascadeType.REMOVE)

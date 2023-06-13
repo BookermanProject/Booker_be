@@ -1,7 +1,7 @@
 package com.sparta.booker.domain.event.service;
 
-import com.sparta.booker.domain.book.entity.Book;
-import com.sparta.booker.domain.book.repository.BookRepository;
+import com.sparta.booker.domain.search.querydsl.entity.Book;
+import com.sparta.booker.domain.search.querydsl.repository.BookRepository;
 import com.sparta.booker.domain.event.dto.EventRequestDto;
 import com.sparta.booker.domain.event.entity.Event;
 import com.sparta.booker.domain.event.repository.EventRepository;

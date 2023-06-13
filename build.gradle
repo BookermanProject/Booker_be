@@ -40,7 +40,7 @@ dependencies {
 
     implementation 'org.apache.poi:poi:4.0.0'
     implementation 'org.apache.poi:poi-ooxml:4.0.0'
-    //엘라스틱서치
+    //elasticsearch
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     // CurcuitBreaker
     implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.1'
@@ -61,7 +61,12 @@ dependencies {
             "javax.annotation:javax.annotation-api",
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
     )
-    
+
+    // blaze query dsl
+    implementation group: 'com.blazebit', name: 'blaze-persistence-integration-querydsl-expressions', version: '1.6.8'
+
+
+
     // kafka
     implementation 'org.springframework.kafka:spring-kafka'
 
@@ -79,6 +84,8 @@ dependencies {
 
     //주석 프로세서 구성
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    compileOnly group: 'com.querydsl', name: 'querydsl-sql', version: '5.0.0'
 
 
 }
