@@ -1,0 +1,8 @@
+{
+  "properties" : {
+    "Id" : {"type" : "keyword"},
+    "eventId" : {"type" : "keyword"},
+    "userId" : {"type" : "text"},
+    "appDate" : {"type" : "text"}
+  }
+}
