@@ -29,6 +29,7 @@ public class BookDto {
 
     @Builder
     public BookDto(Book book) {
+
         this.id = book.getId();
         this.book_name = book.getBookName();
         this.author = book.getAuthor();
