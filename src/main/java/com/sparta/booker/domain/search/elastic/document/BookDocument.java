@@ -54,10 +54,10 @@ public class BookDocument {
     @Field(type = FieldType.Text)
     private String img_url;
 
-    @Field(type = FieldType.Date, format = {DateFormat.date_hour_minute_second_millis, DateFormat.epoch_millis})
+    @Field(type = FieldType.Date)
     private LocalDateTime modification_time;
 
-    @Field(type = FieldType.Date, format = {DateFormat.date_hour_minute_second_millis, DateFormat.epoch_millis})
+    @Field(type = FieldType.Date)
     private LocalDateTime insertion_time;
 
     @Field(type = FieldType.Keyword)

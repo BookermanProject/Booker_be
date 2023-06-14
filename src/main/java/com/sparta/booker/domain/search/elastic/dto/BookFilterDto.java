@@ -13,7 +13,6 @@ public class BookFilterDto {
     private String book_name;
     private String author;
     private String publisher;
-    private Integer totalRow;
     private String pub_date;
     private String category;
     private String introduction;
