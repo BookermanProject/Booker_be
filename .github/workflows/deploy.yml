@@ -25,14 +25,10 @@ jobs:
         distribution: 'corretto'
     - name: gradlew에  권한 부여
       run: chmod +x ./gradlew
-    - name : applicatino.yml 삭제
-      run : rm ./src/main/resources/application.yml
-    - name : server용 application.properties 생성
-      run : touch ./src/main/resources/application.properties
-    - name: properties값 주입
-      run: echo "${{ secrets.AWS_PROPERTIES }}" > ./src/main/resources/application.properties
-    - name: View application.properties
-      run: cat ./src/main/resources/application.properties
+    - name: jasypt key주입
+      run: echo ${{secrets.JASYPT}} | base64 --decode >> ./src/main/resources/application.yml
+    - name: View application.yml 
+      run: cat ./src/main/resources/application.yml
     - name: 프로젝트 빌드
       run: ./gradlew clean build -x test
     - name: AWS credential 설정
