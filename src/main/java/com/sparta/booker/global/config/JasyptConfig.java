@@ -1,4 +1,4 @@
-package com.sparta.booker.Config;
+package com.sparta.booker.global.config;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;

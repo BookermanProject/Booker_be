@@ -1,0 +1,16 @@
+{
+  "properties" : {
+    "id" : {"type" : "keyword"},
+    "book_name" : {"type" : "text", "analyzer" : "korean"},
+    "author" : {"type" : "text", "analyzer" : "korean"},
+    "pub_date" : {"type" : "text"},
+    "category" : {"type" : "text", "analyzer" : "korean"},
+    "introduction" : {"type" : "text", "analyzer" : "korean"},
+    "publisher" : {"type" : "text", "analyzer" : "korean"},
+    "star" : {"type" : "keyword"},
+    "img_url" : {"type" : "text"},
+    "modification_time" : {"type" : "text"},
+    "insertion_time" : {"type" : "text"},
+    "like_count" : {"type" : "keyword"}
+  }
+}

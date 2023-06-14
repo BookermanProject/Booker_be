@@ -1,6 +1,12 @@
+buildscript {         //QUERY DSL 관련
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.1.0'
+    id 'org.springframework.boot' version '2.7.9'
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
@@ -12,6 +18,8 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+
+
 }
 
 repositories {
@@ -30,8 +38,69 @@ dependencies {
 
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
+    implementation 'org.apache.poi:poi:4.0.0'
+    implementation 'org.apache.poi:poi-ooxml:4.0.0'
+    //elasticsearch
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    // CurcuitBreaker
+    implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.1'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // slack
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // stash
+    //implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
+
+
+    //QUERY DSL
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    annotationProcessor(
+            "javax.persistence:javax.persistence-api",
+            "javax.annotation:javax.annotation-api",
+            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
+    )
+
+    // blaze query dsl
+    implementation group: 'com.blazebit', name: 'blaze-persistence-integration-querydsl-expressions', version: '1.6.8'
+
+
+
+    // kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // logback
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
+
+    // JWT
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    //주석 프로세서 구성
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    compileOnly group: 'com.querydsl', name: 'querydsl-sql', version: '5.0.0'
+
+
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+sourceSets {
+    main {
+        java {
+            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+        }
+    }
 }
+
+
+
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
+
