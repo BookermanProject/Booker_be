@@ -25,19 +25,6 @@ public class ElasticSearchBookController {
 	//필터검색
 	@PostMapping("/search/word")
 	public ResponseEntity<Message> searchWord(@RequestBody BookFilterDto filterDto, Pageable pageable) {
-		//         BookListDto result = bookService.searchWordByElastic(filterDto);
 		return elasticSearchBookService.searchWordByElastic(filterDto, pageable);
 	}
-
-	//단어로 검색
-	//    @PostMapping("/search/Filter")
-	//    public ResponseEntity<Message> searchFilter(@RequestBody BookDocument bookRequestDto) {
-	//        return elasticSearchlBookService.searchFilterByElastic(bookRequestDto);
-	//    }
-	//
-	//    @PostMapping("/search/Filter")
-	//    public ResponseEntity<Message> searchFilter(@RequestBody BookDocument bookRequestDto) {
-	//        return elasticSearchlBookService.searchFilterByElastic(bookRequestDto);
-	//    }
-
 }
