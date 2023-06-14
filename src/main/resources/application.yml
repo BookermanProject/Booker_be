@@ -8,7 +8,7 @@
 # 기본 드라이버
 spring:
   redis:
-    host: 211.178.235.12
+    host: localhost
     port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,27 +20,25 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        dialect: com.sparta.booker.domain.search.querydsl.config.MySQL8DialectCustom
+        dialect: org.hibernate.dialect.MySQL8Dialect
         show_sql: true
         format_sql: true
   kafka:
-    bootstrap-servers: 211.178.235.12:9092
+    bootstrap-servers: localhost:9092
     consumer:
-      bootstrap-servers: 211.178.235.12:9092
-      group-id: testGroup
+      bootstrap-servers: localhost:9092
+      group-id: event-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: 211.178.235.12:9092
+      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   servlet:
     multipart:
       max-request-size: 1500MB
       max-file-size: 1500MB
-
-
 #logging:
 #  level:
 #    org:
@@ -48,13 +46,10 @@ spring:
 #        security: trace
 #        web: trace
 #      hibernate: info
-elasticsearch:
-  password: 4T4NF6L1-hlzMyKDDEdA
-  username: elastic
-  url: 211.178.235.12:9200
-redis:
-  host: 211.178.235.12
-  port: 6379
+#  password: 4T4NF6L1-hlzMyKDDEdA
+#  username: elastic
+#  url: 211.178.235.12:9200
+
 #logging:
 #  config: classpath:logback-spring.xml
 jwt:
@@ -63,3 +58,8 @@ jwt:
 admin:
   secret:
     key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC
+
+elasticsearch:
+  password: iQprMjyAFd5vp=SzffcY
+  username: elastic
+  url: localhost:9200
