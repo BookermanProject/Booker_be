@@ -22,14 +22,6 @@ public class ElasticSearchBookController {
 
 	private final ElasticSearchBookService elasticSearchBookService;
 
-	// private  final PerformanceSearchUseCase performanceSearchUseCase;
-	//
-	// @PostMapping("/documents")
-	// public String saveDocuments() {
-	// 	performanceSearchUseCase.saveAllDocuments();
-	// 	return "성공";
-	// }
-
 	//필터검색
 	@PostMapping("/search/word")
 	public ResponseEntity<Message> searchWord(@RequestBody BookFilterDto filterDto, Pageable pageable) {
