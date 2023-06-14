@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  *  null 처리를 위해 새로 만든 클래스. 기존 클래스는 QueryBuilders이다.
@@ -90,21 +91,19 @@ public class CustomQueryBuilders {
 		return new MatchQueryBuilder("inventory",0);
 	}
 
-	// 정렬 선택
-	public static List<SortBuilder<?>> sortQuery(Integer sort) {
+
+	// 정렬 선택 (좋아요, 별점, 기본)
+	public static List<SortBuilder<?>> sortQuery(String sortCategory, String sort) {
 		List<SortBuilder<?>> sortBuilders = new ArrayList<>();
-		if (sort == null || sort == 0) {    // 기본 정렬은 정렬안함 (sort = 0)
+		if (sort == null) {
 			sortBuilders.add(SortBuilders.scoreSort());
-			sortBuilders.add(SortBuilders.fieldSort("id").order(SortOrder.ASC));
-		} else if (sort == 1) {  // 제목 가나다순 (sort = 1)
-			sortBuilders.add(SortBuilders.fieldSort("bookName.keyword").order(SortOrder.ASC));
-			sortBuilders.add(SortBuilders.fieldSort("id").order(SortOrder.DESC));
-		} else if (sort == 2) {  // 저작자 가나다순 (sort = 2)
-			sortBuilders.add(SortBuilders.fieldSort("authors.keyword").order(SortOrder.ASC));
-			sortBuilders.add(SortBuilders.fieldSort("id").order(SortOrder.DESC));
-		} else {  // 출판사 가나다순 (sort = 3)
-			sortBuilders.add(SortBuilders.fieldSort("publisher.keyword").order(SortOrder.ASC));
-			sortBuilders.add(SortBuilders.fieldSort("id").order(SortOrder.ASC));
+			sortBuilders.add(SortBuilders.fieldSort("insertion_time").order(SortOrder.ASC));
+		}
+		else if (sort.toUpperCase().equals("DESC")) {
+			sortBuilders.add(SortBuilders.fieldSort(sortCategory).order(SortOrder.DESC));
+		}
+		else if (sort.toUpperCase().equals("ASC")) {
+			sortBuilders.add(SortBuilders.fieldSort(sortCategory).order(SortOrder.ASC));
 		}
 		return sortBuilders;
 	}

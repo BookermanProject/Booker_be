@@ -1,11 +1,13 @@
 package com.sparta.booker.domain.search.elastic.repository;
 
-import com.sparta.booker.domain.search.querydsl.dto.BookDto;
+import com.sparta.booker.domain.search.elastic.document.BookDocument;
+import com.sparta.booker.domain.search.elastic.dto.BookDto;
 import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
 import com.sparta.booker.domain.search.elastic.dto.autoMakerDto;
 import com.sparta.booker.domain.search.elastic.custom.CustomBoolQueryBuilder;
 
 import org.elasticsearch.index.query.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
@@ -29,17 +31,19 @@ public class BookElasticOperation {
 
 	private final ElasticsearchOperations operations;
 
-	// keyword 검색
-	public SearchHits<BookDto> keywordSearchByElastic(BookFilterDto bookFilterDto) {
-		MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(bookFilterDto.getQuery(),
-			"book_name", "authors");
+	/*
+	SearchHits : ES 에서 검색 결과를 나타내는 클래스
+	 */
 
+	// keyword 검색
+	public SearchHits<BookDocument> keywordSearchByElastic(BookFilterDto bookFilterDto, Pageable pageable) {
+		MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(bookFilterDto.getQuery(),  "bookame", "author");
 		NativeSearchQuery build = new NativeSearchQueryBuilder()
 			.withQuery(multiMatchQueryBuilder)
-			.withSorts(sortQuery(bookFilterDto.getSort()))
+			.withPageable(pageable)
+			.withSorts(sortQuery(bookFilterDto.getSortCategory(), bookFilterDto.getSort()))
 			.build();
-
-		return operations.search(build, BookDto.class);
+		return operations.search(build, BookDocument.class);
 	}
 
 	// filter 검색
@@ -47,21 +51,13 @@ public class BookElasticOperation {
 		NativeSearchQuery build = new NativeSearchQueryBuilder()
 			.withMinScore(50f)
 			.withQuery(new CustomBoolQueryBuilder()
-				.must(multiMatchQuery(bookFilterDto.getQuery(), "bookName", "authors"))
-				//                        .should(new RangeQueryBuilder("inventory").gte(1).boost(40F))
-				//                        .mustNot(inventoryQuery(bookFilterDto.getSort()))
-				//                        .filter(matchQuery("category.keyword", bookFilterDto.getSort()))
-				//                        .filter(matchQuery("baby_category.keyword", bookFilterDto.getBabyCategory()))
-				//                        .filter(priceQuery(bookFilterDto.getMinPrice(), bookFilterDto.getMaxPrice()))
-				//                        .filter(starQuery(bookFilterDto.getStar()))
-				//                        .filter(yearQuery(bookFilterDto.getPublicationYear()))
-				.should(matchPhraseQuery("bookName", bookFilterDto.getQuery()))
-				.must(matchQuery("authors", bookFilterDto.getAuthors()))
+				.must(multiMatchQuery(bookFilterDto.getQuery(), "bookName", "author"))
+				.should(matchPhraseQuery("book_name", bookFilterDto.getQuery()))
+				.must(matchQuery("author", bookFilterDto.getAuthor()))
 				.must(matchQuery("publisher", bookFilterDto.getPublisher())))
 			.withSearchAfter(searchAfter)
-			.withSorts(sortQuery(bookFilterDto.getSort()))
+			.withSorts(sortQuery(bookFilterDto.getSortCategory(), bookFilterDto.getSort()))
 			.build();
-
 		return operations.search(build, BookDto.class);
 	}
 
@@ -74,7 +70,6 @@ public class BookElasticOperation {
 			)
 			.withCollapseField("bookName.keyword")
 			.build();
-
 		return operations.search(searchQuery, autoMakerDto.class);
 	}
 }

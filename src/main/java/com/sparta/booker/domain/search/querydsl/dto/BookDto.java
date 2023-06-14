@@ -1,18 +1,17 @@
 package com.sparta.booker.domain.search.querydsl.dto;
 
+import java.time.LocalDateTime;
+
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import com.sparta.booker.domain.search.querydsl.entity.Book;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.data.elasticsearch.annotations.Document;
-
-import java.time.LocalDateTime;
 
 
 @Getter
-@Document(indexName = "book", createIndex = true)
 @NoArgsConstructor
 public class BookDto {
     private Long id;
