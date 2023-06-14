@@ -1,6 +1,5 @@
 package com.sparta.booker.domain.search.elastic.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sparta.booker.domain.search.elastic.document.BookDocument;
 import com.sparta.booker.domain.search.elastic.dto.BookDto;
 import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
 import com.sparta.booker.domain.search.elastic.dto.BookListDto;
@@ -32,10 +30,10 @@ public class ElasticSearchBookService {
 
 	//전체 검색
 	@Transactional(readOnly = true)
-	//    @CircuitBreaker(name = "ElasticError", fallbackMethod = "keywordSearchBySql")
 	public ResponseEntity<Message> searchWordByElastic(BookFilterDto bookFilterDto, Pageable pageable) {
-		SearchHits<BookDocument> searchHits = bookElasticOperation.keywordSearchByElastic(bookFilterDto, pageable);
-		BookListDto bookListDto = resultToDto(searchHits, bookFilterDto, pageable);
+
+		SearchHits<BookDto> searchHits = bookElasticOperation.keywordSearchByElastic(bookFilterDto, pageable);
+		BookListDto bookListDto = esDtoConverter.resultToDto(searchHits, pageable);
 		return Message.toResponseEntity(SuccessCode.SEARCH_SUCCESS, bookListDto);
 	}
 

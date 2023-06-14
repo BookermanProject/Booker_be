@@ -2,10 +2,8 @@ package com.sparta.booker.domain.search.elastic.document;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
