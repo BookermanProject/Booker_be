@@ -19,11 +19,8 @@ public class BookListDto {
     private Long searchAfterId;
     private Boolean status;
 
-    public BookListDto(List<BookDocument> entities, String searchAfterSort, Long searchAfterId, Integer page, Boolean status) {
-        this.searchAfterSort = searchAfterSort;
-        this.searchAfterId = searchAfterId;
+    public BookListDto(List<BookDto> entities, Integer page) {
         this.books = entities;
         this.page = page;
-        this.status = status;
     }
 }

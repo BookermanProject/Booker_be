@@ -95,6 +95,7 @@ public class CustomQueryBuilders {
 	// 정렬 선택 (좋아요, 별점, 기본)
 	public static List<SortBuilder<?>> sortQuery(String sortCategory, String sort) {
 		List<SortBuilder<?>> sortBuilders = new ArrayList<>();
+
 		if (sort == null) {
 			sortBuilders.add(SortBuilders.scoreSort());
 			sortBuilders.add(SortBuilders.fieldSort("insertion_time").order(SortOrder.ASC));

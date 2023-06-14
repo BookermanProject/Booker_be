@@ -41,29 +41,13 @@ public class ElasticSearchBookService {	private final BookElasticOperation bookE
 		return Message.toResponseEntity(SuccessCode.SEARCH_SUCCESS, "test" );
 	}
 
-	private BookListDto resultToDto(SearchHits<BookDocument> search, BookFilterDto bookFilterDto, Pageable page) {
-		List<SearchHit<BookDocument>> searchHits = search.getSearchHits();
-		List<BookDocument> bookDtoList = searchHits.stream().map(hit -> hit.getContent()).collect(Collectors.toList());
-		List<Object> searchAfter = setSearchAfter(searchHits, bookFilterDto);
-		String searchAfterSort = String.valueOf(searchAfter.get(0));
-		Long searchAfterId = Long.parseLong(String.valueOf(searchAfter.get(1)));
-		return new BookListDto(bookDtoList, searchAfterSort, searchAfterId, page.getPageNumber(), true);
+	private BookListDto resultToDto(SearchHits<BookDto> search, BookFilterDto bookFilterDto, Pageable page) {
+		List<SearchHit<BookDto>> searchHits = search.getSearchHits();
+		List<BookDto> bookDtoList = searchHits.stream().map(hit -> hit.getContent()).collect(Collectors.toList());
+		return new BookListDto(bookDtoList, page.getPageNumber());
 	}
 
-	private List<Object> setSearchAfter(List<SearchHit<BookDocument>> searchHits, BookFilterDto bookFilterDto) {
-		List<Object> lists = new ArrayList<>();
 
-		if (searchHits.size() == 0) {		// 검색 결과가 없는 경우
-			lists.add("-1");
-			lists.add("-1");
-			return lists;
-		} else if (searchHits.size() < bookFilterDto.getTotalRow()) {		// 검색 결과가 총 개수보다 작은 경우
-			lists.add("0");
-			lists.add("-1");
-			return lists;
-		}
-		return searchHits.get(searchHits.size() - 1).getSortValues();
-	}
 
 	//    @Transactional(readOnly = true)
 	//    public void keywordSearchBySql(BookFilterDto filter, Throwable t) {
