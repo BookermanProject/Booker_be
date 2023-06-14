@@ -22,8 +22,6 @@ import java.util.Locale;
 public class CustomQueryBuilders {
 
 	private static final String STAR = "star";
-	private static final String PRICE = "price";
-	private static final String YEAR = "year";
 
 	public static MatchQueryBuilder matchQuery(String name, String text) {
 		if (text == null)
@@ -39,37 +37,6 @@ public class CustomQueryBuilders {
 		else if (text.isEmpty())
 			return null;
 		return new MatchPhraseQueryBuilder(name, text);
-	}
-
-	// public static MultiMatchQueryBuilder multiMatchQuery(Object text, String... fieldNames) {
-	// 	if (fieldNames.length == 0)
-	// 		return null;
-	// 	return new MultiMatchQueryBuilder(text, fieldNames); // BOOLEAN is the default
-	// }
-
-	// 가격 쿼리 결정
-	public static RangeQueryBuilder priceQuery(Integer minPrice, Integer maxPrice) {
-		if (minPrice == null && maxPrice == null)    // 둘 다 입력 안함
-			return null;
-		if (minPrice == null)    // 최대 가격만 입력
-			return new RangeQueryBuilder(PRICE).lte(maxPrice);
-		else if (maxPrice == null)    // 최소 가격만 입력
-			return new RangeQueryBuilder(PRICE).gte(minPrice);
-		return new RangeQueryBuilder(PRICE).gte(minPrice).lte(maxPrice);    // 둘 다 입력
-	}
-
-	// 발행 년도 쿼리 결정
-	public static RangeQueryBuilder yearQuery(Integer year) {
-		if (year == null)    // 입력 안한 경우
-			return null;
-		else if (year == 0) {
-			return null;
-		}
-		if (year == 2020)    // 특수한 입력 (2020 이후, 1899 이전)
-			return new RangeQueryBuilder(YEAR).gte(2020);
-		else if (year == 1899)
-			return new RangeQueryBuilder(YEAR).lte(1899);
-		return new RangeQueryBuilder(YEAR).gte(year).lt(year + 10);    // 일반 입력
 	}
 
 	// 별점 쿼리 결정

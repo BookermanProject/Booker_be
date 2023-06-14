@@ -38,6 +38,7 @@ public class BookElasticOperation {
 	// keyword 검색
 	public SearchHits<BookDocument> keywordSearchByElastic(BookFilterDto bookFilterDto, Pageable pageable) {
 		MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(bookFilterDto.getQuery(),  "bookame", "author");
+
 		NativeSearchQuery build = new NativeSearchQueryBuilder()
 			.withQuery(multiMatchQueryBuilder)
 			.withPageable(pageable)
@@ -46,30 +47,5 @@ public class BookElasticOperation {
 		return operations.search(build, BookDocument.class);
 	}
 
-	// filter 검색
-	public SearchHits<BookDto> filterSearchByElastic(BookFilterDto bookFilterDto, List<Object> searchAfter) {
-		NativeSearchQuery build = new NativeSearchQueryBuilder()
-			.withMinScore(50f)
-			.withQuery(new CustomBoolQueryBuilder()
-				.must(multiMatchQuery(bookFilterDto.getQuery(), "bookName", "author"))
-				.should(matchPhraseQuery("book_name", bookFilterDto.getQuery()))
-				.must(matchQuery("author", bookFilterDto.getAuthor()))
-				.must(matchQuery("publisher", bookFilterDto.getPublisher())))
-			.withSearchAfter(searchAfter)
-			.withSorts(sortQuery(bookFilterDto.getSortCategory(), bookFilterDto.getSort()))
-			.build();
-		return operations.search(build, BookDto.class);
-	}
 
-	// 자동 완성
-	public SearchHits<autoMakerDto> autoMaker(String query) {
-		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-			.withQuery(new BoolQueryBuilder()
-				.should(new MatchPhraseQueryBuilder("bookName", query))
-				.should(new PrefixQueryBuilder("bookName.keyword", query))
-			)
-			.withCollapseField("bookName.keyword")
-			.build();
-		return operations.search(searchQuery, autoMakerDto.class);
-	}
 }
