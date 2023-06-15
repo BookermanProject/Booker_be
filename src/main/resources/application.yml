@@ -24,15 +24,15 @@ spring:
         show_sql: true
         format_sql: true
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 192.168.45.28:9092, 192.168.45.28:9093, 192.168.45.28:9094
     consumer:
-      bootstrap-servers: localhost:9092
-      group-id: event-group
+      bootstrap-servers: 192.168.45.28:9092, 192.168.45.28:9093, 192.168.45.28:9094
+      group-id: mysql-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: 192.168.45.28:9092, 192.168.45.28:9093, 192.168.45.28:9094
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   servlet:
@@ -46,10 +46,10 @@ spring:
 #        security: trace
 #        web: trace
 #      hibernate: info
-#  password: 4T4NF6L1-hlzMyKDDEdA
-#  username: elastic
-#  url: 211.178.235.12:9200
-
+elasticsearch:
+  password: ModY7tPQBK5PqOvn_3-9
+  username: elastic
+  url: localhost:9200
 #logging:
 #  config: classpath:logback-spring.xml
 jwt:
@@ -58,8 +58,3 @@ jwt:
 admin:
   secret:
     key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC
-
-elasticsearch:
-  password: iQprMjyAFd5vp=SzffcY
-  username: elastic
-  url: localhost:9200
