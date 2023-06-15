@@ -102,12 +102,9 @@ sourceSets {
     }
 }
 
-tasks {
-    processResources {
-        duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
-    }
+bootJar {
+    duplicatesStrategy = 'exclude'
 }
-
 
 
 //tasks.named('test') {

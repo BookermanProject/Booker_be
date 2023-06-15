@@ -47,9 +47,9 @@ spring:
 #        web: trace
 #      hibernate: info
 elasticsearch:
-  password: 4T4NF6L1-hlzMyKDDEdA
+  password: k0+iJRd99fYhAPRm-VLY
   username: elastic
-  url: 211.178.235.12:9200
+  url: 3.36.43.68:9200
 redis:
   host: 211.178.235.12
   port: 6379
