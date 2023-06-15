@@ -8,7 +8,7 @@
 # 기본 드라이버
 spring:
   redis:
-    host: localhost
+    host: 211.178.235.12
     port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,19 +20,19 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: com.sparta.booker.domain.search.querydsl.config.MySQL8DialectCustom
         show_sql: true
         format_sql: true
   kafka:
-    bootstrap-servers: 192.168.45.28:9092, 192.168.45.28:9093, 192.168.45.28:9094
+    bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
     consumer:
-      bootstrap-servers: 192.168.45.28:9092, 192.168.45.28:9093, 192.168.45.28:9094
-      group-id: mysql-group
+      bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
+      group-id: testGroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: 192.168.45.28:9092, 192.168.45.28:9093, 192.168.45.28:9094
+      bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   servlet:
@@ -47,9 +47,12 @@ spring:
 #        web: trace
 #      hibernate: info
 elasticsearch:
-  password: ModY7tPQBK5PqOvn_3-9
+  password: k0+iJRd99fYhAPRm-VLY
   username: elastic
-  url: localhost:9200
+  url: 15.165.217.41:9200
+redis:
+  host: 211.178.235.12
+  port: 6379
 #logging:
 #  config: classpath:logback-spring.xml
 jwt:

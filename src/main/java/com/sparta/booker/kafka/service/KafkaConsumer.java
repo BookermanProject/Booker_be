@@ -10,6 +10,7 @@ import com.sparta.booker.kafka.config.KafkaProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.kafka.annotation.KafkaListener;

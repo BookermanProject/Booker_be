@@ -1,7 +1,5 @@
 package com.sparta.booker.domain.search.elastic.dto;
 
-import com.sparta.booker.global.exception.CustomException;
-import com.sparta.booker.global.exception.ErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,48 +7,36 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BookFilterDto {
     private String query;
-    private Integer sort;
+    private String sort;
+    private String sortCategory;
     private Long id;
-    private String bookName;
-    private String authors;
+    private String book_name;
+    private String author;
     private String publisher;
-    private String publicationYear;
-    private String isbn13;
-    private String isbn13Set;
-    private String addSign;
-    private String bookCnt;
-    private String kdcNum;
-    private String totalNum;
-    private String rentalNum;
-    private String createDat;
-    private Integer totalRow;
-    private Integer page;
+    private String pub_date;
+    private String category;
+    private String introduction;
+    private double star;
+    private String modification_time;
+    private String insertion_time;
+    private String like_count;
 
-    public void checkParameterValid() {
-        if (query == null || query.isEmpty())
-            throw new CustomException(ErrorCode.QUERY_NOT_FOUND);
-        totalRow = totalRow == null ? 10 : totalRow;
-        page = page == null ? 1 : page;
-    }
 
-    public BookFilterDto(String query, Integer sort, Long id, String bookName, String authors, String publisher, String publicationYear, String isbn13, String isbn13Set, String addSign, String bookCnt, String kdcNum, String totalNum, String rentalNum, String createDat, Integer totalRow, Integer page) {
+    public BookFilterDto(String query, String sort, String sortCategory, Long id, String book_name, String author, String publisher,  String pub_date, String category, String introduction, double star, String modification_time,
+        String insertion_time, String like_count ) {
         this.query = query;
         this.sort = sort;
+        this.sortCategory = sortCategory;
         this.id = id;
-        this.bookName = bookName;
-        this.authors = authors;
+        this.book_name = book_name;
+        this.author = author;
         this.publisher = publisher;
-        this.publicationYear = publicationYear;
-        this.isbn13 = isbn13;
-        this.isbn13Set = isbn13Set;
-        this.addSign = addSign;
-        this.bookCnt = bookCnt;
-        this.kdcNum = kdcNum;
-        this.totalNum = totalNum;
-        this.rentalNum = rentalNum;
-        this.createDat = createDat;
-        this.totalRow = totalRow;
-        this.page = page;
-        checkParameterValid();
+        this.pub_date = pub_date;
+        this.category = category;
+        this.introduction = introduction;
+        this.star = star;
+        this.modification_time = modification_time;
+        this.insertion_time = insertion_time;
+        this.like_count = like_count;
     }
 }
