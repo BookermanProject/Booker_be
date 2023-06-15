@@ -61,4 +61,3 @@ jwt:
 admin:
   secret:
     key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC
-
