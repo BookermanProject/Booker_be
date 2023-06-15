@@ -1,12 +1,9 @@
 package com.sparta.booker.domain.search.elastic.repository;
 
-import com.sparta.booker.domain.search.elastic.document.BookDocument;
-import com.sparta.booker.domain.search.elastic.dto.BookDto;
-import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
-import com.sparta.booker.domain.search.elastic.dto.autoMakerDto;
-import com.sparta.booker.domain.search.elastic.custom.CustomBoolQueryBuilder;
+import static com.sparta.booker.domain.search.elastic.custom.CustomQueryBuilders.*;
 
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -14,15 +11,11 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Repository;
 
+import com.sparta.booker.domain.search.elastic.dto.BookDto;
+import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-
-import static com.sparta.booker.domain.search.elastic.custom.CustomQueryBuilders.matchPhraseQuery;
-import static com.sparta.booker.domain.search.elastic.custom.CustomQueryBuilders.sortQuery;
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
-import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
 
 @Repository
 @RequiredArgsConstructor
@@ -36,7 +29,8 @@ public class BookElasticOperation {
 	 */
 
 	// keyword 검색
-	public SearchHits<BookDocument> keywordSearchByElastic(BookFilterDto bookFilterDto, Pageable pageable) {
+	public SearchHits<BookDto> keywordSearchByElastic(BookFilterDto bookFilterDto, Pageable pageable) {
+
 		MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(bookFilterDto.getQuery(),  "bookame", "author");
 
 		NativeSearchQuery build = new NativeSearchQueryBuilder()
@@ -44,7 +38,8 @@ public class BookElasticOperation {
 			.withPageable(pageable)
 			.withSorts(sortQuery(bookFilterDto.getSortCategory(), bookFilterDto.getSort()))
 			.build();
-		return operations.search(build, BookDocument.class);
+
+		return operations.search(build, BookDto.class);
 	}
 
 
