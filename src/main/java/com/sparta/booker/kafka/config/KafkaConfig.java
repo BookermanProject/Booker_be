@@ -1,6 +1,7 @@
 package com.sparta.booker.kafka.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -12,7 +13,6 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,18 +65,4 @@ public class KafkaConfig {
 
         return new DefaultKafkaConsumerFactory<>(config);
     }
-
-    //멀티 워커 스레드 전략 적용
-
-//    @Bean
-//    public ThreadPoolTaskExecutor kafkaListenerExecutor() {
-//        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-//        executor.setCorePoolSize(5); // 5개의 워커 스레드
-//        executor.setMaxPoolSize(10); // 최대 10개의 워커 스레드
-//        executor.setQueueCapacity(100); // 대기열 크기
-//        executor.setThreadNamePrefix("KafkaListener-");
-//        executor.initialize();
-//        return executor;
-//    }
-
 }

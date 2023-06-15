@@ -24,15 +24,15 @@ spring:
         show_sql: true
         format_sql: true
   kafka:
-    bootstrap-servers: 211.178.235.12:9092
+    bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
     consumer:
-      bootstrap-servers: 211.178.235.12:9092
+      bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
       group-id: testGroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: 211.178.235.12:9092
+      bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   servlet:
@@ -49,7 +49,8 @@ spring:
 elasticsearch:
   password: k0+iJRd99fYhAPRm-VLY
   username: elastic
-  url: 3.36.43.68:9200
+  url: 15.165.217.41:9200
+
 redis:
   host: 211.178.235.12
   port: 6379
