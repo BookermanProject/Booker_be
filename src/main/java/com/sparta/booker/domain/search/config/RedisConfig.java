@@ -20,12 +20,10 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int port;
 
-
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(host, port);
     }
-
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
