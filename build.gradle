@@ -91,6 +91,11 @@ dependencies {
 
     compileOnly group: 'com.querydsl', name: 'querydsl-sql', version: '5.0.0'
 
+    // kafka-clients
+    implementation 'org.apache.kafka:kafka-clients:2.5.0'
+
+    implementation group: 'org.json', name: 'json', version: '20200518'
+
 
 }
 
