@@ -10,6 +10,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
+
 group = 'com.sparta'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
@@ -84,6 +85,9 @@ dependencies {
 
     //주석 프로세서 구성
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation group: 'org.json', name: 'json', version: '20200518'
+
+
 
     compileOnly group: 'com.querydsl', name: 'querydsl-sql', version: '5.0.0'
 
@@ -95,6 +99,12 @@ sourceSets {
         java {
             srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
         }
+    }
+}
+
+tasks {
+    processResources {
+        duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
     }
 }
 

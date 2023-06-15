@@ -7,7 +7,7 @@
     </appender>
 
     <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>3.36.43.68:50000</destination>
+        <destination>211.178.235.12:50000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
