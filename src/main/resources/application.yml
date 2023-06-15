@@ -61,7 +61,3 @@ jwt:
 admin:
   secret:
     key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC
-jasypt:
-  pw:
-    booker77
-
