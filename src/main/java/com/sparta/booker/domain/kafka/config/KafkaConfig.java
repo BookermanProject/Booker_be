@@ -1,4 +1,4 @@
-package com.sparta.booker.kafka.config;
+package com.sparta.booker.domain.kafka.config;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.serialization.LongDeserializer;
@@ -12,7 +12,6 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.HashMap;
 import java.util.Map;

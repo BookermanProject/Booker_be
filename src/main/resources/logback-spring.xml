@@ -6,9 +6,49 @@
         </encoder>
     </appender>
 
-    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>3.36.43.68:50000</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+<!--    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+<!--        <destination>15.165.217.41:50000</destination>-->
+<!--        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />-->
+<!--    </appender>-->
+
+
+    <appender name="ELASTIC" class="com.internetitem.logback.elasticsearch.ElasticsearchAccessAppender">
+    <url>http://15.165.217.41:9200/_bulk</url>
+    <index>booker-%date{yyyy-MM-dd}</index>
+    <properties>
+    <property>
+        <name>contentLength</name>
+        <value>%b</value>
+    </property>
+    <property>
+        <name>remoteHost</name>
+        <value>%h</value>
+    </property>
+    <property>
+        <name>protocol</name>
+        <value>%H</value>
+    </property>
+    <property>
+        <name>referer</name>
+        <value>%i{Referer}</value>
+    </property>
+    <property>
+        <name>userAgent</name>
+        <value>%i{User-Agent}</value>
+    </property>
+    <property>
+        <name>requestMethod</name>
+        <value>%m</value>
+    </property>
+    <property>
+        <name>statusCode</name>
+        <value>%s</value>
+    </property>
+    <property>
+        <name>elapsedTime</name>
+        <value>%D</value>
+    </property>
+    </properties>
     </appender>
 
     <root level="INFO">

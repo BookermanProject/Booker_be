@@ -1,4 +1,4 @@
-package com.sparta.booker.jwt;
+package com.sparta.booker.global.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;

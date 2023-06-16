@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sparta.booker.domain.search.elastic.dto.BookDto;
 import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
 import com.sparta.booker.domain.search.elastic.dto.BookListDto;
+import com.sparta.booker.domain.search.elastic.dto.autoMakerDto;
 import com.sparta.booker.domain.search.elastic.repository.BookElasticOperation;
 import com.sparta.booker.domain.search.elastic.util.EsDtoConverter;
 import com.sparta.booker.global.dto.Message;
