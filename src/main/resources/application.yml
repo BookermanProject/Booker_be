@@ -27,7 +27,7 @@ spring:
     bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
     consumer:
       bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
-      group-id: testGroup
+      group-id: mysql-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
