@@ -62,8 +62,9 @@ public class UserService {
         }
 
         //Token 발급
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUserId(), user.getRole()));
+        String token = jwtUtil.createToken(user.getUserId(), user.getRole());
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
 
-        return ResponseEntity.ok().body(new ResponseDto("로그인 성공"));
+        return ResponseEntity.ok().body(new ResponseDto(token));
     }
 }

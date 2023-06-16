@@ -24,15 +24,15 @@ spring:
         show_sql: true
         format_sql: true
   kafka:
-    bootstrap-servers: 3.38.35.127:9092
+    bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
     consumer:
-      bootstrap-servers: 3.38.35.127:9092
-      group-id: testGroup
+      bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
+      group-id: mysql-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: 3.38.35.127:9092
+      bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   servlet:
@@ -51,11 +51,18 @@ elasticsearch:
   username: elastic
   url: 15.165.217.41:9200
 
-logging:
-  config: classpath:logback-spring.xml
+redis:
+  host: 211.178.235.12
+  port: 6379
+#logging:
+#  config: classpath:logback-spring.xml
 jwt:
   secret:
     key: 7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA=
 admin:
   secret:
     key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC
+    
+    
+    
+    
