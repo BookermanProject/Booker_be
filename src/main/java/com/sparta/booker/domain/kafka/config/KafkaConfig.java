@@ -1,4 +1,4 @@
-package com.sparta.booker.kafka.config;
+package com.sparta.booker.domain.kafka.config;
 
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.event.repository.EventRequestRepository;

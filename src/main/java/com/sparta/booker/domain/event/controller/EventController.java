@@ -4,7 +4,7 @@ import com.sparta.booker.domain.event.dto.EventRequestDto;
 import com.sparta.booker.domain.event.service.EventService;
 import com.sparta.booker.domain.user.dto.ResponseDto;
 import com.sparta.booker.domain.user.entity.User;
-import com.sparta.booker.kafka.service.KafkaProducer;
+import com.sparta.booker.domain.kafka.service.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

@@ -1,4 +1,4 @@
-package com.sparta.booker.domain.search.config;
+package com.sparta.booker.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

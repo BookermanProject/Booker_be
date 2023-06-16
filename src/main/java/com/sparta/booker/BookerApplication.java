@@ -1,6 +1,6 @@
 package com.sparta.booker;
 
-import com.sparta.booker.kafka.config.KafkaProperties;
+import com.sparta.booker.domain.kafka.config.KafkaProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

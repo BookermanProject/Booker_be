@@ -1,4 +1,4 @@
-package com.sparta.booker.kafka.service;
+package com.sparta.booker.domain.kafka.service;
 
 import com.sparta.booker.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;

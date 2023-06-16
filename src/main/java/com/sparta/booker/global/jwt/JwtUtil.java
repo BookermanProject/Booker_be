@@ -1,4 +1,4 @@
-package com.sparta.booker.jwt;
+package com.sparta.booker.global.jwt;
 
 import com.sparta.booker.domain.user.entity.User;
 import com.sparta.booker.domain.user.entity.UserRole;

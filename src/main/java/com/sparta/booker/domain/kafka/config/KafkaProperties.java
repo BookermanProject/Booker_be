@@ -1,4 +1,4 @@
-package com.sparta.booker.kafka.config;
+package com.sparta.booker.domain.kafka.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
