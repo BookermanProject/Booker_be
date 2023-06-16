@@ -1,5 +1,7 @@
 //package com.sparta.booker.kafka.service;
 //
+//import com.sparta.booker.kafka.config.KafkaProperties;
+//import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import org.apache.kafka.clients.admin.*;
 //import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -16,7 +18,9 @@
 //
 //@Slf4j
 //public class MultiConsumerThreadByPartition {
-//
+//    private final static String TOPIC_NAME = "booker";
+//    private final static String BOOTSTRAP_SERVERS = "3.38.35.127:9092";
+//    private final static String GROUP_ID = "mysql-group";
 //    private final static List<ConsumerWorker> workerThreads = new ArrayList<>();
 //
 //    public static void main(String[] args) {
