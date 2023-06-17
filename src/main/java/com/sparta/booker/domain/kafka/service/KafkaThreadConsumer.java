@@ -1,4 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/sparta/booker/kafka/service/ConsumerWorker.java
+
 //package com.sparta.booker.kafka.service;
 //
 //import com.sparta.booker.domain.event.document.sendFailure;
@@ -116,7 +116,7 @@
 //        consumer.wakeup();
 //    }
 //}
-=======
+
 package com.sparta.booker.domain.kafka.service;
 
 import com.sparta.booker.domain.event.document.sendFailure;
@@ -222,4 +222,3 @@ public class KafkaThreadConsumer {
 
 
 }
->>>>>>> 9857fc0bcb4cd04ae1d2c5c5bb08e76e96ced4f4:src/main/java/com/sparta/booker/domain/kafka/service/KafkaThreadConsumer.java

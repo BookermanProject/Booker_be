@@ -6,11 +6,14 @@ import com.sparta.booker.domain.event.entity.EventRequest;
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.event.repository.EventRequestRepository;
 import com.sparta.booker.domain.event.repository.SendFailureRepository;
+import com.sparta.booker.domain.kafka.config.KafkaProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,45 +67,45 @@ public class KafkaConsumer {
 
 
 	// 파티션 2개씩 나눠서 1개의 컨슈머 그룹 내의 5개의 컨슈머가 작업 진행처리
-//	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"0", "1"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
-//	public void consumerGroupFirst(ConsumerRecord<Long, String> record) {
-//		int partition = record.partition();
-//		long offset = record.offset();
-//		log.info("1번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
-//		processMessage(record);
-//	}
-//
-//	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"2", "3"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
-//	public void consumerGroupSecond(ConsumerRecord<Long, String> record) {
-//		int partition = record.partition();
-//		long offset = record.offset();
-//		log.info("2번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
-//		processMessage(record);
-//	}
-//
-//	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"4", "5"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
-//	public void consumerGroupThird(ConsumerRecord<Long, String> record) {
-//		int partition = record.partition();
-//		long offset = record.offset();
-//		log.info("3번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
-//		processMessage(record);
-//	}
-//
-//	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"6", "7"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
-//	public void consumerGroupFourth(ConsumerRecord<Long, String> record) {
-//		int partition = record.partition();
-//		long offset = record.offset();
-//		log.info("4번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
-//		processMessage(record);
-//	}
-//
-//	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"8", "9"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
-//	public void consumerGroupFifth(ConsumerRecord<Long, String> record) {
-//		int partition = record.partition();
-//		long offset = record.offset();
-//		log.info("5번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
-//		processMessage(record);
-//	}
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"0", "1"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	public void consumerGroupFirst(ConsumerRecord<Long, String> record) {
+		int partition = record.partition();
+		long offset = record.offset();
+		log.info("1번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
+		processMessage(record);
+	}
+
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"2", "3"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	public void consumerGroupSecond(ConsumerRecord<Long, String> record) {
+		int partition = record.partition();
+		long offset = record.offset();
+		log.info("2번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
+		processMessage(record);
+	}
+
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"4", "5"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	public void consumerGroupThird(ConsumerRecord<Long, String> record) {
+		int partition = record.partition();
+		long offset = record.offset();
+		log.info("3번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
+		processMessage(record);
+	}
+
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"6", "7"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	public void consumerGroupFourth(ConsumerRecord<Long, String> record) {
+		int partition = record.partition();
+		long offset = record.offset();
+		log.info("4번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
+		processMessage(record);
+	}
+
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"8", "9"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	public void consumerGroupFifth(ConsumerRecord<Long, String> record) {
+		int partition = record.partition();
+		long offset = record.offset();
+		log.info("5번 컨슈머 사용, Received Message - Partition: {}, Offset: {}", partition, offset);
+		processMessage(record);
+	}
 
 
 	public void sendSuccessMessage(Long eventId, String userId, String applicationTime) {
