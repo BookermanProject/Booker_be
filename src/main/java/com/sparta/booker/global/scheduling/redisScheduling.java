@@ -1,4 +1,4 @@
-package com.sparta.booker.domain.search.querydsl.scheduling;
+package com.sparta.booker.global.scheduling;
 
 import com.sparta.booker.domain.search.querydsl.entity.Book;
 import com.sparta.booker.domain.search.querydsl.repository.BookRepository;

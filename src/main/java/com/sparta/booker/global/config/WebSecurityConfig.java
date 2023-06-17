@@ -1,7 +1,7 @@
 package com.sparta.booker.global.config;
 
-import com.sparta.booker.jwt.JwtAuthFilter;
-import com.sparta.booker.jwt.JwtUtil;
+import com.sparta.booker.global.jwt.JwtAuthFilter;
+import com.sparta.booker.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
