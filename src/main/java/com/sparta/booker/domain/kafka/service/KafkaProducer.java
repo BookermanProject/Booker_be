@@ -60,7 +60,7 @@ public class KafkaProducer {
 			}
 		});
 
-		log.info("Produce Message - END {}", message);
+		log.debug("Produce Message - END {}", message);
 	}
 	public void produceMessage_Batch(BatchDto batchDto, User user) {
 		log.info("Produce Message - BEGIN");
