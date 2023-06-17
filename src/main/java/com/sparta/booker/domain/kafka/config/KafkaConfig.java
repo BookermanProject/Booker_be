@@ -4,12 +4,10 @@ import com.sparta.booker.domain.event.dto.BatchDto;
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.event.repository.EventRequestRepository;
 import com.sparta.booker.domain.event.repository.SendFailureRepository;
-<<<<<<< HEAD:src/main/java/com/sparta/booker/kafka/config/KafkaConfig.java
+
 //import com.sparta.booker.kafka.service.ConsumerWorker;
-=======
 import nonapi.io.github.classgraph.json.JSONSerializer;
 //import com.sparta.booker.domain.kafka.service.ConsumerWorker;
->>>>>>> 9857fc0bcb4cd04ae1d2c5c5bb08e76e96ced4f4:src/main/java/com/sparta/booker/domain/kafka/config/KafkaConfig.java
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.*;
@@ -41,11 +39,7 @@ import java.util.*;
 public class KafkaConfig {
 
     private final KafkaProperties kafkaProperties;
-<<<<<<< HEAD:src/main/java/com/sparta/booker/kafka/config/KafkaConfig.java
-    //private final static List<ConsumerWorker> workerThreads = new ArrayList<>();
-=======
 //    private final static List<ConsumerWorker> workerThreads = new ArrayList<>();
->>>>>>> 9857fc0bcb4cd04ae1d2c5c5bb08e76e96ced4f4:src/main/java/com/sparta/booker/domain/kafka/config/KafkaConfig.java
     private final EventRepository eventRepository;
     private final EventRequestRepository eventRequestRepository;
     private final SendFailureRepository sendFailureRepository;
@@ -123,10 +117,6 @@ public class KafkaConfig {
         return factory;
     }
 
-<<<<<<< HEAD:src/main/java/com/sparta/booker/kafka/config/KafkaConfig.java
-=======
-
->>>>>>> 9857fc0bcb4cd04ae1d2c5c5bb08e76e96ced4f4:src/main/java/com/sparta/booker/domain/kafka/config/KafkaConfig.java
     @Bean
     public ConsumerFactory<Long, String> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
@@ -163,40 +153,12 @@ public class KafkaConfig {
 //
 //        return new DefaultKafkaConsumerFactory<>(config);
 //    }
-<<<<<<< HEAD:src/main/java/com/sparta/booker/kafka/config/KafkaConfig.java
 //
-//    // 주어진 토픽의 파티션 수를 얻는 메서드
+
+    // 주어진 토픽의 파티션 수를 얻는 메서드
 //    public int getPartitionSize(String topic) {
 //        log.info("=============== Get {} partition size ===============", topic);
 //        int partitions;
-=======
-
-    // 주어진 토픽의 파티션 수를 얻는 메서드
-    public int getPartitionSize(String topic) {
-        log.info("=============== Get {} partition size ===============", topic);
-        int partitions;
-        Properties adminConfigs = new Properties();
-        adminConfigs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
-        // AdminClient는 관리 작업을 수행하기 위해 Kafka 클러스터와 통신하고, 토픽, 파티션, 컨슈머 그룹 등과 관련된 메타데이터를 조회하고 수정할 수 있다.
-        AdminClient admin = AdminClient.create(adminConfigs);
-        try {
-            DescribeTopicsResult result = admin.describeTopics(Arrays.asList(topic));
-            Map<String, KafkaFuture<TopicDescription>> values = result.values();
-            KafkaFuture<TopicDescription> topicDescription = values.get(topic);
-            partitions = topicDescription.get().partitions().size();
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            partitions = 10;
-        }
-        admin.close();
-        return partitions;
-    }
-
-    // Kafka 클러스터의 기본 파티션 수를 조회하는 메서드
-//    public int getDefaultPartitionSize() {
-//        log.info("=============== getDefaultPartitionSize ===============");
-//        int partitions = 1;
->>>>>>> 9857fc0bcb4cd04ae1d2c5c5bb08e76e96ced4f4:src/main/java/com/sparta/booker/domain/kafka/config/KafkaConfig.java
 //        Properties adminConfigs = new Properties();
 //        adminConfigs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
 //        // AdminClient는 관리 작업을 수행하기 위해 Kafka 클러스터와 통신하고, 토픽, 파티션, 컨슈머 그룹 등과 관련된 메타데이터를 조회하고 수정할 수 있다.
@@ -213,43 +175,36 @@ public class KafkaConfig {
 //        admin.close();
 //        return partitions;
 //    }
-<<<<<<< HEAD:src/main/java/com/sparta/booker/kafka/config/KafkaConfig.java
-//
-//    // Kafka 클러스터의 기본 파티션 수를 조회하는 메서드
-////    public int getDefaultPartitionSize() {
-////        log.info("=============== getDefaultPartitionSize ===============");
-////        int partitions = 1;
-////        Properties adminConfigs = new Properties();
-////        adminConfigs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
-////        AdminClient admin = AdminClient.create(adminConfigs);
-////        try {
-////            for (Node node : admin.describeCluster().nodes().get()) {
-////                ConfigResource cr = new ConfigResource(ConfigResource.Type.BROKER, "0");
-////                DescribeConfigsResult describeConfigs = admin.describeConfigs(Collections.singleton(cr));
-////                Config cf = describeConfigs.all().get().get(cr);
-////                Optional<ConfigEntry> optionalConfigEntry = cf.entries().stream()
-////                        .filter(v -> v.name().equals("num.partitions")).findFirst();
-////                ConfigEntry numPartitionConfig = optionalConfigEntry.orElseThrow(Exception::new);
-////                partitions = Integer.getInteger(numPartitionConfig.value());
-////            }
-////        } catch (Exception e) {
-////            log.error(e.getMessage(), e);
-////        }
-////        admin.close();
-////        return partitions;
-////    }
-//
-=======
 
->>>>>>> 9857fc0bcb4cd04ae1d2c5c5bb08e76e96ced4f4:src/main/java/com/sparta/booker/domain/kafka/config/KafkaConfig.java
+    // Kafka 클러스터의 기본 파티션 수를 조회하는 메서드
+//    public int getDefaultPartitionSize() {
+//        log.info("=============== getDefaultPartitionSize ===============");
+//        int partitions = 1;
+//        Properties adminConfigs = new Properties();
+//        adminConfigs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
+//        // AdminClient는 관리 작업을 수행하기 위해 Kafka 클러스터와 통신하고, 토픽, 파티션, 컨슈머 그룹 등과 관련된 메타데이터를 조회하고 수정할 수 있다.
+//        AdminClient admin = AdminClient.create(adminConfigs);
+//        try {
+//            DescribeTopicsResult result = admin.describeTopics(Arrays.asList(topic));
+//            Map<String, KafkaFuture<TopicDescription>> values = result.values();
+//            KafkaFuture<TopicDescription> topicDescription = values.get(topic);
+//            partitions = topicDescription.get().partitions().size();
+//        } catch (Exception e) {
+//            log.error(e.getMessage(), e);
+//            partitions = 10;
+//        }
+//        admin.close();
+//        return partitions;
+//    }
+
+
 //    static class ShutdownThread extends Thread {
 //        public void run() {
 //            workerThreads.forEach(ConsumerWorker::shutdown);
 //            System.out.println("================== END ==================");
 //        }
 //    }
-<<<<<<< HEAD:src/main/java/com/sparta/booker/kafka/config/KafkaConfig.java
-=======
+
 
     //멀티스레드 방식 컨슈머 설정값
     @Bean
@@ -278,6 +233,4 @@ public class KafkaConfig {
         factory.setBatchListener(true);
         return factory;
     }
-
->>>>>>> 9857fc0bcb4cd04ae1d2c5c5bb08e76e96ced4f4:src/main/java/com/sparta/booker/domain/kafka/config/KafkaConfig.java
 }
