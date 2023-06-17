@@ -57,7 +57,7 @@ public class KafkaProducer {
 			}
 		});
 
-		log.info("Produce Message - END {}", message);
+		log.debug("Produce Message - END {}", message);
 	}
 
 }
