@@ -27,4 +27,9 @@ public class redisScheduling {
             redisUtil.set(String.valueOf((i+1)), booklikelist.get(i).getBookName());
         }
     }
+
+    @Scheduled(cron = "0 0 0/1 * * *")
+    public void initializeTopkeywords(){
+        redisUtil.delete("ranking");
+    }
 }

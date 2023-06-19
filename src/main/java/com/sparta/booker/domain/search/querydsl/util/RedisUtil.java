@@ -38,6 +38,12 @@ public class RedisUtil {
             .collect(Collectors.toList());
     }
 
+    // 인기검색어 전체 삭제하기
+
+    public void Deletekey(String keyname){
+        redisTemplate.opsForHash().delete(keyname);
+    }
+
     public void set(String key, String value) {
         ValueOperations<String, Object> ops = redisTemplate.opsForValue();
         ops.set(key, value);
