@@ -20,7 +20,7 @@ public class redisScheduling {
 
     //좋아요 TOP10 리스트
     // @Scheduled(cron = "0 0 0/1 * * *")
-    // @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0/1 * * * * ?")
     public void likeList(){
         List<Book> booklikelist = bookRepository.findTop10ByOrderByLikeCountDesc();
         for(int i = 0; i<booklikelist.size(); i++){

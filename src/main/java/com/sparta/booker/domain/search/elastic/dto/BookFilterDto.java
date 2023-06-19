@@ -20,10 +20,12 @@ public class BookFilterDto {
     private String modification_time;
     private String insertion_time;
     private String like_count;
+    private int page;
+    private int size;
 
 
     public BookFilterDto(String query, String sort, String sortCategory, Long id, String book_name, String author, String publisher,  String pub_date, String category, String introduction, double star, String modification_time,
-        String insertion_time, String like_count ) {
+        String insertion_time, String like_count , int page, int size) {
         this.query = query;
         this.sort = sort;
         this.sortCategory = sortCategory;
@@ -38,5 +40,7 @@ public class BookFilterDto {
         this.modification_time = modification_time;
         this.insertion_time = insertion_time;
         this.like_count = like_count;
+        this.page = page;
+        this.size = size;
     }
 }

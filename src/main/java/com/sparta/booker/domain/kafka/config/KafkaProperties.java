@@ -11,7 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class KafkaProperties {
     public static final String CONSUMER_GROUP_ID = "mysql-group";
     public static final String TOPIC_NAME = "booker";
-
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootStrapServers;
 }

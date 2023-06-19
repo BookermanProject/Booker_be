@@ -38,7 +38,7 @@ public class BookElasticOperation {
 	public SearchHits<BookDto> keywordSearchByElastic(BookFilterDto bookFilterDto, Pageable pageable) {
 
 		MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(bookFilterDto.getQuery(),
-			"bookame", "author");
+			"book_name", "author");
 
 		NativeSearchQuery build = new NativeSearchQueryBuilder()
 			.withQuery(multiMatchQueryBuilder)
