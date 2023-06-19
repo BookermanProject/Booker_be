@@ -26,8 +26,8 @@ public class ElasticSearchBookController {
 	private final ElasticSearchBookService elasticSearchBookService;
 
 	//필터검색
-	@PostMapping("/search/word")
-	public ResponseEntity<Message> searchWord(@RequestBody BookFilterDto filterDto, Pageable pageable) {
+	@GetMapping("/search/word")
+	public ResponseEntity<Message> searchWord(@RequestBody BookFilterDto filterDto , Pageable pageable) {
 		return elasticSearchBookService.searchWordByElastic(filterDto, pageable);
 	}
 
@@ -37,9 +37,9 @@ public class ElasticSearchBookController {
 		return elasticSearchBookService.autoMaker(query);
 	}
 
-	//실시간 검색어
-	@GetMapping("/books/key")
-	public List<String> realtiemkeyword(){
-		return elasticSearchBookService.realtiemkeyword();
+	@GetMapping("/topkeyword")
+	public List<String> topKeyword() {
+		return elasticSearchBookService.getTopKeywords();
 	}
+
 }
