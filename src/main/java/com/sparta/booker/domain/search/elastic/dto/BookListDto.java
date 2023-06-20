@@ -10,10 +10,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class BookListDto {
-
     private Integer page;
     private List<BookDto> books = new ArrayList<>();
-
 
     public BookListDto(List<BookDto> entities, Integer page) {
         this.books = entities;
