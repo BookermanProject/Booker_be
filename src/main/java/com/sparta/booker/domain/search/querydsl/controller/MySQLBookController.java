@@ -41,7 +41,7 @@ public class MySQLBookController {
 		return mySQLBookService.searchFileterRating(pageable, keyword, order);
 	}
 
-	//좋아요 TOP10
+	//좋아요 누르기
 	@PutMapping("book/{bookid}/like")
 	public LikeDto likeCount(@PathVariable Long bookid) {
 		return mySQLBookService.likeCount(bookid);

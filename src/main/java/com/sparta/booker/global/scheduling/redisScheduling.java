@@ -25,7 +25,7 @@ public class redisScheduling {
     public void likeList(){
         List<Book> booklikelist = bookRepository.findTop10ByOrderByLikeCountDesc();
         for(int i = 0; i<booklikelist.size(); i++){
-            redisUtil.set(String.valueOf((i+1)), booklikelist.get(i).getBookName());
+            redisUtil.likeSet(booklikelist.get(i).getBookName(), Double.valueOf(booklikelist.get(i).getLikeCount())) ;
         }
     }
 
