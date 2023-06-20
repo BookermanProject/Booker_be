@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  *  null 처리를 위해 새로 만든 클래스. 기존 클래스는 QueryBuilders이다.
