@@ -61,16 +61,4 @@ public class BookElasticOperation {
 			.build();
 		return operations.search(searchQuery, autoMakerDto.class);
 	}
-
-
-	//실시간 검색어
-	public List<String> realtiemkeyword(){
-		// NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-		// 	.withQuery()
-		// 	.withCollapseField("book_name.keyword")
-		// 	.build();
-		// return operations.search(searchQuery, autoMakerDto.class);
-		return  null;
-	}
-
 }
