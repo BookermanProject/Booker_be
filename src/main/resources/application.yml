@@ -7,6 +7,12 @@
 #    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 # 기본 드라이버
 spring:
+  thymeleaf:
+#    prefix: classpath:templates/
+#    check-template-location: true
+#    suffix: html
+#    mode: html
+#    cache: false
   redis:
     host: 211.178.235.51
     port: 6379
@@ -21,8 +27,8 @@ spring:
     properties:
       hibernate:
         dialect: com.sparta.booker.domain.search.querydsl.config.MySQL8DialectCustom
-        show_sql: false
-        format_sql: false
+        show_sql: true
+        format_sql: true
   kafka:
     bootstrap-servers: 3.38.35.127:9092
     consumer:

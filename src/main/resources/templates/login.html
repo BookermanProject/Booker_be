@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <!--기타파일들 -->
+    <script src="/js/login.js"></script>
+    <link href="/css/login.css" rel="stylesheet">
+
+   <script src="../static/js/login.js"></script>
+    <link href="../static/css/login.css" rel="stylesheet">
+
+
+</head>
+<body>
+
+<<div class="container">
+    <!-- Heading -->
+    <h1>SIGN IN</h1>
+
+    <!-- Links -->
+    <ul class="links">
+        <li>
+            <a href="#" id="signin">SIGN IN</a>
+        </li>
+        <li>
+            <a href="#" id="signup">SIGN UP</a>
+        </li>
+    </ul>
+
+    <!-- Form -->
+    <form  action="" method="post">
+        <!-- email input -->
+        <div class="first-input input__block first-input__block">
+            <input type="email" placeholder="Email" class="input" id="email"   />
+        </div>
+        <!-- password input -->
+        <div class="input__block">
+            <input type="password" placeholder="Password" class="input" id="password"    />
+        </div>
+        <!-- repeat password input -->
+        <div class="input__block">
+            <input type="password" placeholder="Repeat password" class="input repeat__password" id="repeat__password"    />
+        </div>
+        <!-- sign in button -->
+        <button class="signin__btn">
+            Sign in
+        </button>
+    </form>
+    <!-- separator -->
+
+</div>
+
+
+</body>
+</html>
