@@ -1,14 +1,11 @@
 package com.sparta.booker.domain.search.elastic.dto;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.elasticsearch.annotations.Document;
-
 import com.sparta.booker.domain.search.querydsl.entity.Book;
-
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -27,7 +24,6 @@ public class BookDto {
     private LocalDateTime insertion_time;
     private int like_count;
 
-    @Builder
     public BookDto(Book book) {
 
         this.id = book.getId();

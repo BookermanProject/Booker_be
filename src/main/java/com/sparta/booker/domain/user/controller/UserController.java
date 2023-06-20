@@ -5,7 +5,6 @@ import com.sparta.booker.domain.user.dto.ResponseDto;
 import com.sparta.booker.domain.user.dto.SignupRequestDto;
 import com.sparta.booker.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

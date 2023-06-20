@@ -1,9 +1,16 @@
 package com.sparta.booker.domain.search.elastic.service;
 
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.sparta.booker.domain.search.elastic.dto.BookDto;
+import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
+import com.sparta.booker.domain.search.elastic.dto.BookListDto;
+import com.sparta.booker.domain.search.elastic.repository.BookElasticOperation;
+import com.sparta.booker.domain.search.elastic.util.EsDtoConverter;
+import com.sparta.booker.domain.search.querydsl.util.RedisUtil;
+import com.sparta.booker.global.dto.Message;
+import com.sparta.booker.global.exception.SuccessCode;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -11,18 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sparta.booker.domain.search.elastic.dto.BookDto;
-import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
-import com.sparta.booker.domain.search.elastic.dto.BookListDto;
-import com.sparta.booker.domain.search.elastic.dto.autoMakerDto;
-import com.sparta.booker.domain.search.elastic.repository.BookElasticOperation;
-import com.sparta.booker.domain.search.elastic.util.EsDtoConverter;
-import com.sparta.booker.domain.search.querydsl.util.RedisUtil;
-import com.sparta.booker.global.dto.Message;
-import com.sparta.booker.global.exception.SuccessCode;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
