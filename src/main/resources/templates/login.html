@@ -35,21 +35,26 @@
     </ul>
 
     <!-- Form -->
-    <form  action="" method="post">
+    <div  class="form" method="post">
         <!-- email input -->
         <div class="first-input input__block first-input__block">
-            <input type="email" placeholder="Email" class="input" id="email"   />
+            <input type="id" name="userId" placeholder="Id" class="input" id="email"   />
         </div>
         <!-- password input -->
         <div class="input__block">
-            <input type="password" placeholder="Password" class="input" id="password"    />
+            <input type="password" name="password" placeholder="Password" class="input" id="password"    />
         </div>
         <!-- repeat password input -->
         <div class="input__block">
-            <input type="password" placeholder="Repeat password" class="input repeat__password" id="repeat__password"    />
+            <input type="password" name="password_2" placeholder="Repeat password" class="input repeat__password" id="repeat__password"    />
         </div>
+
+       <!-- address  -->
+       <div class="input__block">
+        <input type="text" placeholder="address"  name="address" class="input repeat__password" id="repeat__password"    />
+    </div>
         <!-- sign in button -->
-        <button class="signin__btn">
+        <button class="signin__btn" id="sign_in">
             Sign in
         </button>
     </form>

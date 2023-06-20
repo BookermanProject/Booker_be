@@ -12,11 +12,14 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.sparta.booker.domain.search.querydsl.dto.LikeBookDto;
+
 @Component
 @RequiredArgsConstructor
-public class RedisUtil {
+public class RedisUtil{
 
     private final RedisTemplate<String, Object> redisTemplate;
+
 
     public void upKeywordCount(String keyword){
         Double score = 0.0;
@@ -32,9 +35,20 @@ public class RedisUtil {
     public List<String> SearchRankList() {
         String key = "ranking";
         ZSetOperations<String, Object> ZSetOperations = redisTemplate.opsForZSet();
-        Set<ZSetOperations.TypedTuple<Object>> typedTuples = ZSetOperations.reverseRangeWithScores(key, 0, 4);  //score순으로 5개 보여줌
+        Set<ZSetOperations.TypedTuple<Object>> typedTuples = ZSetOperations.reverseRangeWithScores(key, 0, 9);  //score순으로 10개 보여줌
         return typedTuples.stream()
             .map(typedTuple -> typedTuple.getValue().toString())
+            .collect(Collectors.toList());
+    }
+
+    // 좋아요 검색어 리스트 1-10위까지
+    public List<LikeBookDto> SearchList() {
+        String key = "Like";
+        ZSetOperations<String, Object> ZSetOperations = redisTemplate.opsForZSet();
+        Set<ZSetOperations.TypedTuple<Object>> typedTuples = ZSetOperations.reverseRangeWithScores(key, 0, 9);
+        //score순으로 10개 보여줌
+        return typedTuples.stream()
+            .map(typedTuple -> new LikeBookDto(typedTuple.getValue().toString(),(int)Math.round(typedTuple.getScore())))
             .collect(Collectors.toList());
     }
 
@@ -43,6 +57,12 @@ public class RedisUtil {
     public void Deletekey(String keyname){
         redisTemplate.opsForHash().delete(keyname);
     }
+
+    public void likeSet(String bookname, double score){
+        redisTemplate.opsForZSet().add("Like", bookname, score);
+    }
+
+
 
     public void set(String key, String value) {
         ValueOperations<String, Object> ops = redisTemplate.opsForValue();

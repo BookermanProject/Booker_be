@@ -7,14 +7,12 @@ import com.sparta.booker.domain.search.elastic.dto.BookListDto;
 import com.sparta.booker.domain.search.elastic.repository.BookElasticOperation;
 import com.sparta.booker.domain.search.elastic.util.EsDtoConverter;
 import com.sparta.booker.domain.search.querydsl.util.RedisUtil;
-import com.sparta.booker.global.dto.Message;
-import com.sparta.booker.global.exception.SuccessCode;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,11 +29,10 @@ public class ElasticSearchBookService {
 	private final RedisUtil redisUtil;
 
 	//전체 검색
-	public ResponseEntity<Message> searchWordByElastic(@NotNull BookFilterDto bookFilterDto, Pageable pageable) {
+	public BookListDto searchWordByElastic(@NotNull BookFilterDto bookFilterDto, Pageable pageable) {
 		redisUtil.upKeywordCount(bookFilterDto.getQuery());
 		SearchHits<BookDto> searchHits = bookElasticOperation.keywordSearchByElastic(bookFilterDto, pageable);
-		BookListDto bookListDto = esDtoConverter.resultToDto(searchHits, pageable);
-		return Message.toResponseEntity(SuccessCode.SEARCH_SUCCESS, bookListDto);
+		return esDtoConverter.resultToDto(searchHits, pageable);
 	}
 
 	//자동완성
