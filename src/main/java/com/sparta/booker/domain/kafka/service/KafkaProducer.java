@@ -69,8 +69,8 @@ public class KafkaProducer {
 		batchDto.setUserId(user.getUserId());
 		// 선택할 파티션 계산
 		// ex) eventId 1 -> partiction 0, eventId 2 -> partiction 1
-		int partition = (eventId.intValue() - 1) % 10;
-		ListenableFuture<SendResult<Long, BatchDto>> listenableFuture = kafkaBatchTemplate.send("booker", partition, eventId, batchDto);
+		//int partition = (eventId.intValue() - 1) % 10;
+		ListenableFuture<SendResult<Long, BatchDto>> listenableFuture = kafkaBatchTemplate.send("book", eventId, batchDto);
 
 		listenableFuture.addCallback(new ListenableFutureCallback<SendResult<Long, BatchDto>>() {
 			@Override
