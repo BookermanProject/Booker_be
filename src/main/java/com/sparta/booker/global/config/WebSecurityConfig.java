@@ -75,12 +75,6 @@ public class WebSecurityConfig {
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);
 
-        // config.setAllowedOrigins(List.of("http://localhost:8080"));
-        // config.setAllowedOrigins(List.of("http://localhost:5500"));
-        // config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        // config.setAllowedHeaders(List.of("*"));
-        // config.setExposedHeaders(List.of("*"));
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
