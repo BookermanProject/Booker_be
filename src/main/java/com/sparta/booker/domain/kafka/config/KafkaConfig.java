@@ -63,8 +63,8 @@ public class KafkaConfig {
         config.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "1");
-        config.put(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(500*1024)); //700kb * 100 (75000*1024)
-        config.put(ProducerConfig.LINGER_MS_CONFIG, "5000"); //대기시간을 주는 값 ms단위 0.1초
+//        config.put(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(500*1024)); //700kb * 100 (75000*1024)
+//        config.put(ProducerConfig.LINGER_MS_CONFIG, "5000"); //대기시간을 주는 값 ms단위 0.1초
         return config;
     }
 
