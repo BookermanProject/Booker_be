@@ -1,195 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Blog Home - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../static/css/styles.css" rel="stylesheet" />
-        <link href="../static/css/main.css" rel="stylesheet" />
-        <link href="/css/styles.css" rel="stylesheet" />
-        <link href="/css/main.css" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Responsive navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#!">Booker</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
-                    </ul>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Booker</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link href="../static/css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/main.css" rel="stylesheet" />
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#!">Booker</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container" style="padding : 50px;">
+    <div class="row">
+        <div class="col-lg-8">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">책</th>
+                    <th scope="col">이름</th>
+                    <th scope="col">저자</th>
+                    <th scope="col">출판사</th>
+                    <th scope="col">출판일</th>
+                    <th scope="col">별점</th>
+                    <th scope="col">좋아요</th>
+                </tr>
+                </thead>
+                <tbody id="rankinglist">
+                <tr th:each="book : ${bookList}">
+                    <td><img class="main_img" alt="book_img" th:src="${book.img_url}"></td>
+                    <td th:text="${book.bookName}">book_name</td>
+                    <td th:text="${book.author}">author</td>
+                    <td th:text="${book.publisher}">publisher</td>
+                    <td th:text="${book.pub_date}">pub_date</td>
+                    <td th:text="${book.star}">star</td>
+                    <td th:text="${book.like_count.intValue()}">like_count</td>
+                </tr>
+                <tr></tr>
+                </tbody>
+            </table>
+            <!-- Pagination-->
+            <nav aria-label="Pagination">
+                <hr class="my-0" />
+                <ul id="pagination-demo" class="pagination-l"></ul>
+            </nav>
+        </div>
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">검색어
+                    <div class="btn-group" style="float: right; padding: 10px">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            별점
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="starthight" value="">별점 높은순</a></li>
+                            <li><a class="dropdown-item" id="starlow" value="">별점 낮은순</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group" style="float: right; padding: 10px">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            좋아요
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="likehight" value="">좋아요 높은순</a></li>
+                            <li><a class="dropdown-item" id="liketlow" value="">좋아요 낮은순</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <input class="form-control" id="search" type="text" autocomplete="on"/>
+                        <button class="btn btn-primary" id="searchbutton" type="button">검색</button>
+                    </div>
+                    <div class="autocomplete"></div>
+
                 </div>
             </div>
-        </nav>
-        <!-- Page header with logo and tagline-->
-
-<!--        <div th:text="${topSearchList}">실시간 검색어</div>-->
-<!--        <div th:text="${topLikeList}">좋아요 탑 텐 </div>-->
-
-
-        <!-- Page content-->
-        <div class="container">
-            <div class="row">
-                <!-- Blog entries-->
-                <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id="event" class="btn btn-primary">이벤트 신청</button>
+                    <button type="button" id="realtime" class="btn btn-primary">실시간 검색</button>
+                    <button type="button" id="likecount" class="btn btn-primary">좋아요 순위</button>
+                </div>
+                <div class="card-body">
                     <table class="table">
-                        <thead>
+                        <thead id="rankhead">
                         <tr>
-                          <th scope="col">책</th>
-                          <th scope="col">이름</th>
-                          <th scope="col">저자</th>
-                          <th scope="col">출판사</th>
-                          <th scope="col">출판일</th>
-                          <th scope="col">별점</th>
-                          <th scope="col">좋아요</th>
+                            <th scope="col">순위</th>
+                            <th scope="col">책이름</th>
+                            <th scope="col">좋아요</th>
                         </tr>
                         </thead>
-                        <tbody id="artists-ranking">
-                        <tr th:each="book : ${bookList}">
-                            <td><img class="main_img" alt="book_img" th:src="${book.img_url}"></td>
-                            <td th:text="${book.bookName}">book_name</td>
-                            <td th:text="${book.author}">author</td>
-                            <td th:text="${book.publisher}">publisher</td>
-                            <td th:text="${book.pub_date}">pub_date</td>
-                            <td th:text="${book.star}">star</td>
-                            <td th:text="${book.like_count.intValue()}">like_count</td>
+                        <tbody id="rankbox">
+                        <tr th:each="likerank : ${topLikeList}">
+                            <td th:text="${likerankStat.count}">count</td>
+                            <td th:text="${likerank.bookName}">bookName</td>
+                            <td th:text="${likerank.likeCount}">likeCount</td>
                         </tr>
-                        <tr></tr>
                         </tbody>
-                      </table>
-                    <!-- Pagination-->
-                    <nav aria-label="Pagination">
-                        <hr class="my-0" />
-                        <ul class="pagination justify-content-center my-4">
-                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
-                            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">15</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <!-- Side widgets-->
-                <div class="col-lg-4">
-                    <!-- Example single danger button -->
-                   
-                    <!-- Search widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Search
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                별점
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">별점 높은순</a></li>
-                                    <li><a class="dropdown-item" href="#">별점 낮은순</a></li>
-                                </ul>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                좋아요
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">좋아요 높은순</a></li>
-                                    <li><a class="dropdown-item" href="#">좋아요 낮은순</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div style="padding: 15px;">
-                                
-                            </div>
-
-                            <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                                <button class="btn btn-primary" id="button-search" type="button">검색</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Side widget-->
-                    <div class="card mb-4">
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-primary" id="event_toggle">이벤트 신청</button>
-                                <button type="button" class="btn btn-primary" id="search_toggle">실시간 검색</button>
-                                <button type="button" class="btn btn-primary" id="like_toggle">좋아요 순위</button>
-                            </div>
-                            <div class="card-body">
-                                <table class="table" id="like_ranking">
-                                    <thead>
-                                        <tr>
-                                          <th scope="col">순위</th>
-                                          <th scope="col">책이름</th>
-                                          <th scope="col">좋아요</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="likerank : ${topLikeList}">
-                                            <td th:text="${likerankStat.count}">count</td>
-                                            <td th:text="${likerank.bookName}">bookName</td>
-                                            <td th:text="${likerank.likeCount}">likeCount</td>
-                                        </tr>
-                                        <tr></tr>
-                                    </tbody>
-                                </table>
-
-                                <table class="table" id="search_ranking">
-                                    <thead>
-                                        <tr>
-                                          <th scope="col">순위</th>
-                                          <th scope="col">책이름</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="searchrank : ${topSearchList}">
-                                            <td th:text="${searchrankStat.count}">count</td>
-                                            <td th:text="${searchrank}">bookName</td>
-                                        </tr>
-                                        <tr></tr>
-                                    </tbody>
-                                </table>
-
-                                <table class="table" id="event">
-                                    <thead>
-                                        <tr>
-                                          <th scope="col">순위</th>
-                                          <th scope="col">책이름</th>
-                                          <th scope="col">나눔권수</th>
-                                          <th scope="col">신청</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="likerank : ${topLikeList}">
-                                            <td th:text="${likerankStat.count}">count</td>
-                                            <td th:text="${likerank.bookName}">bookName</td>
-                                            <td th:text="${likerank.likeCount}">likeCount</td>
-                                            <td th:text="${likerank.likeCount}"><button type="button" class="btn btn-outline-secondary">신청</button>
-                                            </td>
-                                        </tr>
-                                        <tr></tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                    </div>
+                    </table>
                 </div>
             </div>
         </div>
-        <!-- jquery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="../static/js/main.js"></script>
-        <script src="/js/main.js"></script>
-        
+    </div>
+</div>
 
-    </body>
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+<script src="../static/js/jquery.twbsPagination.min.js"></script>
+<script src="/js/jquery.twbsPagination.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../static/js/main.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+
 </html>

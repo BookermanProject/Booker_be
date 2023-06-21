@@ -59,6 +59,18 @@ body {
 	display: none;
 }
 
-#event{
+#event {
 	display: none;
+}
+
+.autocomplete > div.active {
+	background: #e0e5f6;
+	color: #000;
+}
+
+/* -------------------------- */
+
+.autocomplete > div {
+	background: #f1f3f499;
+	padding: .2rem .6rem;
 }
