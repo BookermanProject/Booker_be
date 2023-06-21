@@ -1,12 +1,9 @@
 package com.sparta.booker.domain.search.elastic.dto;
 
 
-import javax.persistence.Index;
-
-import org.springframework.data.elasticsearch.annotations.Document;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 @Getter
 @NoArgsConstructor

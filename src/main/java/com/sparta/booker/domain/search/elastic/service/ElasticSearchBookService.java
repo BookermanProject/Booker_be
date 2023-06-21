@@ -1,26 +1,23 @@
 package com.sparta.booker.domain.search.elastic.service;
 
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.sparta.booker.domain.search.elastic.dto.BookDto;
 import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
 import com.sparta.booker.domain.search.elastic.dto.BookListDto;
-import com.sparta.booker.domain.search.elastic.dto.autoMakerDto;
 import com.sparta.booker.domain.search.elastic.repository.BookElasticOperation;
 import com.sparta.booker.domain.search.elastic.util.EsDtoConverter;
-import com.sparta.booker.global.dto.Message;
-import com.sparta.booker.global.exception.SuccessCode;
+import com.sparta.booker.domain.search.querydsl.util.RedisUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,12 +26,18 @@ import lombok.extern.slf4j.Slf4j;
 public class ElasticSearchBookService {
 	private final BookElasticOperation bookElasticOperation;
 	private final EsDtoConverter esDtoConverter;
+	private final RedisUtil redisUtil;
+
+	public BookListDto searcByElastic(Pageable pageable){
+		SearchHits<BookDto> searchHits = bookElasticOperation.SearchByElastic(pageable);
+		return esDtoConverter.resultToDto(searchHits, pageable);
+	}
 
 	//전체 검색
-	public ResponseEntity<Message> searchWordByElastic(BookFilterDto bookFilterDto, Pageable pageable) {
+	public BookListDto searchWordByElastic(@NotNull BookFilterDto bookFilterDto, Pageable pageable) {
+		redisUtil.upKeywordCount(bookFilterDto.getQuery());
 		SearchHits<BookDto> searchHits = bookElasticOperation.keywordSearchByElastic(bookFilterDto, pageable);
-		BookListDto bookListDto = esDtoConverter.resultToDto(searchHits, pageable);
-		return Message.toResponseEntity(SuccessCode.SEARCH_SUCCESS, bookListDto);
+		return esDtoConverter.resultToDto(searchHits, pageable);
 	}
 
 	//자동완성
@@ -43,10 +46,8 @@ public class ElasticSearchBookService {
 			.map(i -> i.getContent().getBook_name()).collect(Collectors.toList());
 	}
 
-
-	//실시간 검색어
-	public List<String> realtiemkeyword(){
-		return  bookElasticOperation.realtiemkeyword();
+	public List<String> getTopKeywords(){
+		return redisUtil.SearchRankList();
 	}
 
 }

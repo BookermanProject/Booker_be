@@ -1,0 +1,76 @@
+body {
+	font-family: 'Lato', Arial, sans-serif;
+	color: #3b3b3b;
+}
+
+.container{
+    width: 100%;
+}
+
+.container > header {
+	margin: 0 auto;
+	padding: 1em;
+	text-align: center;
+}
+
+.container > header h1 {
+  font-weight: 600;
+	font-size: 3em;
+	margin: 0;
+}
+
+.wrapper {
+	line-height: 1.5em;
+	margin: 0 auto;
+	padding: 2em 0 3em;
+	width: 90%;
+	max-width: 2000px;
+	overflow: hidden;
+}
+
+.main_img{
+	width: 120px;
+	height: 120px;
+}
+
+#book_search_container{
+   width: 100%; 
+   float: left;
+
+}
+
+#book_rank_container{
+    width: 100%;
+    
+}
+
+.rank_box{
+    float: left;
+    width: 33.3%;
+    border:1px solid black;
+    height: 100px;
+}
+
+#like_ranking{
+
+}
+
+#search_ranking{
+	display: none;
+}
+
+#event {
+	display: none;
+}
+
+.autocomplete > div.active {
+	background: #e0e5f6;
+	color: #000;
+}
+
+/* -------------------------- */
+
+.autocomplete > div {
+	background: #f1f3f499;
+	padding: .2rem .6rem;
+}
