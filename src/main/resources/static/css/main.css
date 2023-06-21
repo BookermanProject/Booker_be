@@ -50,3 +50,15 @@ body {
     border:1px solid black;
     height: 100px;
 }
+
+#like_ranking{
+
+}
+
+#search_ranking{
+	display: none;
+}
+
+#event{
+	display: none;
+}
