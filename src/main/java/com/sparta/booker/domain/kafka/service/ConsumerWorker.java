@@ -25,7 +25,7 @@
 //    private final Map<String, Object> configs;
 //    private final String topic;
 //    private final String threadName;
-//    private KafkaConsumer<Long, String> consumer;
+//    private final KafkaConsumer<Long, String> consumer;
 //    private final EventRepository eventRepository;
 //    private final EventRequestRepository eventRequestRepository;
 //    private final SendFailureRepository sendFailureRepository;
@@ -36,6 +36,7 @@
 //        this.configs = configs;
 //        this.topic = topic;
 //        this.threadName = "consumer-thread-" + number;
+//        this.consumer = new KafkaConsumer<>(configs);
 //        this.eventRepository = eventRepository;
 //        this.eventRequestRepository = eventRequestRepository;
 //        this.sendFailureRepository = sendFailureRepository;
@@ -43,13 +44,12 @@
 //
 //    @Override
 //    public void run() {
-//        consumer = new KafkaConsumer<>(configs);
 //        consumer.subscribe(Arrays.asList(topic));
 //        try {
 //            while (true) {
 //                ConsumerRecords<Long, String> records = consumer.poll(Duration.ofSeconds(1));
 //                for (ConsumerRecord<Long, String> record : records) {
-//                    log.info("{}", record);
+//                    log.debug("{}", record);
 //                    processMessage(record);
 //                }
 //                consumer.commitSync();
@@ -63,7 +63,8 @@
 //    }
 //
 //    private void processMessage(ConsumerRecord<Long, String> record) {
-//        log.info("Received Message : {}", record.value());
+//        log.debug("Received Message : {}", record.value());
+//        long startTime = System.currentTimeMillis();
 //
 //        // Event 메시지 파싱
 //        try {
@@ -95,18 +96,21 @@
 //                sendFailureMessage(eventId, userId, applicationTime);
 //            }
 //
+//            long endTime = System.currentTimeMillis();
+//            log.info("Processing Time for Message: {} ms", endTime - startTime);
+//
 //        } catch (JSONException e) {
 //            log.error("Error parsing event message: {}", e.getMessage());
 //        }
 //    }
 //
 //    public void sendSuccessMessage(Long eventId, String userId, String applicationTime) {
-//        log.info("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 성공", eventId, userId, applicationTime);
+//        log.debug("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 성공", eventId, userId, applicationTime);
 //        eventRequestRepository.save(new EventRequest(eventId, userId, applicationTime));
 //    }
 //
 //    public void sendFailureMessage(Long eventId, String userId, String applicationTime) {
-//        log.info("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 실패", eventId, userId, applicationTime);
+//        log.debug("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 실패", eventId, userId, applicationTime);
 //        sendFailure sendFailure = new sendFailure(eventId, userId, applicationTime);
 //        sendFailureRepository.save(sendFailure);
 //    }

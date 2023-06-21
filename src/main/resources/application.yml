@@ -27,8 +27,8 @@ spring:
     properties:
       hibernate:
         dialect: com.sparta.booker.domain.search.querydsl.config.MySQL8DialectCustom
-        show_sql: true
-        format_sql: true
+        show_sql: false
+        format_sql: false
   kafka:
     bootstrap-servers: 3.38.35.127:9092
     consumer:
@@ -74,3 +74,7 @@ jwt:
 admin:
   secret:
     key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC
+
+jasypt:
+  pw:
+    booker77

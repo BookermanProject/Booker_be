@@ -4,8 +4,6 @@ import com.sparta.booker.domain.event.dto.BatchDto;
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.event.repository.EventRequestRepository;
 import com.sparta.booker.domain.event.repository.SendFailureRepository;
-
-//import com.sparta.booker.kafka.service.ConsumerWorker;
 import nonapi.io.github.classgraph.json.JSONSerializer;
 //import com.sparta.booker.domain.kafka.service.ConsumerWorker;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +26,8 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Configuration
 @EnableKafka
@@ -39,7 +39,7 @@ import java.util.*;
 public class KafkaConfig {
 
     private final KafkaProperties kafkaProperties;
-//    private final static List<ConsumerWorker> workerThreads = new ArrayList<>();
+    //private final static List<ConsumerWorker> workerThreads = new ArrayList<>();
     private final EventRepository eventRepository;
     private final EventRequestRepository eventRequestRepository;
     private final SendFailureRepository sendFailureRepository;
@@ -63,8 +63,8 @@ public class KafkaConfig {
         config.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "1");
-//        config.put(ProducerConfig.BATCH_SIZE_CONFIG, "");     //5mb
-//        config.put(ProducerConfig.LINGER_MS_CONFIG, "");      //대기시간을 주는 값 ms단위 10초
+        config.put(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(500*1024)); //700kb * 100 (75000*1024)
+        config.put(ProducerConfig.LINGER_MS_CONFIG, "5000"); //대기시간을 주는 값 ms단위 0.1초
         return config;
     }
 
@@ -82,8 +82,8 @@ public class KafkaConfig {
         config.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "1");
-//        config.put(ProducerConfig.BATCH_SIZE_CONFIG, "");     //5mb
-//        config.put(ProducerConfig.LINGER_MS_CONFIG, "");      //대기시간을 주는 값 ms단위 10초
+//        config.put(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(1000000)); //700kb * 100 (75000*1024)
+//        config.put(ProducerConfig.LINGER_MS_CONFIG, "100"); //대기시간을 주는 값 ms단위 0.1초
         return config;
     }
 
@@ -154,8 +154,8 @@ public class KafkaConfig {
 //        return new DefaultKafkaConsumerFactory<>(config);
 //    }
 //
-
-    // 주어진 토픽의 파티션 수를 얻는 메서드
+//
+//    //주어진 토픽의 파티션 수를 얻는 메서드
 //    public int getPartitionSize(String topic) {
 //        log.info("=============== Get {} partition size ===============", topic);
 //        int partitions;
@@ -175,29 +175,29 @@ public class KafkaConfig {
 //        admin.close();
 //        return partitions;
 //    }
-
-    // Kafka 클러스터의 기본 파티션 수를 조회하는 메서드
-//    public int getDefaultPartitionSize() {
-//        log.info("=============== getDefaultPartitionSize ===============");
-//        int partitions = 1;
-//        Properties adminConfigs = new Properties();
-//        adminConfigs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
-//        // AdminClient는 관리 작업을 수행하기 위해 Kafka 클러스터와 통신하고, 토픽, 파티션, 컨슈머 그룹 등과 관련된 메타데이터를 조회하고 수정할 수 있다.
-//        AdminClient admin = AdminClient.create(adminConfigs);
-//        try {
-//            DescribeTopicsResult result = admin.describeTopics(Arrays.asList(topic));
-//            Map<String, KafkaFuture<TopicDescription>> values = result.values();
-//            KafkaFuture<TopicDescription> topicDescription = values.get(topic);
-//            partitions = topicDescription.get().partitions().size();
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            partitions = 10;
-//        }
-//        admin.close();
-//        return partitions;
-//    }
-
-
+//
+//    // Kafka 클러스터의 기본 파티션 수를 조회하는 메서드
+////    public int getDefaultPartitionSize() {
+////        log.info("=============== getDefaultPartitionSize ===============");
+////        int partitions = 1;
+////        Properties adminConfigs = new Properties();
+////        adminConfigs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
+////        // AdminClient는 관리 작업을 수행하기 위해 Kafka 클러스터와 통신하고, 토픽, 파티션, 컨슈머 그룹 등과 관련된 메타데이터를 조회하고 수정할 수 있다.
+////        AdminClient admin = AdminClient.create(adminConfigs);
+////        try {
+////            DescribeTopicsResult result = admin.describeTopics(Arrays.asList(topic));
+////            Map<String, KafkaFuture<TopicDescription>> values = result.values();
+////            KafkaFuture<TopicDescription> topicDescription = values.get(topic);
+////            partitions = topicDescription.get().partitions().size();
+////        } catch (Exception e) {
+////            log.error(e.getMessage(), e);
+////            partitions = 10;
+////        }
+////        admin.close();
+////        return partitions;
+////    }
+//
+//
 //    static class ShutdownThread extends Thread {
 //        public void run() {
 //            workerThreads.forEach(ConsumerWorker::shutdown);
@@ -207,30 +207,30 @@ public class KafkaConfig {
 
 
     //멀티스레드 방식 컨슈머 설정값
-    @Bean
-    public Map<String, Object> batchConsumerConfig() {
-        Map<String, Object> config = new HashMap<>();
-        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
-        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, KafkaProperties.CONSUMER_GROUP_ID);
-//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
-//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JSONSerializer.class);
-        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1000");
-        return config;
-    }
-
-    @Bean
-    public ConsumerFactory<String, BatchDto> batchConsumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(batchConsumerConfig(), new StringDeserializer(),
-                new JsonDeserializer<>(BatchDto.class, false));
-    }
-
-    @Bean("batchKafkaListenerContainerFactory")
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, BatchDto>> batchkafkaListenerContainerFactory(){
-        ConcurrentKafkaListenerContainerFactory<String, BatchDto> factory
-                = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(batchConsumerFactory());
-        factory.setBatchListener(true);
-        return factory;
-    }
+//    @Bean
+//    public Map<String, Object> batchConsumerConfig() {
+//        Map<String, Object> config = new HashMap<>();
+//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
+//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, KafkaProperties.CONSUMER_GROUP_ID);
+////        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
+////        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JSONSerializer.class);
+//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1000");
+//        return config;
+//    }
+//
+//    @Bean
+//    public ConsumerFactory<String, BatchDto> batchConsumerFactory() {
+//        return new DefaultKafkaConsumerFactory<>(batchConsumerConfig(), new StringDeserializer(),
+//                new JsonDeserializer<>(BatchDto.class, false));
+//    }
+//
+//    @Bean("batchKafkaListenerContainerFactory")
+//    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, BatchDto>> batchkafkaListenerContainerFactory(){
+//        ConcurrentKafkaListenerContainerFactory<String, BatchDto> factory
+//                = new ConcurrentKafkaListenerContainerFactory<>();
+//        factory.setConsumerFactory(batchConsumerFactory());
+//        factory.setBatchListener(true);
+//        return factory;
+//    }
 }
