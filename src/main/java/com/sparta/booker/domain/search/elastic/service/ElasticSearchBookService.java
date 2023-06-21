@@ -28,6 +28,11 @@ public class ElasticSearchBookService {
 	private final EsDtoConverter esDtoConverter;
 	private final RedisUtil redisUtil;
 
+	public BookListDto searcByElastic(Pageable pageable){
+		SearchHits<BookDto> searchHits = bookElasticOperation.SearchByElastic(pageable);
+		return esDtoConverter.resultToDto(searchHits, pageable);
+	}
+
 	//전체 검색
 	public BookListDto searchWordByElastic(@NotNull BookFilterDto bookFilterDto, Pageable pageable) {
 		redisUtil.upKeywordCount(bookFilterDto.getQuery());

@@ -87,8 +87,8 @@ $(document).on("click", "#sign_up", function(e){
             alert("회원가입 성공")
         },
         error: function (error) {
-            alert("실패")
-            console.log(error);
+            alert(error)
+            console.log(error.message);
         }
     });
 
@@ -121,6 +121,7 @@ $(document).on("click", "#sign_in", function(e){
 
         success: function (data) {
             alert("로그인 성공")
+            window.location.href = 'http://localhost:8080/main';
         },
         error: function (error) {
             alert("로그인 실패")

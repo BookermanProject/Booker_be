@@ -1,5 +1,6 @@
 package com.sparta.booker.domain.main.controller;
 
+import com.sparta.booker.domain.search.elastic.service.ElasticSearchBookService;
 import com.sparta.booker.domain.search.querydsl.dto.LikeBookDto;
 import com.sparta.booker.domain.search.querydsl.service.MySQLBookService;
 import com.sparta.booker.domain.search.querydsl.util.RedisUtil;
@@ -16,6 +17,8 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class MainController {
+
+	private final ElasticSearchBookService elasticSearchBookService;
 
 	private final MySQLBookService mySQLBookService;
 

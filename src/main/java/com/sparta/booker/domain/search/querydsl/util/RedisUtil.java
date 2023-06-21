@@ -19,8 +19,6 @@ import com.sparta.booker.domain.search.querydsl.dto.LikeBookDto;
 public class RedisUtil{
 
     private final RedisTemplate<String, Object> redisTemplate;
-
-
     public void upKeywordCount(String keyword){
         Double score = 0.0;
         try {

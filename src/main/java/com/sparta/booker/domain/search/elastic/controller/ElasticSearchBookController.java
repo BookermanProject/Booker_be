@@ -21,15 +21,22 @@ public class ElasticSearchBookController {
 	private final ElasticSearchBookService elasticSearchBookService;
 
 	//필터검색
-	@PostMapping("/search/word")
+	@GetMapping("/search")
+	@ResponseBody
+	public BookListDto search(Pageable pageable) {
+		return elasticSearchBookService.searcByElastic(pageable);
+	}
+
+	//필터검색
+	@GetMapping("/search/word")
 	@ResponseBody
 	public BookListDto searchWord(@RequestBody BookFilterDto filterDto , Pageable pageable) {
 		return elasticSearchBookService.searchWordByElastic(filterDto, pageable);
 	}
-
 	//자동완성
 	@GetMapping("/automaker")
 	public List<String> autoMaker(String query) {
+		System.out.println(query);
 		return elasticSearchBookService.autoMaker(query);
 	}
 

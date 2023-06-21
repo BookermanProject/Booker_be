@@ -51,8 +51,26 @@ body {
     height: 100px;
 }
 
+#like_ranking{
+
+}
+
+#search_ranking{
+	display: none;
+}
+
+#event {
+	display: none;
+}
 
 .autocomplete > div.active {
-	background: #333;
-	color: #eee;
+	background: #e0e5f6;
+	color: #000;
+}
+
+/* -------------------------- */
+
+.autocomplete > div {
+	background: #f1f3f499;
+	padding: .2rem .6rem;
 }
