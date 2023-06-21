@@ -50,3 +50,9 @@ body {
     border:1px solid black;
     height: 100px;
 }
+
+
+.autocomplete > div.active {
+	background: #333;
+	color: #eee;
+}
