@@ -125,7 +125,7 @@ $(document).on("click", "#sign_in", function(e){
 
             $.cookie('jwt',data.message);
 
-            window.location.href = 'http://localhost:8080/main';
+            window.location.href = "../main"
         },
         error: function (error) {
             alert("로그인 실패")
