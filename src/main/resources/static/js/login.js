@@ -1,6 +1,3 @@
-let baseurl = "http://127.0.0.1:8080"
-
-
 
 $(document).ready(function () {
     let signup = $(".links").find("li").find("#signup");
@@ -74,7 +71,7 @@ $(document).on("click", "#sign_up", function(e){
     console.log(address)
 
     $.ajax({
-        url: baseurl + '/api/users/signup',
+        url: '/api/users/signup',
         type: 'post',
         data: JSON.stringify({
             "userId": userId,
@@ -111,7 +108,7 @@ $(document).on("click", "#sign_in", function(e){
     console.log(password)
 
     $.ajax({
-        url: baseurl + '/api/users/login',
+        url: '/api/users/login',
         type: 'post',
         data: JSON.stringify({
             "userId": userId,
@@ -121,7 +118,14 @@ $(document).on("click", "#sign_in", function(e){
 
         success: function (data) {
             alert("로그인 성공")
-            window.location.href = 'http://localhost:8080/main';
+
+            console.log(data)
+
+            console.log(data.message)
+
+            $.cookie('jwt',data.message);
+
+            window.location.href = "../main"
         },
         error: function (error) {
             alert("로그인 실패")
