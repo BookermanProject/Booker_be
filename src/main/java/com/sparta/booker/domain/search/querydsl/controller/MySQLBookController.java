@@ -1,11 +1,14 @@
 package com.sparta.booker.domain.search.querydsl.controller;
 
 import com.sparta.booker.domain.search.querydsl.dto.BookDto;
+import com.sparta.booker.domain.search.querydsl.dto.BookListDto;
 import com.sparta.booker.domain.search.querydsl.dto.LikeDto;
 import com.sparta.booker.domain.search.querydsl.service.MySQLBookService;
+import com.sparta.booker.domain.user.util.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,14 +17,17 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/mysql/")
 public class MySQLBookController {
-
 	private final MySQLBookService mySQLBookService;
-
 	//책 리스트 가져오기/페이지네이션
 	@GetMapping("/books")
-	public List<BookDto> getBookList(Pageable pageable) {
+	public BookListDto getBookList(Pageable pageable) {
 		return mySQLBookService.getBookList(pageable);
 	}
+
+	// @GetMapping("/books/count")
+	// public BookListDto getBookCount() {
+	// 	return mySQLBookService.getBookList(pageable);
+	// }
 
 	//모든 책 검색하기(필터링추가)/페이지네이션/ 순서없음
 	@GetMapping("books/search/{keyword}")
@@ -43,12 +49,8 @@ public class MySQLBookController {
 
 	//좋아요 누르기
 	@PutMapping("book/{bookid}/like")
-	public LikeDto likeCount(@PathVariable Long bookid) {
-		return mySQLBookService.likeCount(bookid);
+	public LikeDto likeCount(@PathVariable Long bookid, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+		return mySQLBookService.likeCount(bookid, userDetails.getUser());
 	}
 
-	//실시간 검색어 리스트
-	@GetMapping("api/books/like")
-	public void likerealtime() {
-	}
 }

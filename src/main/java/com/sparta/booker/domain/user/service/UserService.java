@@ -63,7 +63,7 @@ public class UserService {
 
         //Token 발급
         String token = jwtUtil.createToken(user.getUserId(), user.getRole());
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
+        response.addHeader("Authorization", token);
 
         return ResponseEntity.ok().body(new ResponseDto(token));
     }

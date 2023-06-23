@@ -6,6 +6,8 @@ import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
 import com.sparta.booker.domain.search.elastic.dto.BookListDto;
 import com.sparta.booker.domain.search.elastic.repository.BookElasticOperation;
 import com.sparta.booker.domain.search.elastic.util.EsDtoConverter;
+import com.sparta.booker.domain.search.querydsl.dto.LikeBookDto;
+import com.sparta.booker.domain.search.querydsl.dto.RankBookDto;
 import com.sparta.booker.domain.search.querydsl.util.RedisUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -28,14 +30,17 @@ public class ElasticSearchBookService {
 	private final EsDtoConverter esDtoConverter;
 	private final RedisUtil redisUtil;
 
-	public BookListDto searcByElastic(Pageable pageable){
+	public BookListDto searchByElastic(Pageable pageable){
 		SearchHits<BookDto> searchHits = bookElasticOperation.SearchByElastic(pageable);
+
 		return esDtoConverter.resultToDto(searchHits, pageable);
 	}
 
 	//전체 검색
 	public BookListDto searchWordByElastic(@NotNull BookFilterDto bookFilterDto, Pageable pageable) {
-		redisUtil.upKeywordCount(bookFilterDto.getQuery());
+		if(pageable.getPageNumber() == 1) {
+			redisUtil.upKeywordCount(bookFilterDto.getQuery());
+		}
 		SearchHits<BookDto> searchHits = bookElasticOperation.keywordSearchByElastic(bookFilterDto, pageable);
 		return esDtoConverter.resultToDto(searchHits, pageable);
 	}
@@ -46,8 +51,16 @@ public class ElasticSearchBookService {
 			.map(i -> i.getContent().getBook_name()).collect(Collectors.toList());
 	}
 
-	public List<String> getTopKeywords(){
+	// 탑 10 키워드
+	public List<RankBookDto> getSearchTop(){
 		return redisUtil.SearchRankList();
 	}
+
+	// 좋아요 탑 10
+
+	public List<LikeBookDto> getLikeTop(){
+		return redisUtil.SearchList();
+	}
+
 
 }

@@ -14,10 +14,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class redisScheduling {
-
     private final RedisUtil redisUtil;
     private final BookRepository bookRepository;
-
 
     // @Scheduled(cron = "0 0 0/1 * * *")
     // @Scheduled(cron = "0/1 * * * * ?")
@@ -29,8 +27,13 @@ public class redisScheduling {
         }
     }
 
-    @Scheduled(cron = "0 0 0/1 * * *")
+    // @Scheduled(cron = "0 0 0/1 * * *")
     public void initializeTopkeywords(){
         redisUtil.delete("ranking");
+    }
+
+    // @Scheduled(cron = "0/1 * * * * ?")
+    public void SaveDatacount(){
+         redisUtil.setLong("Count" , Long.toString(bookRepository.countBy()));
     }
 }

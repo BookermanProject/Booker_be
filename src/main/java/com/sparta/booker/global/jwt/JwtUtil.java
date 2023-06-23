@@ -3,6 +3,8 @@ package com.sparta.booker.global.jwt;
 import com.sparta.booker.domain.user.entity.User;
 import com.sparta.booker.domain.user.entity.UserRole;
 import com.sparta.booker.domain.user.repository.UserRepository;
+import com.sparta.booker.domain.user.util.UserDetailsImpl;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -32,8 +34,6 @@ public class JwtUtil implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String AUTHORIZATION_KEY = "auth";
     private static final String BEARER_PREFIX = "Bearer ";
     private static final long TOKEN_TIME = 60 * 60 * 1000L;
 
@@ -50,7 +50,7 @@ public class JwtUtil implements UserDetailsService {
 
     // header 토큰을 가져오기
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
@@ -63,12 +63,12 @@ public class JwtUtil implements UserDetailsService {
 
         return BEARER_PREFIX +
                 Jwts.builder()
-                        .setSubject(userId)
-                        .claim(AUTHORIZATION_KEY, role)
-                        .setExpiration(new Date(date.getTime() + TOKEN_TIME))
-                        .setIssuedAt(date)
-                        .signWith(key, signatureAlgorithm)
-                        .compact();
+                    .signWith(key, signatureAlgorithm)
+                    .claim("auth", role)
+                    .setSubject(userId)
+                    .setExpiration(new Date(date.getTime() + TOKEN_TIME))
+                    .setIssuedAt(date)
+                    .compact();
     }
 
     // 토큰 검증
@@ -89,14 +89,14 @@ public class JwtUtil implements UserDetailsService {
     }
 
     // 토큰에서 사용자 정보 가져오기
-    public Claims getUserInfoFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    public String getUserInfoFromToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     // 인증 객체 생성
     @Transactional(readOnly = true)
-    public Authentication createAuthentication(String email) {
-        UserDetails userDetails = loadUserByUsername(email);
+    public Authentication createAuthentication(String id) {
+        UserDetails userDetails = loadUserByUsername(id);
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
@@ -104,7 +104,7 @@ public class JwtUtil implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         Optional<User> userOptional = userRepository.findByUserId(userId);
         User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-        return user;
+        return new UserDetailsImpl(user, user.getUserId());
     }
 
 }
