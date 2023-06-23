@@ -21,7 +21,10 @@ public class Event {
 
     //이벤트 발생 시간
     @Column(nullable = false)
-    private LocalTime eventDate;
+    private String eventDate;
+
+    @Column(nullable = false)
+    private String eventTime;
 
     //책 총 개수
     @Column(nullable = false)
@@ -34,14 +37,19 @@ public class Event {
     //이벤트 취소 사유
     private String reason;
 
+    @Column(nullable = false)
+    private String isvalid;
+
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "book_id")
     private Book book;
 
     public Event(EventRequestDto requestDto, Book book) {
         this.eventDate = requestDto.getEventDate();
+        this.eventTime = requestDto.getEventTime();
         this.book_total_cnt = requestDto.getBook_total_cnt();
         this.book_cnt = requestDto.getBook_cnt();
+        this.isvalid = requestDto.getIsvalid();
         this.book = book;
     }
 

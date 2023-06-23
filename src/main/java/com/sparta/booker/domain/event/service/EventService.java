@@ -1,5 +1,6 @@
 package com.sparta.booker.domain.event.service;
 
+import com.sparta.booker.domain.event.dto.EventResponseDto;
 import com.sparta.booker.domain.search.querydsl.entity.Book;
 import com.sparta.booker.domain.search.querydsl.repository.BookRepository;
 import com.sparta.booker.domain.event.dto.EventRequestDto;
@@ -24,7 +25,7 @@ public class EventService {
     private final BookRepository bookRepository;
 
     // 이벤트 등록
-    public ResponseEntity<ResponseDto> createEvent(EventRequestDto eventRequestDto, User user) {
+    public ResponseEntity<EventResponseDto> createEvent(EventRequestDto eventRequestDto, User user) {
 
         //이벤트에 등록하려는 책이 book 테이블에 있는지 체크
         Book book = bookRepository.findById(eventRequestDto.getBookId()).orElseThrow(
@@ -37,7 +38,7 @@ public class EventService {
         } else {
             throw new IllegalArgumentException("관리자만 등록 가능합니다.");
         }
-        return ResponseEntity.ok().body(new ResponseDto("이벤트 등록 성공"));
+        return ResponseEntity.ok().body(new EventResponseDto("이벤트 등록 성공"));
     }
 
 
