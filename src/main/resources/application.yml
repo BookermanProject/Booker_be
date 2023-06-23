@@ -7,8 +7,14 @@
 #    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 # 기본 드라이버
 spring:
+  thymeleaf:
+#    prefix: classpath:templates/
+#    check-template-location: true
+#    suffix: html
+#    mode: html
+#    cache: false
   redis:
-    host: localhost
+    host: 211.178.235.51
     port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -21,13 +27,13 @@ spring:
     properties:
       hibernate:
         dialect: com.sparta.booker.domain.search.querydsl.config.MySQL8DialectCustom
-        show_sql: true
-        format_sql: true
+        show_sql: false
+        format_sql: false
   kafka:
     bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
     consumer:
       bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
-      group-id: testGroup
+      group-id: bookGroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -39,28 +45,38 @@ spring:
     multipart:
       max-request-size: 1500MB
       max-file-size: 1500MB
-#logging:
-#  level:
-#    org:
-#      springframework:
+#  devtools:
+#    livereload:
+#      enabled : true
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+logging:
+  config: classpath:logback-spring.xml
+  port: 8080
+  level:
+    org:
+      springframework:
+        data:
+          elasticsearch:
+            client:
+              WIRE:
+                TRACE
 #        security: trace
 #        web: trace
 #      hibernate: info
+
 elasticsearch:
   password: k0+iJRd99fYhAPRm-VLY
   username: elastic
-  url: 15.165.217.41:9200
+  url: 211.178.235.51:9200
 
-redis:
-  host: 211.178.235.12
-  port: 6379
-#logging:
-#  config: classpath:logback-spring.xml
+
+
 jwt:
   secret:
     key: 7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA=
 admin:
   secret:
     key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC
-    
-    

@@ -12,4 +12,10 @@ public class SignupRequestDto {
     private String address;
     private boolean admin = false;
     private String adminToken = "";
+
+    public SignupRequestDto(String userId, String password, String address){
+        this.userId = userId;
+        this.password = password;
+        this. address =address;
+    }
 }

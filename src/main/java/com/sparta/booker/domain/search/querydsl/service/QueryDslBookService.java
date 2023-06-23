@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.sparta.booker.domain.search.querydsl.dto.BookDto;
+import com.sparta.booker.domain.search.querydsl.repository.DSLBookRepository;
 import com.sparta.booker.domain.search.querydsl.repository.IdxBookRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class QueryDslBookService {
-	private final com.sparta.booker.domain.search.querydsl.repository.DSLBookRepository DSLBookRepository;
+	private final DSLBookRepository dslBookRepository;
 
 	private final IdxBookRepository idxBookRepository;
 
+	public List<BookDto> getBookList(Pageable pageable){
+		return dslBookRepository.findBookbyId(pageable).stream().map(BookDto::new).collect(Collectors.toList());
+	}
+
 	// 책 리스트 가져오기/페이지네이션
-	public List<BookDto> getBookList(String keyword,Pageable pageable, String category, String order){
-		return DSLBookRepository.findByBookList(keyword,pageable,category,order).stream().map(BookDto::new).collect(Collectors.toList());
+	public List<BookDto> getBookListbyFilter(String keyword,Pageable pageable, String category, String order){
+		return dslBookRepository.findByBookList(keyword,pageable,category,order).stream().map(BookDto::new).collect(Collectors.toList());
 	}
 
 	//Fulltext index like
@@ -44,7 +49,7 @@ public class QueryDslBookService {
 
 	//convering index
 	public List<BookDto> getBookListbyCoverIdx(String keyword,Pageable pageable, String category, String order){
-		return DSLBookRepository.findByBookListbyCovering(keyword,pageable,category,order).stream().map(BookDto::new).collect(Collectors.toList());
+		return dslBookRepository.findByBookListbyCovering(keyword,pageable,category,order).stream().map(BookDto::new).collect(Collectors.toList());
 	}
 
 }

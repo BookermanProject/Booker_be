@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sparta.booker.domain.search.querydsl.dto.BookDto;
+import com.sparta.booker.domain.search.querydsl.dto.BookListDto;
 import com.sparta.booker.domain.search.querydsl.service.QueryDslBookService;
+import com.sparta.booker.domain.search.querydsl.util.RedisUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +21,20 @@ public class QueryDslBookController {
 
 	private final QueryDslBookService queryDslBookService;
 	// 모든 책 검색하기(필터링추가)/페이지네이션/ 기본 인덱싱
-	@GetMapping("books/")
+	private final RedisUtil redisUtil;
+
+	@GetMapping("books")
+	public BookListDto search(Pageable pageable){
+		long start = System.currentTimeMillis();
+		BookListDto bookListDto = new BookListDto(queryDslBookService.getBookList(pageable),Long.parseLong(redisUtil.get("Count").toString()));
+		long end = System.currentTimeMillis();
+		System.out.println("걸린시간  : "+ (end-start));
+		return  bookListDto;
+	}
+
+	@GetMapping("books/fileter")
 	public List<BookDto> searchFileter(String keyword,Pageable pageable, String category, String order){
-		return queryDslBookService.getBookList(keyword, pageable,category, order);
+		return queryDslBookService.getBookListbyFilter(keyword, pageable,category, order);
 	}
 
 	//Fulltext index Like

@@ -1,4 +1,4 @@
-package com.sparta.booker.jwt;
+package com.sparta.booker.global.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -24,22 +24,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         String token = jwtUtil.resolveToken(request);
-
         if(token != null) {
             if(!jwtUtil.validateToken(token)){
                 jwtExceptionHandler(response, "Token Error", HttpStatus.UNAUTHORIZED.value());
                 return;
             }
-            Claims info = jwtUtil.getUserInfoFromToken(token);
-            setAuthentication(info.getSubject());
+            setAuthentication(jwtUtil.getUserInfoFromToken(token));
         }
         filterChain.doFilter(request,response);
     }
 
-    public void setAuthentication(String email) {
-        Authentication authentication= jwtUtil.createAuthentication(email);
+    public void setAuthentication(String id) {
+        Authentication authentication= jwtUtil.createAuthentication(id);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

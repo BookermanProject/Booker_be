@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Booker</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link href="../static/css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/main.css" rel="stylesheet" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#!">Booker</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container" style="padding : 50px;">
+    <div class="row">
+        <div class="col-lg-8">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">책</th>
+                    <th scope="col">이름</th>
+                    <th scope="col">저자</th>
+                    <th scope="col">출판사</th>
+                    <th scope="col">출판일</th>
+                    <th scope="col">별점</th>
+                    <th scope="col">좋아요</th>
+                </tr>
+                </thead>
+                <tbody id="rankinglist">
+                <tr>
+                    <td>
+                        <img class="main_img" alt="book_img"/>
+                    </td>
+                    <td>book_name</td>
+                    <td>author</td>
+                    <td>publisher</td>
+                    <td>pub_date</td>
+                    <td>star</td>
+                    <td>like_count</td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- Pagination-->
+            <nav aria-label="Page navigation">
+                <ul class="pagination" id="pagination"></ul>
+            </nav>
+        </div>
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">검색어
+                    <div class="btn-group" style="float: right; padding: 10px">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" category="default", order="default">
+                            필터
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="default" category="default" order="default">기본</a></li>
+                            <li><a class="dropdown-item" id="starthight" category="star" order="asc">별점 오름차순</a></li>
+                            <li><a class="dropdown-item" id="starlow" category="star" order="desc">별점 내림차순</a></li>
+                            <li><a class="dropdown-item" id="likehight" category="like_count" order="asc">좋아요 오름차순</a></li>
+                            <li><a class="dropdown-item" id="liketlow" category="like_count" order="desc">좋아요 내림차순</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <input class="form-control" id="search" type="text" autocomplete="on"/>
+                        <button class="btn btn-primary" id="searchbutton" type="button">검색</button>
+                    </div>
+                    <div class="autocomplete"></div>
+
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id="event" class="btn btn-primary">이벤트 신청</button>
+                    <button type="button" id="realtime" class="btn btn-primary">실시간 검색</button>
+                    <button type="button" id="likecount" class="btn btn-primary">좋아요 순위</button>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead id="rankhead">
+                        <tr>
+                            <th scope="col">순위</th>
+                            <th scope="col">책이름</th>
+                            <th scope="col">좋아요</th>
+                        </tr>
+                        </thead>
+                        <tbody id="rankbox">
+                        <tr>
+                            <td>count</td>
+                            <td>bookName</td>
+                            <td>likeCount</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+<script src="../static/js/jquery.twbsPagination.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+<script src="/js/jquery.twbsPagination.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../static/js/main.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+
+</html>

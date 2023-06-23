@@ -20,6 +20,6 @@ public interface BookRepository extends JpaRepository<Book, Long>{
 	List<Book> findByBookNameContainingOrAuthorContainingOrderByStarDesc(Pageable pageable, String bookname, String author);
 
 	List<Book> findByBookNameContainingOrAuthorContainingOrderByStarAsc(Pageable pageable, String bookname, String author);
-
+	Long countBy();
 	List<Book> findTop10ByOrderByLikeCountDesc();
 }

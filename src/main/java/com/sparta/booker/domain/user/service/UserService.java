@@ -6,8 +6,8 @@ import com.sparta.booker.domain.user.dto.SignupRequestDto;
 import com.sparta.booker.domain.user.entity.User;
 import com.sparta.booker.domain.user.entity.UserRole;
 import com.sparta.booker.domain.user.repository.UserRepository;
-import com.sparta.booker.jwt.JwtUtil;
-import lombok.Builder;
+import com.sparta.booker.global.jwt.JwtUtil;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +63,7 @@ public class UserService {
 
         //Token 발급
         String token = jwtUtil.createToken(user.getUserId(), user.getRole());
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
+        response.addHeader("Authorization", token);
 
         return ResponseEntity.ok().body(new ResponseDto(token));
     }

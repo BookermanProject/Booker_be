@@ -21,7 +21,21 @@ import lombok.RequiredArgsConstructor;
 public class DSLBookRepository {
 	private final JPAQueryFactory queryFactory;
 	private final DslSortCursorUtil dslSortCursorUtil;
+	public List<Book> findBookbyId(Pageable pageable){
 
+		List<Long> coverIdxIds = queryFactory
+			.select(book.id)
+			.from(book)
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		return queryFactory
+			.selectFrom(book)
+			.where(book.id.in(coverIdxIds))
+			.fetch();
+
+	}
 
 	//기본//좋아요//별점
 	public List<Book> findByBookList(String keyword, Pageable pageable, String orderBycategory, String order){

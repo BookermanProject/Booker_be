@@ -74,6 +74,10 @@ dependencies {
     // logback
     implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
 
+    // spring boot log to elastic search
+    implementation 'com.internetitem:logback-elasticsearch-appender:1.6'
+    implementation 'dev.akkinoc.spring.boot:logback-access-spring-boot-starter:3.2.1'
+
     // JWT
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
