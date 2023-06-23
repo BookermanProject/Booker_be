@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.sparta.booker.domain.search.elastic.dto.BookFilterDto;
 import com.sparta.booker.domain.search.elastic.dto.BookListDto;
 import com.sparta.booker.domain.search.elastic.service.ElasticSearchBookService;
+import com.sparta.booker.domain.search.querydsl.dto.LikeBookDto;
+import com.sparta.booker.domain.search.querydsl.dto.RankBookDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,17 +22,22 @@ public class ElasticSearchBookController {
 
 	private final ElasticSearchBookService elasticSearchBookService;
 
-	//필터검색
+	//기본검색
 	@GetMapping("/search")
 	@ResponseBody
 	public BookListDto search(Pageable pageable) {
-		return elasticSearchBookService.searcByElastic(pageable);
-	}
 
+		return elasticSearchBookService.searchByElastic(pageable);
+	}
 	//필터검색
 	@GetMapping("/search/word")
 	@ResponseBody
-	public BookListDto searchWord(@RequestBody BookFilterDto filterDto , Pageable pageable) {
+	public BookListDto searchWord(BookFilterDto filterDto , Pageable pageable) {
+		System.out.println(filterDto.getQuery());
+		System.out.println(filterDto.getSort());
+		System.out.println(filterDto.getSortCategory());
+
+
 		return elasticSearchBookService.searchWordByElastic(filterDto, pageable);
 	}
 	//자동완성
@@ -40,9 +47,14 @@ public class ElasticSearchBookController {
 		return elasticSearchBookService.autoMaker(query);
 	}
 
-	@GetMapping("/topkeyword")
-	public List<String> topKeyword() {
-		return elasticSearchBookService.getTopKeywords();
+	@GetMapping("/searchtop")
+	public List<RankBookDto> searchTopKeyword() {
+		return elasticSearchBookService.getSearchTop();
+	}
+
+	@GetMapping("/liketop")
+	public List<LikeBookDto> likeTopKeyword() {
+		return elasticSearchBookService.getLikeTop();
 	}
 
 }

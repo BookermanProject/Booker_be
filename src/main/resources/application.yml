@@ -27,8 +27,8 @@ spring:
     properties:
       hibernate:
         dialect: com.sparta.booker.domain.search.querydsl.config.MySQL8DialectCustom
-        show_sql: true
-        format_sql: true
+        show_sql: false
+        format_sql: false
   kafka:
     bootstrap-servers: 3.38.35.127:9092
     consumer:
@@ -45,28 +45,34 @@ spring:
     multipart:
       max-request-size: 1500MB
       max-file-size: 1500MB
-  devtools:
-    livereload:
-      enabled : true
+#  devtools:
+#    livereload:
+#      enabled : true
   data:
     web:
       pageable:
         default-page-size: 10
-#logging:
-#  level:
-#    org:
-#      springframework:
+logging:
+  config: classpath:logback-spring.xml
+  port: 8080
+  level:
+    org:
+      springframework:
+        data:
+          elasticsearch:
+            client:
+              WIRE:
+                TRACE
 #        security: trace
 #        web: trace
 #      hibernate: info
+
 elasticsearch:
   password: k0+iJRd99fYhAPRm-VLY
   username: elastic
   url: 211.178.235.51:9200
 
-logging:
-  config: classpath:logback-spring.xml
-  port: 8080
+
 
 jwt:
   secret:
