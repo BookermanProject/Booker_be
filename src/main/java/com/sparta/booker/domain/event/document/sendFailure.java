@@ -23,6 +23,7 @@ public class sendFailure {
     @Field(type = FieldType.Text)
     private String appDate;
 
+
     public sendFailure(Long eventId, String userId, String appDate) {
         this.eventId = eventId;
         this.userId = userId;

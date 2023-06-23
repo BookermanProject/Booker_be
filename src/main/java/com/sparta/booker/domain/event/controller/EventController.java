@@ -2,6 +2,7 @@ package com.sparta.booker.domain.event.controller;
 
 import com.sparta.booker.domain.event.dto.BatchDto;
 import com.sparta.booker.domain.event.dto.EventRequestDto;
+import com.sparta.booker.domain.event.dto.EventResponseDto;
 import com.sparta.booker.domain.event.service.EventService;
 import com.sparta.booker.domain.user.dto.ResponseDto;
 import com.sparta.booker.domain.user.entity.User;
@@ -21,22 +22,22 @@ public class EventController {
 
     //이벤트 등록 API
     @PostMapping("/event")
-    public ResponseEntity<ResponseDto> createEvent(@RequestBody EventRequestDto eventRequestDto, @AuthenticationPrincipal User user) {
+    public ResponseEntity<EventResponseDto> createEvent(@RequestBody EventRequestDto eventRequestDto, @AuthenticationPrincipal User user) {
         return eventService.createEvent(eventRequestDto, user);
     }
 
     //이벤트 신청 API
     @PostMapping("/event/{eventId}")
-    public ResponseEntity<ResponseDto> applyEvent(@PathVariable Long eventId, @AuthenticationPrincipal User user) {
-        kafkaProducer.produceMessage(eventId, user);
-        return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
+    public ResponseEntity<EventResponseDto> applyEvent(@PathVariable Long eventId, @AuthenticationPrincipal User user) {
+        return kafkaProducer.produceMessage(eventId, user);
+        //return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
     }
 
-    @PostMapping("/event/batch")
-    public ResponseEntity<ResponseDto> applyBatchEvent(@RequestBody BatchDto batchDto, @AuthenticationPrincipal User user) {
-        kafkaProducer.produceMessage_Batch(batchDto, user);
-        return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
-    }
+//    @PostMapping("/event/batch")
+//    public ResponseEntity<ResponseDto> applyBatchEvent(@RequestBody BatchDto batchDto, @AuthenticationPrincipal User user) {
+//        kafkaProducer.produceMessage_Batch(batchDto, user);
+//        return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
+//    }
 
 
 }

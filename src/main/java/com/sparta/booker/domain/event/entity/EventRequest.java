@@ -22,11 +22,15 @@ public class EventRequest {
     private String userId;
 
     @Column(nullable = false)
-    private String winDate;
+    private String eventDate;
 
-    public EventRequest(Long eventId, String userId, String winDate) {
+    @Column(nullable = false)
+    private String eventTime;
+
+    public EventRequest(Long eventId, String userId, String eventDate, String eventTime) {
         this.eventId = eventId;
         this.userId = userId;
-        this.winDate = winDate;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
     }
 }
