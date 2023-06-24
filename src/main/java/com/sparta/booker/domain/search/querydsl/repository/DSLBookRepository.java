@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Repository
 public class DSLBookRepository {
+
 	private final JPAQueryFactory queryFactory;
 	private final DslSortCursorUtil dslSortCursorUtil;
 	public List<Book> findBookbyId(Pageable pageable){

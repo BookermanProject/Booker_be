@@ -51,10 +51,10 @@ public class KafkaConfig {
         return new KafkaTemplate<>(producerFactory());
     }
 
-    @Bean
-    public KafkaTemplate<Long, BatchDto> kafkaBatchTemplate() {
-        return new KafkaTemplate<>(batchProducerFactory());
-    }
+//    @Bean
+//    public KafkaTemplate<Long, BatchDto> kafkaBatchTemplate() {
+//        return new KafkaTemplate<>(batchProducerFactory());
+//    }
 
     @Bean
     public Map<String, Object> ProducerConfig() {
@@ -87,10 +87,10 @@ public class KafkaConfig {
         return config;
     }
 
-    @Bean
-    public ProducerFactory<Long, BatchDto> batchProducerFactory() {
-        return new DefaultKafkaProducerFactory<>(batchProducerConfig());
-    }
+//    @Bean
+//    public ProducerFactory<Long, BatchDto> batchProducerFactory() {
+//        return new DefaultKafkaProducerFactory<>(batchProducerConfig());
+//    }
 
 
 
