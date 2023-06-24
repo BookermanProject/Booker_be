@@ -57,7 +57,6 @@ public class ElasticSearchBookService {
 	}
 
 	// 좋아요 탑 10
-
 	public List<LikeBookDto> getLikeTop(){
 		return redisUtil.SearchList();
 	}

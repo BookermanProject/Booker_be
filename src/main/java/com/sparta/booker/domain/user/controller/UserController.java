@@ -35,4 +35,10 @@ public class UserController {
     public ResponseEntity<ResponseDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
         return userService.login(loginRequestDto, response);
     }
+
+    @PostMapping("/logout/redis")
+    public void logout(String token){
+        userService.logout(token);
+    }
+
 }

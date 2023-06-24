@@ -19,21 +19,17 @@ public class redisScheduling {
 
     // @Scheduled(cron = "0 0 0/1 * * *")
     // @Scheduled(cron = "0/1 * * * * ?")
-    // @Scheduled(cron = "0/1 * * * * ?")
+     @Scheduled(cron = "0/1 * * * * ?")
     public void likeList(){
         List<Book> booklikelist = bookRepository.findTop10ByOrderByLikeCountDesc();
         for(int i = 0; i<booklikelist.size(); i++){
-            redisUtil.likeSet(booklikelist.get(i).getBookName(), Double.valueOf(booklikelist.get(i).getLikeCount())) ;
+            redisUtil.likeSet(String.valueOf(booklikelist.get(i).getId()), booklikelist.get(i).getBookName(), Double.valueOf(booklikelist.get(i).getLikeCount()));
         }
     }
 
-    // @Scheduled(cron = "0 0 0/1 * * *")
+     @Scheduled(cron = "0 0 0/1 * * *")
     public void initializeTopkeywords(){
         redisUtil.delete("ranking");
     }
 
-    // @Scheduled(cron = "0/1 * * * * ?")
-    public void SaveDatacount(){
-         redisUtil.setLong("Count" , Long.toString(bookRepository.countBy()));
-    }
 }
