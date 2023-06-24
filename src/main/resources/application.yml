@@ -30,15 +30,15 @@ spring:
         show_sql: false
         format_sql: false
   kafka:
-    bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
+    bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
     consumer:
-      bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
+      bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
       group-id: bookGroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: 3.38.35.127:9092, 3.38.35.127:9093
+      bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   servlet:
@@ -80,3 +80,7 @@ jwt:
 admin:
   secret:
     key: AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC
+
+jasypt:
+  pw:
+    booker77
