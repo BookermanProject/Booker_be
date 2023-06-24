@@ -9,7 +9,7 @@
     "publisher" : {"type" : "text", "analyzer" : "korean"},
     "star" : {"type" : "keyword"},
     "img_url" : {"type" : "text"},
-    "modification_time" : {"type" : "text"},
+    "modification_time" : {"type" : "keyword"},
     "insertion_time" : {"type" : "text"},
     "like_count" : {"type" : "keyword"}
   }
