@@ -18,9 +18,9 @@ spring:
     port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ENC(LF49yBDIGWPQ1ygjtf61nQ==)
-    url: ENC(T8emB5ltUHF+HHbDJlLLwdP9yfqiWQmMuHYHOYIeSsJQ+H3DRLtbVi/Dbk7QCMw9i7v/gJMw0qX7QrLwfsqQkYtUSXrLU16SEA4OSDGcw86RO4c9VVg8Gw==)
-    password: ENC(oxbYDDhm2C3SP/jPgNNKanmJ63rkp3Gg)
+    username: root
+    url: jdbc:mysql://211.178.235.12:3300/BOOKER
+    password: haha5032
   jpa:
     hibernate:
       ddl-auto: none
