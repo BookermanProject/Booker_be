@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 //부트스트랩 서버, 직렬화 클래스, 토픽 구성 등의 설정을 포함할 수 있다는
 public class KafkaProperties {
     public static final String CONSUMER_GROUP_ID = "bookGroup";
-    public static final String TOPIC_NAME = "book-1";
+    public static final String TOPIC_NAME = "booker";
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootStrapServers;
