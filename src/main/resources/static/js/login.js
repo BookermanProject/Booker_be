@@ -78,7 +78,6 @@ $(document).on("click", "#sign_up", function(e){
 
 //--- 로그인   ---------
 
-
 $(document).on("click", "#sign_in", function(e){
     var userId = $('input[name=userId]').val();
     var password = $('input[name=password]').val();

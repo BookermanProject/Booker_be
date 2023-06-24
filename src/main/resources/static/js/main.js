@@ -185,13 +185,19 @@ $("#likecount").on("click",function(){
     })
 })
 
+
 // 자동 완성 기능
 const $search = document.querySelector("#search");
 const $autoComplete = document.querySelector(".autocomplete");
+
 let dataList = [];
+
 let nowIndex = 0;
+
 $search.onkeyup = (event) => {
+
     const value = $search.value.trim();
+
     $.ajax({
         url : "/elastic/automaker",
         type : "get",
@@ -200,34 +206,52 @@ $search.onkeyup = (event) => {
             dataList = data;
         },
         contentType : "application/json; charset=utf-8",
+
         error : function(error){
             console.log(error)
         }
     })
+    // 검색어
+
+    // 자동완성 필터링
     const matchDataList = value
         ? dataList.filter((label) => label.includes(value))
         : [];
+
     switch (event.keyCode) {
+        // UP KEY
         case 38:
             nowIndex = Math.max(nowIndex - 1, 0);
             break;
+
+        // DOWN KEY
         case 40:
             nowIndex = Math.min(nowIndex + 1, matchDataList.length - 1);
             break;
+
+        // ENTER KEY
         case 13:
             document.querySelector("#search").value = matchDataList[nowIndex] || "";
+
+            // 초기화
             nowIndex = 0;
             matchDataList.length = 0;
             break;
+
+        // 그외 다시 초기화
         default:
             nowIndex = 0;
             break;
     }
+
+    // 리스트 보여주기
     showList(matchDataList, value, nowIndex);
 };
 
 const showList = (data, value, nowIndex) => {
+    // 정규식으로 변환
     const regex = new RegExp(`(${value})`, "g");
+
     $autoComplete.innerHTML = data
         .map(
             (label, index) => `
@@ -239,8 +263,10 @@ const showList = (data, value, nowIndex) => {
         .join("");
 };
 
+
 // 좋아요 기능
 $(document).on("click", ".fa-heart.like", function() {
+
     var bookid = $(this).attr("id"); // 클릭한 요소의 id 값을 가져와서 bookid에 저장
     $.ajax({
         url : "/api/mysql/book/" + bookid + "/like",
