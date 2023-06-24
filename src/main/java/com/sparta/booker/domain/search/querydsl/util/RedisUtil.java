@@ -55,18 +55,12 @@ public class RedisUtil{
         redisTemplate.opsForHash().delete(keyname);
     }
 
-    public void likeSet(String bookname, double score){
-        redisTemplate.opsForZSet().add("Like", bookname, score);
-    }
-
-    public void setLong(String key, String value) {
-        ValueOperations<String, Object> ops = redisTemplate.opsForValue();
-        ops.set(key, value);
-        //        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(o.getClass()));
-        //        redisTemplate.opsForValue().set(key, o, minutes, TimeUnit.MINUTES);
+    public void likeSet(String bookid, String bookname, Double likecout){
+        redisTemplate.opsForZSet().add("Like", bookname, likecout);
     }
 
     public Object get(String key) {
+        System.out.println("키값 : "+key);
         return redisTemplate.opsForValue().get(key);
     }
 
@@ -83,6 +77,11 @@ public class RedisUtil{
         redisTemplate.opsForValue().set(key, o, minutes, TimeUnit.MINUTES);
     }
 
+    public void settoken(String token){
+        redisTemplate.opsForValue().set(token, token);
+    }
+    
+    
     public Object getBlackList(String key) {
         return redisTemplate.opsForValue().get(key);
     }

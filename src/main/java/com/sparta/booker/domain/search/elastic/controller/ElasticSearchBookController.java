@@ -33,11 +33,6 @@ public class ElasticSearchBookController {
 	@GetMapping("/search/word")
 	@ResponseBody
 	public BookListDto searchWord(BookFilterDto filterDto , Pageable pageable) {
-		System.out.println(filterDto.getQuery());
-		System.out.println(filterDto.getSort());
-		System.out.println(filterDto.getSortCategory());
-
-
 		return elasticSearchBookService.searchWordByElastic(filterDto, pageable);
 	}
 	//자동완성

@@ -18,9 +18,9 @@ spring:
     port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ENC(qlJNQTS8l1To7FbGyT6m1A==)
-    url: ENC(iaoon0t1k7A1VlZGodTTMa+mSnyroY5tbjeLXAAUTZ+c4TrHHzwyWJw0q7cH563LW9WHTz6q36aZsXPiTAnMrJQwyGnmis9QpBphuummoz5PSeUfHvhzccmlGURro3F4)
-    password: ENC(d4B1ht0mxIDZpWTHLvy56wZBaJa/EEm8)
+    username: root
+    url: jdbc:mysql://211.178.235.12:3300/BOOKER
+    password: haha5032
   jpa:
     hibernate:
       ddl-auto: none
@@ -68,11 +68,9 @@ logging:
 #      hibernate: info
 
 elasticsearch:
-  password: k0+iJRd99fYhAPRm-VLY
+  password: ENC(/9flL9rLmhBk7KhRh3Cl79mJH2Ig5QGnqBkZMxbsufE=)
   username: elastic
-  url: 211.178.235.51:9200
-
-
+  url: 15.165.217.41:9200
 
 jwt:
   secret:
