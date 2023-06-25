@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $.datepicker.setDefaults($.datepicker.regional['ko']);
+
     $( ".calender" ).datepicker({
         changeMonth: true,
         changeYear: true,
@@ -104,7 +105,9 @@ function getEventList() {
         data: {},
         dataType: "JSON",
         success: function(response){
-            let rows = response["result"];
+            console.log(response);
+            let rows = response.result;
+            console.log(rows);
             $("#searchToggle").empty();
             console.log("test")
             rows.forEach(i => {

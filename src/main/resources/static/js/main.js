@@ -186,6 +186,7 @@ $("#likecount").on("click",function(){
 })
 
 
+
 // 자동 완성 기능
 const $search = document.querySelector("#search");
 const $autoComplete = document.querySelector(".autocomplete");
