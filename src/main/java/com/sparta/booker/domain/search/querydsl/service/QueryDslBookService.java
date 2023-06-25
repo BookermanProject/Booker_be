@@ -29,6 +29,15 @@ public class QueryDslBookService {
 		return dslBookRepository.findByBookList(keyword,pageable,category,order).stream().map(BookDto::new).collect(Collectors.toList());
 	}
 
+	//Fulltext index insertionTime
+	public List<BookDto> getBookListbyFullTextInesertTime(String keyword,Pageable pageable, String order){
+		List<BookDto> bookDtoList = new ArrayList<>();
+		if(order.equals("DESC") || order.equals("desc")){
+			return bookDtoList = idxBookRepository.findByBookListbyFullTextInsertTimedesc(keyword, pageable).stream().map(BookDto::new).collect(Collectors.toList());
+		}
+		return idxBookRepository.findByBookListbyFullTextInsertTimeasc(keyword,pageable).stream().map(BookDto::new).collect(Collectors.toList());
+	}
+
 	//Fulltext index like
 	public List<BookDto> getBookListbyFullTextLike(String keyword,Pageable pageable, String order){
 		List<BookDto> bookDtoList = new ArrayList<>();
