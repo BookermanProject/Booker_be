@@ -1,5 +1,6 @@
 package com.sparta.booker.domain.event.service;
 
+import com.sparta.booker.domain.event.dto.EventDateDto;
 import com.sparta.booker.domain.event.dto.EventResponseDto;
 import com.sparta.booker.domain.search.querydsl.entity.Book;
 import com.sparta.booker.domain.search.querydsl.repository.BookRepository;
@@ -14,6 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -41,7 +46,18 @@ public class EventService {
         return ResponseEntity.ok().body(new EventResponseDto("이벤트 등록 성공"));
     }
 
+    //등록된 이벤트 내역 가져오기
+    public ResponseEntity<EventDateDto> getEventDatList() {
+        List<Event> eventList = eventRepository.findAll();
+        List<String> datList = new ArrayList<>();
+        String dat = "";
+        for(Event event: eventList) {
+            dat = event.getEventDate();
+            datList.add(dat);
+        }
+        List<String> getList = datList.stream().distinct().collect(Collectors.toList());
 
-
+        return ResponseEntity.ok().body(new EventDateDto(getList));
+    }
 
 }
