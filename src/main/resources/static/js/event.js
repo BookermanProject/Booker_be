@@ -38,7 +38,7 @@ function searchEventList() {
                     let bookId = print[0];
                     let bookNm = print[1];
                     let temp_html = `<tr>
-                                         <td><input type="checkbox" id ="chkEvent${i}"></td>
+                                         <td><input type="checkbox" id ="chkEvent${i}" name="chkEnable"></td>
                                          <td>${bookId}</td>
                                          <td>${bookNm}</td>
                                          <td><input type="text" id ="txtTotalCnt${i}"></td>
@@ -49,6 +49,7 @@ function searchEventList() {
                                          <td><input type="checkbox" id ="chkValid${i}"></td>
                                     </tr>`
                     $("#bookList").append(temp_html);
+                    getCalender();
                 }
             },
             error : function (request, status, error) {
@@ -56,7 +57,6 @@ function searchEventList() {
                 alert("error : " + error)
             }
         })
-        getCalender();
     } catch (error) {
         console.log(error);
     }
@@ -92,7 +92,7 @@ function getPreEventList() {
                     let isValid = rows["isvalid"];
                     let reason = rows["reason"];
                     let temp_html = `<tr>
-                                         <td><input type="checkbox" id ="chkEvent${i}"></td>
+                                         <td><input type="checkbox" id ="chkEvent${i}" name="chkEnable"></td>
                                          <td>${bookId}</td>
                                          <td>BOOKNM</td>
                                          <td><input type="text" id ="txtTotalCnt${i}" value="${bookTotalCnt}"></td>
@@ -103,6 +103,7 @@ function getPreEventList() {
                                          <td><input type="checkbox" id ="chkValid${i}" value="${isValid}"></td>
                                     </tr>`
                     $("#bookList").append(temp_html);
+                    getCalender();
                 }
             },
             error : function (request, status, error) {
@@ -110,7 +111,6 @@ function getPreEventList() {
                 alert("error : " + error)
             }
         })
-        getCalender();
     } catch (error) {
         console.log(error);
     }
@@ -119,35 +119,52 @@ function getPreEventList() {
 function saveEvent() {
     console.log("이벤트 저장하기 클릭")
     try {
-        let table = document.getElementById("eventTable");
-        let getListRow = table.rows.length;
-        $.ajax({
-            url: "/elastic/liketop",
-            type: "get",
-            data: {},
-            dataType: "JSON",
-            success: function(response){
-                let rows = response["result"];
-                $("#bookList").empty();
-                rows.forEach(i => {
-                    let bookId = i["bookId"];
-                    let temp_html = `<tr>
-                                         <td><input type="checkbox" id ="chkEvent${i}"></td>
-                                         <td>${bookId}</td>
-                                         <td><input type="text" id ="txtTotalCnt${i}"></td>
-                                         <td><input type="text" id ="txtCnt${i}"></td>
-                                         <td><input type="text" id ="txtReason${i}"></td>
-                                         <td><input type="text" id="eventDate${i}"></td>
-                                         <td><input type="text" id="eventTime${i}"></td>
-                                         <td><input type="checkbox" id ="chkValid${i}"></td>
-                                    </tr>`
-                    $("#bookList").append(temp_html);
-                });
-            },
-            error : function (request, status, error) {
-                console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
-                alert("error : " + error)
-            }
+        // let table = document.getElementById("eventTable");
+        let chkbox = $("input[name=chkEnable]:checked");
+        // let rowDat = new Array();
+        // let tdArr = new Array();
+        let chkTr;
+        let chkTd;
+        let bookId;
+        let bookCnt;
+        let bookTotalCnt;
+        let eventDate;
+        let eventTime;
+        let isValid;
+        let reason;
+
+        chkbox.each(function (i) {
+            chkTr = chkbox.parent().parent().eq(i);
+            chkTd = chkTr.children();
+            bookId = chkTd.eq(1).text();
+            bookTotalCnt = chkTd.eq(3).text();
+            bookCnt = chkTd.eq(4).text();
+            reason = chkTd.eq(5).text();
+            eventDate = chkTd.eq(6).text();
+            eventTime = chkTd.eq(7).text();
+            isValid = chkTd.eq(8).text();
+            // rowDat.push(chkTr.text());
+            $.ajax({
+                url: "/evnet/saveEvent",
+                type: "POST",
+                data: {
+                    "bookId": bookId,
+                    "bookCnt": bookCnt,
+                    "bookTotalCnt": bookTotalCnt,
+                    "eventDate": eventDate,
+                    "eventTime": eventTime,
+                    "isValid": isValid,
+                    "reason": reason
+                },
+                dataType: "JSON",
+                success: function(response){
+                    alert("저장 완료!");
+                },
+                error : function (request, status, error) {
+                    console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
+                    alert("error : " + error)
+                }
+            })
         })
     } catch (error) {
         console.log(error);
