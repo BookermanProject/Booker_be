@@ -54,7 +54,7 @@ public class KafkaProducer {
 				() -> new IllegalArgumentException("해당 이벤트는 존재하지 않습니다")
 		);
 
-		boolean isSuccess = event.getBook_cnt() > 0;
+		boolean isSuccess = event.getBookCnt() > 0;
 
 		if (!isSuccess) {
 			try {
