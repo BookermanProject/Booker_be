@@ -51,10 +51,10 @@ public class KafkaConfig {
         return new KafkaTemplate<>(producerFactory());
     }
 
-//    @Bean
-//    public KafkaTemplate<Long, BatchDto> kafkaBatchTemplate() {
-//        return new KafkaTemplate<>(batchProducerFactory());
-//    }
+    @Bean
+    public KafkaTemplate<Long, BatchDto> kafkaBatchTemplate() {
+        return new KafkaTemplate<>(batchProducerFactory());
+    }
 
     @Bean
     public Map<String, Object> ProducerConfig() {
@@ -82,15 +82,13 @@ public class KafkaConfig {
         config.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "1");
-//        config.put(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(1000000)); //700kb * 100 (75000*1024)
-//        config.put(ProducerConfig.LINGER_MS_CONFIG, "100"); //대기시간을 주는 값 ms단위 0.1초
         return config;
     }
 
-//    @Bean
-//    public ProducerFactory<Long, BatchDto> batchProducerFactory() {
-//        return new DefaultKafkaProducerFactory<>(batchProducerConfig());
-//    }
+    @Bean
+    public ProducerFactory<Long, BatchDto> batchProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(batchProducerConfig());
+    }
 
 
 
@@ -113,7 +111,7 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<Long, String> factory
                 = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-        //factory.setConcurrency(5);
+        factory.setConcurrency(5);
         return factory;
     }
 

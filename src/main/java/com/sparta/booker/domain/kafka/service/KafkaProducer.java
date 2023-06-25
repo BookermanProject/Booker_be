@@ -33,7 +33,7 @@ public class KafkaProducer {
 	// Kafka 메시지를 전송하기 위한 Spring Kafka의 KafkaTemplate 객체
 	// 이 객체를 통해 메시지를 생성하고 전송할 수 있다
 	private final KafkaTemplate<Long, String> kafkaTemplate;
-	//private final KafkaTemplate<Long, BatchDto> kafkaBatchTemplate;
+	private final KafkaTemplate<Long, BatchDto> kafkaBatchTemplate;
 	private final EventRepository eventRepository;
 	private final SendFailureRepository sendFailureRepository;
 
@@ -58,7 +58,7 @@ public class KafkaProducer {
 
 		if (!isSuccess) {
 			try {
-				sendFailureMessage(eventId, user.getUserId(), applicationDate);
+				sendFailureMessage(eventId, user.getUserId(), applicationDate, applicationTime);
 			} catch (Exception e) {
 				log.error("sendFailureMessage 실행 중 예외가 발생하였습니다.", e);
 			}
@@ -101,34 +101,41 @@ public class KafkaProducer {
 		}
 	}
 
-	public void sendFailureMessage(Long eventId, String userId, String applicationDate) {
-		log.debug("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 실패", eventId, userId, applicationDate);
-		sendFailure sendFailure = new sendFailure(eventId, userId, applicationDate);
+	public void sendFailureMessage(Long eventId, String userId, String eventDate, String eventTime) {
+		log.debug("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 실패", eventId, userId, eventDate, eventTime);
+		sendFailure sendFailure = new sendFailure(eventId, userId, eventDate, eventTime);
 		sendFailureRepository.save(sendFailure);
 	}
 
-//	public void produceMessage_Batch(BatchDto batchDto, User user) {
-//		log.debug("Produce Message - BEGIN");
-//		String message = String.format("%d 번째 메세지를 %s 에 전송 하였습니다.", runningId++, LocalDateTime.now());
-//		Long eventId = batchDto.getEventId();
-//		batchDto.setUserId(user.getUserId());
-//		// 선택할 파티션 계산
-//		// ex) eventId 1 -> partiction 0, eventId 2 -> partiction 1
-//		//int partition = (eventId.intValue() - 1) % 10;
-//		ListenableFuture<SendResult<Long, BatchDto>> listenableFuture = kafkaBatchTemplate.send("book", eventId, batchDto);
-//
-//		listenableFuture.addCallback(new ListenableFutureCallback<SendResult<Long, BatchDto>>() {
-//			@Override
-//			public void onFailure(Throwable ex) {
-//				log.debug("ERROR Kafka error happened", ex);
-//			}
-//
-//			@Override
-//			public void onSuccess(SendResult<Long, BatchDto> result) {
-//				log.debug("SUCCESS!! This is the result: {}", result);
-//			}
-//		});
-//
-//		log.debug("Produce Message - END {}", message);
-//	}
+	public void produceMessage_Batch(BatchDto batchDto, User user) {
+		log.debug("Produce Message - BEGIN");
+		LocalDateTime now = LocalDateTime.now();
+		LocalDate currentDate = now.toLocalDate();
+		LocalTime currentTime = now.toLocalTime();
+		String applicationDate = currentDate.toString();
+		String applicationTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+		String message = String.format("%d 번째 메세지를 %s 에 전송 하였습니다.", runningId++, LocalDateTime.now());
+		Long eventId = batchDto.getEventId();
+		batchDto.setUserId(user.getUserId());
+		batchDto.setEventDate(applicationDate);
+		batchDto.setEventTime(applicationTime);
+		// 선택할 파티션 계산
+		// ex) eventId 1 -> partiction 0, eventId 2 -> partiction 1
+		//int partition = (eventId.intValue() - 1) % 10;
+		ListenableFuture<SendResult<Long, BatchDto>> listenableFuture = kafkaBatchTemplate.send("book", eventId, batchDto);
+
+		listenableFuture.addCallback(new ListenableFutureCallback<SendResult<Long, BatchDto>>() {
+			@Override
+			public void onFailure(Throwable ex) {
+				log.debug("ERROR Kafka error happened", ex);
+			}
+
+			@Override
+			public void onSuccess(SendResult<Long, BatchDto> result) {
+				log.debug("SUCCESS!! This is the result: {}", result);
+			}
+		});
+
+		log.debug("Produce Message - END {}", message);
+	}
 }
