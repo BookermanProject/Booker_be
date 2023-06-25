@@ -1,9 +1,6 @@
 package com.sparta.booker.domain.event.controller;
 
-import com.sparta.booker.domain.event.dto.BatchDto;
-import com.sparta.booker.domain.event.dto.EventDateDto;
-import com.sparta.booker.domain.event.dto.EventRequestDto;
-import com.sparta.booker.domain.event.dto.EventResponseDto;
+import com.sparta.booker.domain.event.dto.*;
 import com.sparta.booker.domain.event.service.EventService;
 import com.sparta.booker.domain.user.dto.ResponseDto;
 import com.sparta.booker.domain.user.entity.User;
@@ -44,6 +41,15 @@ public class EventController {
     @GetMapping("/event/getEventDat")
     public ResponseEntity<EventDateDto> getEventDat() {
         return eventService.getEventDatList();
-        //return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
+    }
+
+    @GetMapping("/event/getPreEventList")
+    public ResponseEntity<EventSearchDto> getPreEventList(String searchDat) {
+        return eventService.getPreEventList(searchDat);
+    }
+
+    @GetMapping("/event/searchDat")
+    public ResponseEntity<EventDateDto> getSearchDat() {
+        return eventService.getSearchDatList();
     }
 }

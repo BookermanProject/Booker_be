@@ -2,12 +2,12 @@ package com.sparta.booker.domain.event.service;
 
 import com.sparta.booker.domain.event.dto.EventDateDto;
 import com.sparta.booker.domain.event.dto.EventResponseDto;
+import com.sparta.booker.domain.event.dto.EventSearchDto;
 import com.sparta.booker.domain.search.querydsl.entity.Book;
 import com.sparta.booker.domain.search.querydsl.repository.BookRepository;
 import com.sparta.booker.domain.event.dto.EventRequestDto;
 import com.sparta.booker.domain.event.entity.Event;
 import com.sparta.booker.domain.event.repository.EventRepository;
-import com.sparta.booker.domain.user.dto.ResponseDto;
 import com.sparta.booker.domain.user.entity.User;
 import com.sparta.booker.domain.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -39,14 +39,14 @@ public class EventService {
 
         //로그인 한 사용자가 관리자인지 체크
         if(UserRole.ADMIN.equals(user.getRole())) {
-            Event event = eventRepository.save(new Event(eventRequestDto, book));
+            Event event = eventRepository.save(new Event(eventRequestDto, book.getId()));
         } else {
             throw new IllegalArgumentException("관리자만 등록 가능합니다.");
         }
         return ResponseEntity.ok().body(new EventResponseDto("이벤트 등록 성공"));
     }
 
-    //등록된 이벤트 내역 가져오기
+    //등록된 이벤트 날짜 가져오기
     public ResponseEntity<EventDateDto> getEventDatList() {
         List<Event> eventList = eventRepository.findAll();
         List<String> datList = new ArrayList<>();
@@ -60,4 +60,30 @@ public class EventService {
         return ResponseEntity.ok().body(new EventDateDto(getList));
     }
 
+    //등록된 이벤트 내역 가져오기
+    public ResponseEntity<EventSearchDto> getPreEventList(String searchDat) {
+        List<Event> eventList = eventRepository.findByEventDate(searchDat);
+
+        List<EventRequestDto> datList = new ArrayList<>();
+        for(Event event: eventList) {
+            EventRequestDto requestDto = new EventRequestDto(event);
+            datList.add(requestDto);
+        }
+
+        return ResponseEntity.ok().body(new EventSearchDto(datList));
+    }
+
+
+    //등록된 이벤트 내역 가져오기
+    public ResponseEntity<EventDateDto> getSearchDatList() {
+        List<Book> bookList = bookRepository.findTop10ByOrderByLikeCountDesc();
+        List<String> datList = new ArrayList<>();
+        String dat = "";
+        for(Book book: bookList) {
+            dat = book.getId().toString() + "<>" + book.getBookName();
+            datList.add(dat);
+        }
+
+        return ResponseEntity.ok().body(new EventDateDto(datList));
+    }
 }
