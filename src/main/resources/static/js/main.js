@@ -200,6 +200,26 @@ async function RenderLikeTop(){
     })
 }
 
+// 이벤트 목록 불러오기
+
+async function RenderEventList(){
+    await $.ajax({
+        url : "/elastic/liketop",
+        type : "get",
+        data : {},
+        success : function(data){
+            $("#rankhead").empty();
+            $("#rankhead").append("<tr><th>책이름</th><th>책이름</th><th>좋아요</th></tr>");
+            $("#rankbox").empty();
+            for(var i =0; i<data.length; i++){
+                $("#rankbox").append("<tr><td>"+(i+1)+"</td><td>"+data[i].bookName+"</td><td>"+data[i].likeCount+"</td></tr>")
+            }
+        },
+        error : function (data){}
+    })
+}
+
+
 $("#likecount").on("click",function(){
     $.ajax({
         url : "/elastic/liketop",

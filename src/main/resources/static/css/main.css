@@ -60,7 +60,7 @@ body {
 }
 
 #event {
-	display: none;
+	/*display: none;*/
 }
 
 .autocomplete > div.active {
