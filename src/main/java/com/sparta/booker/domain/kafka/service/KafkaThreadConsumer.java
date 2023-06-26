@@ -59,27 +59,35 @@ public class KafkaThreadConsumer {
         }
     }
 
-    @KafkaListener(topicPartitions = @TopicPartition(topic = "book", partitions = {"0", "1", "2", "3", "4"}), groupId = KafkaProperties.CONSUMER_GROUP_ID, containerFactory = "batchKafkaListenerContainerFactory")
-    public void batchProcessOne(List<BatchDto> record) {
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
 
+    @KafkaListener(topicPartitions = @TopicPartition(topic = "book",
+            partitions = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}),
+            groupId = KafkaProperties.CONSUMER_GROUP_ID, containerFactory = "batchKafkaListenerContainerFactory")
+    public void batchProcessOne(List<BatchDto> record) {
         record.forEach(batchDto -> processMessage_Batch(batchDto.getBookId(), batchDto.getEventId(), batchDto.getUserId(), batchDto.getEventDate(),  batchDto.getEventTime()));
     }
 
-    @KafkaListener(topicPartitions = @TopicPartition(topic = "book", partitions = {"5", "6", "7", "8", "9"}), groupId = KafkaProperties.CONSUMER_GROUP_ID, containerFactory = "batchKafkaListenerContainerFactory")
-    public void batchProcessTwo(List<BatchDto> record) {
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-        record.forEach(batchDto -> processMessage_Batch(batchDto.getBookId(), batchDto.getEventId(), batchDto.getUserId(), batchDto.getEventDate(), batchDto.getEventTime()));
-    }
+//    @KafkaListener(topicPartitions = @TopicPartition(topic = "book", partitions = {"0", "1", "2", "3", "4"}), groupId = KafkaProperties.CONSUMER_GROUP_ID, containerFactory = "batchKafkaListenerContainerFactory")
+//    public void batchProcessOne(List<BatchDto> record) {
+//        try {
+//            Thread.sleep(10);
+//        } catch (InterruptedException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        record.forEach(batchDto -> processMessage_Batch(batchDto.getBookId(), batchDto.getEventId(), batchDto.getUserId(), batchDto.getEventDate(),  batchDto.getEventTime()));
+//    }
+//
+//    @KafkaListener(topicPartitions = @TopicPartition(topic = "book", partitions = {"5", "6", "7", "8", "9"}), groupId = KafkaProperties.CONSUMER_GROUP_ID, containerFactory = "batchKafkaListenerContainerFactory")
+//    public void batchProcessTwo(List<BatchDto> record) {
+//        try {
+//            Thread.sleep(10);
+//        } catch (InterruptedException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        record.forEach(batchDto -> processMessage_Batch(batchDto.getBookId(), batchDto.getEventId(), batchDto.getUserId(), batchDto.getEventDate(), batchDto.getEventTime()));
+//    }
 
     public void sendSuccessMessage(Long eventId, String userId, String eventDate, String eventTime) {
         log.info("Event ID : {}, User ID : {}, Date : {}, Time : {} - 이벤트 신청 성공", eventId, userId, eventDate, eventTime);

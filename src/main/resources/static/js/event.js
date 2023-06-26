@@ -78,11 +78,11 @@ function getPreEventList() {
                 "searchDat": getDate
             },
             dataType: "JSON",
-            success: function(response){
+            success: function(response) {
                 let val = response.result;
                 console.log(val);
                 $("#bookList").empty();
-                for(let i =0; i<val.length; i++){
+                for (let i = 0; i < val.length; i++) {
                     let rows = val[i];
                     let bookCnt = rows["bookCnt"];
                     console.log(rows);
@@ -105,17 +105,17 @@ function getPreEventList() {
                                          <td><input type="checkbox" id ="chkValid${i}" value="${isValid}"></td>
                                     </tr>`
                     $("#bookList").append(temp_html);
-                    getCalender();
-
+                }
+                getCalender();
             },
-            error : function (request, status, error) {
-                console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
-                alert("error : " + error)
-            }
-        })
+                error : function (request, status, error) {
+                    console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
+                    alert("error : " + error)
+                }
+            })
     } catch (error) {
-        console.log(error);
-    }
+            console.log(error);
+        }
 }
 
 function saveEvent() {
