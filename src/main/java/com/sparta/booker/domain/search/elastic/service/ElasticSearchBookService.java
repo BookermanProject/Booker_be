@@ -38,11 +38,13 @@ public class ElasticSearchBookService {
 
 	//전체 검색
 	public BookListDto searchWordByElastic(@NotNull BookFilterDto bookFilterDto, Pageable pageable) {
-		if(pageable.getPageNumber() == 1) {
-			redisUtil.upKeywordCount(bookFilterDto.getQuery());
-		}
 		SearchHits<BookDto> searchHits = bookElasticOperation.keywordSearchByElastic(bookFilterDto, pageable);
 		return esDtoConverter.resultToDto(searchHits, pageable);
+	}
+
+	// 검색어 올리기
+	public void searchupCount(String query){
+		redisUtil.upKeywordCount(query);
 	}
 
 	//자동완성

@@ -5,6 +5,7 @@ $(document).ready(function () {
 
 function getCalender() {
     $.datepicker.setDefaults($.datepicker.regional['ko']);
+
     $( ".calender" ).datepicker({
         changeMonth: true,
         changeYear: true,
@@ -51,6 +52,8 @@ function searchEventList() {
                     $("#bookList").append(temp_html);
                     getCalender();
                 }
+                getCalender();
+
             },
             error : function (request, status, error) {
                 console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
@@ -61,7 +64,6 @@ function searchEventList() {
         console.log(error);
     }
 }
-
 
 function getPreEventList() {
     console.log("이벤트 불러오기 클릭")
@@ -104,7 +106,7 @@ function getPreEventList() {
                                     </tr>`
                     $("#bookList").append(temp_html);
                     getCalender();
-                }
+
             },
             error : function (request, status, error) {
                 console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
@@ -171,7 +173,6 @@ function saveEvent() {
     }
 }
 
-
 function getEventList() {
 
     $.ajax({
@@ -180,7 +181,10 @@ function getEventList() {
         data: {},
         dataType: "JSON",
         success: function(response){
+            console.log(response);
             let rows = response.result;
+            console.log(rows);
+
             $("#searchToggle").empty();
             // rows.forEach(i => {
             //     let datList = i;

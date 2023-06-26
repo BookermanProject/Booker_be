@@ -60,7 +60,7 @@ body {
 }
 
 #event {
-	display: none;
+	/*display: none;*/
 }
 
 .autocomplete > div.active {
@@ -74,3 +74,18 @@ body {
 	background: #f1f3f499;
 	padding: .2rem .6rem;
 }
+
+.bookTable_row{
+	white-space: nowrap;
+	/*font-size: 10px;*/
+}
+
+td{
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.likecount{
+	white-space: nowrap;
+}
+

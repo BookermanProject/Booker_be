@@ -48,7 +48,7 @@ public class Book {
     @Column(nullable = false)
     private double star;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String imgUrl;
 
     @Column(nullable = false)

@@ -36,6 +36,11 @@ public class QueryDslBookController {
 	public List<BookDto> searchFileter(String keyword,Pageable pageable, String category, String order){
 		return queryDslBookService.getBookListbyFilter(keyword, pageable,category, order);
 	}
+	//Fulltext index Like
+	@GetMapping("books/fulltext/insertTime")
+	public List<BookDto> searchFileterfulltextinsertTime(String keyword,Pageable pageable, String order){
+		return queryDslBookService.getBookListbyFullTextInesertTime(keyword, pageable, order);
+	}
 
 	//Fulltext index Like
 	@GetMapping("books/fulltext/Like")

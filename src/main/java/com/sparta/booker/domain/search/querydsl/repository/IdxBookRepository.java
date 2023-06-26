@@ -11,6 +11,37 @@ import com.sparta.booker.domain.search.querydsl.entity.Book;
 
 
 public interface IdxBookRepository extends JpaRepository<Book, Long> {
+
+	@Query(nativeQuery = true, value =
+		"SELECT * FROM booker "
+			+ "where MATCH(book_name) AGAINST(:keyword'*' IN BOOLEAN MODE) "
+			+ "union all "
+			+ "SELECT * FROM booker "
+			+ "WHERE MATCH(author) AGAINST(:keyword'*' IN BOOLEAN MODE) "
+			+ "order by insertion_time desc "
+		,countQuery =
+		"SELECT count(*) FROM booker "
+			+ "where MATCH(book_name) AGAINST(:keyword'*' IN BOOLEAN MODE) "
+			+ "union all "
+			+ "SELECT * FROM booker "
+			+ "WHERE MATCH(author) AGAINST(:keyword'*' IN BOOLEAN MODE) " )
+	public List<Book> findByBookListbyFullTextInsertTimedesc(@Param("keyword") String keyword, @Param("pageable")Pageable pageable);
+
+	@Query(nativeQuery = true, value =
+		"SELECT * FROM booker "
+			+ "where MATCH(book_name) AGAINST(:keyword'*' IN BOOLEAN MODE) "
+			+ "union all "
+			+ "SELECT * FROM booker "
+			+ "WHERE MATCH(author) AGAINST(:keyword'*' IN BOOLEAN MODE) "
+			+ "order by insertion_time asc "
+		,countQuery =
+		"SELECT count(*) FROM booker "
+			+ "where MATCH(book_name) AGAINST(:keyword'*' IN BOOLEAN MODE) "
+			+ "union all "
+			+ "SELECT * FROM booker "
+			+ "WHERE MATCH(author) AGAINST(:keyword'*' IN BOOLEAN MODE) " )
+	public List<Book> findByBookListbyFullTextInsertTimeasc(@Param("keyword") String keyword, @Param("pageable")Pageable pageable);
+
 	@Query(nativeQuery = true, value =
 		"SELECT * FROM booker "
 			+ "where MATCH(book_name) AGAINST(:keyword'*' IN BOOLEAN MODE) "

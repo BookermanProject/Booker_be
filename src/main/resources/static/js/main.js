@@ -5,24 +5,13 @@ var filterdata = {};
 var type = 'default';
 var jwt ;
 
+
+
 $(document).ready(async function() {
     jwt = $.cookie('jwt')
-    $.ajax({
-        url : "/elastic/liketop",
-        type : "get",
-        data : {},
-        success : function(data){
-            $("#rankhead").empty();
-            $("#rankhead").append("<tr><th>순위</th><th>책이름</th><th>좋아요</th></tr>");
-            $("#rankbox").empty();
-            for(var i =0; i<data.length; i++){
-                $("#rankbox").append("<tr><td>"+(i+1)+"</td><td>"+data[i].bookName+"</td><td>"+data[i].likeCount+"</td></tr>")
-            }
-        },
-        error : function (data){}
-    })
     try {
-        const searchResult = await Search(1, 10);
+        await RenderLikeTop();
+        const searchResult = await Search(0, 10);
         RenderBookList(searchResult.get('booklist'));
         RenderPagination(searchResult.get('totalPages'));
     } catch (error) {
@@ -51,7 +40,7 @@ $("#searchbutton").on("click",async function(){
                 sortCategory: sortCategory
             };
         }
-        const searchResult = await Search(1, 10);
+        const searchResult = await Search(0, 10);
         RenderBookList(searchResult.get('booklist'));
         RenderPagination(searchResult.get('totalPages'));
     } catch (error) {
@@ -68,14 +57,15 @@ function RenderPagination(totalPages){
         visiblePages: 10,
         onPageClick: async function (event, page) {
             try {
-                if(page == 1){
-                    // search를 하지 않는다.
-                }else{
+                    if(page-1 == 0){
+                        await SearchUpCount();
+                    }
                     // 검색 결과 가지고 오기
-                    const searchResult = await Search(page, 10);
+                    const searchResult = await Search(page-1, 10);
                     // 검색 결과기반으로 책 테이블. 페이지네이션 그리기
                     RenderBookList(searchResult.get('booklist'));
-                }
+                    // 검색어 카운트 올리기
+
             } catch (error) {
                 console.log(error);
             }
@@ -83,6 +73,25 @@ function RenderPagination(totalPages){
     });
 
 }
+// 검색 카운트 올리기
+async function SearchUpCount(){
+
+    if(filterdata.query != null){
+        await $.ajax({
+            url: "/elastic/search/count",
+            contentType: "application/json", // 요청의 컨텐츠 타입을 JSON으로 설정
+            data: JSON.stringify(filterdata),
+            type : "put"
+        });
+    }
+
+
+    // 실시간 검색어 업데이트 하기
+
+    await RendersearchTop()
+
+}
+
 
 function RenderBookList(list) {
     $("#rankinglist").empty();
@@ -148,7 +157,13 @@ $(document).ready(function() {
 });
 
 $("#realtime").on("click",function(){
-    $.ajax({
+    RendersearchTop()
+})
+
+// 실시간 검색어 그리기
+
+async function RendersearchTop(){
+    await $.ajax({
         url : "/elastic/searchtop",
         type : "get",
         data : {},
@@ -164,7 +179,46 @@ $("#realtime").on("click",function(){
             console.log(data)
         }
     })
-})
+}
+
+// 좋아요 탑텐 그리기
+
+async function RenderLikeTop(){
+    await $.ajax({
+        url : "/elastic/liketop",
+        type : "get",
+        data : {},
+        success : function(data){
+            $("#rankhead").empty();
+            $("#rankhead").append("<tr><th>순위</th><th>책이름</th><th>좋아요</th></tr>");
+            $("#rankbox").empty();
+            for(var i =0; i<data.length; i++){
+                $("#rankbox").append("<tr><td>"+(i+1)+"</td><td>"+data[i].bookName+"</td><td>"+data[i].likeCount+"</td></tr>")
+            }
+        },
+        error : function (data){}
+    })
+}
+
+// 이벤트 목록 불러오기
+
+async function RenderEventList(){
+    await $.ajax({
+        url : "/elastic/liketop",
+        type : "get",
+        data : {},
+        success : function(data){
+            $("#rankhead").empty();
+            $("#rankhead").append("<tr><th>책이름</th><th>책이름</th><th>좋아요</th></tr>");
+            $("#rankbox").empty();
+            for(var i =0; i<data.length; i++){
+                $("#rankbox").append("<tr><td>"+(i+1)+"</td><td>"+data[i].bookName+"</td><td>"+data[i].likeCount+"</td></tr>")
+            }
+        },
+        error : function (data){}
+    })
+}
+
 
 $("#likecount").on("click",function(){
     $.ajax({
@@ -184,7 +238,6 @@ $("#likecount").on("click",function(){
         }
     })
 })
-
 
 // 자동 완성 기능
 const $search = document.querySelector("#search");
@@ -289,11 +342,9 @@ $(document).on("click", ".fa-heart.like", function() {
     })
 })
 
-
-
 $(function(){
     if(localStorage.getItem('login') == 'true'){
-        $("#loginline").html("<li class='nav-item'><a class='nav-link' id='logout'>Logout</a></li>");
+        $("#loginline").html("</li> <li class=\"nav-item\"><a class=\"nav-link\" href=\"login\"><i class=\"fa-solid fa-user\"></i></a></li><li class='nav-item'><a class='nav-link' id='logout'>Logout</a>");
     }
     $("#logout").on("click",function (){
         $.post("api/users/logout/redis",{token: jwt},function(){

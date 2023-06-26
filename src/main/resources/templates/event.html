@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
+  <title>Booker</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link href="../static/css/styles.css" rel="stylesheet" />
+  <link href="/css/styles.css" rel="stylesheet" />
 
   <!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -18,20 +22,33 @@
   <link href="/css/styles.css" rel="stylesheet" />
   <script src="/js/event.js"></script>
   <script src="../static/js/event.js"></script>
-  </head>
+  <script src="/js/event.js"></script>
+  <link href="/css/styles.css" rel="stylesheet" />
+  <link href="/css/main.css" rel="stylesheet" />
+  <script src="../static/js/main.js"></script>
+
+
+</head>
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="#!">Booker</a>
+    <a class="navbar-brand" href="/main"><img class="logo_img" src="/img/main_logo.png"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="main">Main</a></li>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="loginline">
+        <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
       </ul>
     </div>
+
   </div>
 </nav>
-<div>
+
+<div class="container" style="padding : 50px;">
+
+<div class="row">
+  <div class="col-lg-8>
+
   <button class="btn btn-primary" id="btnGetBook" type="button" onclick="searchEventList()" >책가져오기</button>
   <select id="searchToggle" class="form-select" aria-label="Default select example">
     <option value="1">20230501</option>
@@ -137,6 +154,7 @@
         </table>
       </div>
     </div>
+
   </div>
 <div>
   <button class="btn btn-primary" id="btnSave" type="button" onclick="saveEvent()">저장</button>
