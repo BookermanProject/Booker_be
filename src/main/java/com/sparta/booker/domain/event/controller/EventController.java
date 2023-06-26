@@ -32,11 +32,11 @@ public class EventController {
         //return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
     }
 
-//    @PostMapping("/event/batch")
-//    public ResponseEntity<ResponseDto> applyBatchEvent(@RequestBody BatchDto batchDto, @AuthenticationPrincipal User user) {
-//        kafkaProducer.produceMessage_Batch(batchDto, user);
-//        return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
-//    }
+    @PostMapping("/event/batch")
+    public ResponseEntity<ResponseDto> applyBatchEvent(@RequestBody BatchDto batchDto, @AuthenticationPrincipal UserDetailsImpl user) {
+        kafkaProducer.produceMessage_Batch(batchDto, user.getUser());
+        return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
+    }
 
     @GetMapping("/event/getEventDat")
     public ResponseEntity<EventDateDto> getEventDat() {
