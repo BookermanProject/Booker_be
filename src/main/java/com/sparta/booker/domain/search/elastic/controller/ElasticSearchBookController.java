@@ -35,10 +35,15 @@ public class ElasticSearchBookController {
 	public BookListDto searchWord(BookFilterDto filterDto , Pageable pageable) {
 		return elasticSearchBookService.searchWordByElastic(filterDto, pageable);
 	}
+
+	// 검색어 카운트
+	@PutMapping("/search/count")
+	public void serarchupCount(@RequestBody BookFilterDto filterDto) {
+		elasticSearchBookService.searchupCount(filterDto.getQuery());
+	}
 	//자동완성
 	@GetMapping("/automaker")
 	public List<String> autoMaker(String query) {
-		System.out.println(query);
 		return elasticSearchBookService.autoMaker(query);
 	}
 

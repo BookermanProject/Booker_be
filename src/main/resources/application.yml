@@ -5,9 +5,9 @@ spring:
     port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin
-    url: jdbc:mysql://booker.cqjw1iajcspu.ap-northeast-2.rds.amazonaws.com:3306/booker
-    password: qlgodrl12
+    username: ENC(qlJNQTS8l1To7FbGyT6m1A==)
+    url: ENC(iaoon0t1k7A1VlZGodTTMa+mSnyroY5tbjeLXAAUTZ+c4TrHHzwyWJw0q7cH563LW9WHTz6q36aZsXPiTAnMrJQwyGnmis9QpBphuummoz5PSeUfHvhzccmlGURro3F4)
+    password: ENC(d4B1ht0mxIDZpWTHLvy56wZBaJa/EEm8)
   jpa:
     hibernate:
       ddl-auto: none
