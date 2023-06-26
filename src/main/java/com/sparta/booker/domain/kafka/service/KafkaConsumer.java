@@ -41,8 +41,8 @@ public class KafkaConsumer {
 			String applicationTime = eventJson.getString("applicationTime");
 
 			Event event = eventRepository.findById(eventId).get();
-			int bookCnt = event.getBook_cnt();
-			boolean isSuccess = event.getBook_cnt() > 0;
+			Long bookCnt = event.getBookCnt();
+			boolean isSuccess = bookCnt > 0;
 
 			// 이벤트 결과 메시지 전송
 			if (isSuccess) {

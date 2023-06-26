@@ -5,15 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
+<<<<<<< HEAD
   <title>Booker</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link href="../static/css/styles.css" rel="stylesheet" />
   <link href="/css/styles.css" rel="stylesheet" />
-<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />-->
+
+  <!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+  <title>Booker</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link href="../static/css/styles.css" rel="stylesheet" />
+  <link href="/css/styles.css" rel="stylesheet" />
+  <script src="/js/event.js"></script>
   <script src="../static/js/event.js"></script>
   <script src="/js/event.js"></script>
 
@@ -31,12 +39,13 @@
   </div>
 </nav>
 <div>
-  <button class="btn btn-primary" id="btnGetBook" type="button" >책가져오기</button>
+  <button class="btn btn-primary" id="btnGetBook" type="button" onclick="searchEventList()" >책가져오기</button>
   <select id="searchToggle" class="form-select" aria-label="Default select example">
     <option value="1">20230501</option>
     <option value="2">20230601</option>
     <option value="3">20230610</option>
   </select>
+  <button class="btn btn-primary" id="btnGetEvent" type="button" onclick="getPreEventList()" >이벤트불러오기</button>
 </div>
   <div class = "eventTable" style="padding: 50px;">
     <div class="row">
@@ -46,6 +55,7 @@
           <tr>
             <th scope="col">ENABLE</th>
             <th scope="col">BOOKID</th>
+            <th scope="col">BOOKNAME</th>
             <th scope="col">TOTAL_CNT</th>
             <th scope="col">CNT</th>
             <th scope="col">REASON</th>
