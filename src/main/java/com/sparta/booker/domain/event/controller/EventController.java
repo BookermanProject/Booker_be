@@ -2,9 +2,11 @@ package com.sparta.booker.domain.event.controller;
 
 import com.sparta.booker.domain.event.dto.EventRequestDto;
 import com.sparta.booker.domain.event.dto.EventResponseDto;
+import com.sparta.booker.domain.event.dto.*;
 import com.sparta.booker.domain.event.entity.EventRequest;
 import com.sparta.booker.domain.event.service.EventService;
 import com.sparta.booker.domain.kafka.service.KafkaProducer;
+import com.sparta.booker.domain.user.dto.ResponseDto;
 import com.sparta.booker.domain.user.util.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,16 +36,30 @@ public class EventController {
         //return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
     }
 
-//    @PostMapping("/event/batch")
-//    public ResponseEntity<ResponseDto> applyBatchEvent(@RequestBody BatchDto batchDto, @AuthenticationPrincipal User user) {
-//        kafkaProducer.produceMessage_Batch(batchDto, user);
-//        return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
-//    }
+    @PostMapping("/event/batch")
+    public ResponseEntity<ResponseDto> applyBatchEvent(@RequestBody BatchDto batchDto, @AuthenticationPrincipal UserDetailsImpl user) {
+        kafkaProducer.produceMessage_Batch(batchDto, user.getUser());
+        return ResponseEntity.ok().body(new ResponseDto("이벤트 신청 완료"));
+    }
+
+    @GetMapping("/event/getEventDat")
+    public ResponseEntity<EventDateDto> getEventDat() {
+        return eventService.getEventDatList();
+    }
+
+    @GetMapping("/event/getPreEventList")
+    public ResponseEntity<EventSearchDto> getPreEventList(String searchDat) {
+        return eventService.getPreEventList(searchDat);
+    }
+
+    @GetMapping("/event/searchDat")
+    public ResponseEntity<EventDateDto> getSearchDat() {
+        return eventService.getSearchDatList();
+    }
 
     @GetMapping("/event")
     public List<EventRequest> geteventlist(@AuthenticationPrincipal UserDetailsImpl user){
         return eventService.geteventlist(user.getUser().getUserId());
     }
-
 
 }

@@ -4,13 +4,14 @@ import com.sparta.booker.domain.event.dto.BatchDto;
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.event.repository.EventRequestRepository;
 import com.sparta.booker.domain.event.repository.SendFailureRepository;
+<<<<<<< HEAD
 import nonapi.io.github.classgraph.json.JSONSerializer;
 import com.sparta.booker.domain.kafka.service.ConsumerWorker;
+=======
+//import com.sparta.booker.domain.kafka.service.ConsumerWorker;
+>>>>>>> 8e69477b96051784382e57d0be19ab033885272e
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.admin.*;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.KafkaFuture;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -26,8 +27,6 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Configuration
 @EnableKafka
@@ -51,10 +50,10 @@ public class KafkaConfig {
         return new KafkaTemplate<>(producerFactory());
     }
 
-//    @Bean
-//    public KafkaTemplate<Long, BatchDto> kafkaBatchTemplate() {
-//        return new KafkaTemplate<>(batchProducerFactory());
-//    }
+    @Bean
+    public KafkaTemplate<Long, BatchDto> kafkaBatchTemplate() {
+        return new KafkaTemplate<>(batchProducerFactory());
+    }
 
     @Bean
     public Map<String, Object> ProducerConfig() {
@@ -82,15 +81,13 @@ public class KafkaConfig {
         config.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         config.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "1");
-//        config.put(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(1000000)); //700kb * 100 (75000*1024)
-//        config.put(ProducerConfig.LINGER_MS_CONFIG, "100"); //대기시간을 주는 값 ms단위 0.1초
         return config;
     }
 
-//    @Bean
-//    public ProducerFactory<Long, BatchDto> batchProducerFactory() {
-//        return new DefaultKafkaProducerFactory<>(batchProducerConfig());
-//    }
+    @Bean
+    public ProducerFactory<Long, BatchDto> batchProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(batchProducerConfig());
+    }
 
 
 
@@ -207,30 +204,29 @@ public class KafkaConfig {
 
 
     //멀티스레드 방식 컨슈머 설정값
-//    @Bean
-//    public Map<String, Object> batchConsumerConfig() {
-//        Map<String, Object> config = new HashMap<>();
-//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
-//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, KafkaProperties.CONSUMER_GROUP_ID);
-////        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
-////        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JSONSerializer.class);
-//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1000");
-//        return config;
-//    }
-//
-//    @Bean
-//    public ConsumerFactory<String, BatchDto> batchConsumerFactory() {
-//        return new DefaultKafkaConsumerFactory<>(batchConsumerConfig(), new StringDeserializer(),
-//                new JsonDeserializer<>(BatchDto.class, false));
-//    }
-//
-//    @Bean("batchKafkaListenerContainerFactory")
-//    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, BatchDto>> batchkafkaListenerContainerFactory(){
-//        ConcurrentKafkaListenerContainerFactory<String, BatchDto> factory
-//                = new ConcurrentKafkaListenerContainerFactory<>();
-//        factory.setConsumerFactory(batchConsumerFactory());
-//        factory.setBatchListener(true);
-//        return factory;
-//    }
+    @Bean
+    public Map<String, Object> batchConsumerConfig() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, KafkaProperties.CONSUMER_GROUP_ID);
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1000");
+        return config;
+    }
+
+    @Bean
+    public ConsumerFactory<String, BatchDto> batchConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(batchConsumerConfig(), new StringDeserializer(),
+                new JsonDeserializer<>(BatchDto.class, false));
+    }
+
+    @Bean("batchKafkaListenerContainerFactory")
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, BatchDto>> batchkafkaListenerContainerFactory(){
+        ConcurrentKafkaListenerContainerFactory<String, BatchDto> factory
+                = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(batchConsumerFactory());
+        factory.setBatchListener(true);
+        factory.setConcurrency(10);
+        return factory;
+    }
 }

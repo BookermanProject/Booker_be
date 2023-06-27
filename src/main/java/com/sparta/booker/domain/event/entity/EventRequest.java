@@ -1,10 +1,10 @@
 package com.sparta.booker.domain.event.entity;
 
+import com.sparta.booker.domain.search.querydsl.entity.Book;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -26,6 +26,9 @@ public class EventRequest {
 
     @Column(nullable = false)
     private String eventTime;
+
+    @OneToOne
+    private Book book;
 
     public EventRequest(Long eventId, String userId, String eventDate, String eventTime) {
         this.eventId = eventId;
