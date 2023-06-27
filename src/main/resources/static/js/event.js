@@ -78,11 +78,11 @@ function getPreEventList() {
                 "searchDat": getDate
             },
             dataType: "JSON",
-            success: function(response){
+            success: function(response) {
                 let val = response.result;
                 console.log(val);
                 $("#bookList").empty();
-                for(let i =0; i<val.length; i++){
+                for (let i = 0; i < val.length; i++) {
                     let rows = val[i];
                     let bookCnt = rows["bookCnt"];
                     console.log(rows);
@@ -105,8 +105,64 @@ function getPreEventList() {
                                          <td><input type="checkbox" id ="chkValid${i}" value="${isValid}"></td>
                                     </tr>`
                     $("#bookList").append(temp_html);
-                    getCalender();
 
+                }
+                getCalender();
+            },
+                error : function (request, status, error) {
+                    console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
+                    alert("error : " + error)
+                }
+            })
+    } catch (error) {
+            console.log(error);
+        }
+}
+
+function saveEvent() {
+    console.log("이벤트 저장하기 클릭")
+    try {
+        // let table = document.getElementById("eventTable");
+        let chkbox = $("input[name=chkEnable]:checked");
+        // let rowDat = new Array();
+        // let tdArr = new Array();
+        let chkTr;
+        let chkTd;
+        let bookId;
+        let bookCnt;
+        let bookTotalCnt;
+        let eventDate;
+        let eventTime;
+        let isValid;
+        let reason;
+
+        chkbox.each(function (i) {
+            chkTr = chkbox.parent().parent().eq(i);
+            chkTd = chkTr.children();
+            bookId = chkTd.eq(1).text();
+            bookTotalCnt = chkTd.eq(3).text();
+            bookCnt = chkTd.eq(4).text();
+            reason = chkTd.eq(5).text();
+            eventDate = chkTd.eq(6).text();
+            eventTime = chkTd.eq(7).text();
+            isValid = chkTd.eq(8).text();
+            // rowDat.push(chkTr.text());
+            $.ajax({
+                url: "/evnet/saveEvent",
+                type: "POST",
+                data: {
+                    "bookId": bookId,
+                    "bookCnt": bookCnt,
+                    "bookTotalCnt": bookTotalCnt,
+                    "eventDate": eventDate,
+                    "eventTime": eventTime,
+                    "isValid": isValid,
+                    "reason": reason
+                },
+                dataType: "JSON",
+                success: function(response){
+                    alert("저장 완료!");
+>>>>>>> fb4089599d7ca823b07db06bfb8d5b4f3b9f2b56
                 },
                 error : function (request, status, error) {
                     console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
