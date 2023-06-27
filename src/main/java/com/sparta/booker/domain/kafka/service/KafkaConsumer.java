@@ -26,9 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class KafkaConsumer {
 
 	private final EventRequestRepository eventRequestRepository;
+	private final EventRepository eventRepository;
 
 	private void processMessage(ConsumerRecord<Long, String> record) {
-		log.debug("Received Message : {}", record.value());
+		log.info("Received Message : {}", record.value());
       	long startTime = System.currentTimeMillis();
 
 		// Event 메시지 파싱
@@ -39,9 +40,9 @@ public class KafkaConsumer {
 			String applicationDate = eventJson.getString("applicationDate");
 			String applicationTime = eventJson.getString("applicationTime");
 
-			Event event = new Event();
-			int bookCnt = event.getBook_cnt();
-			boolean isSuccess = event.getBook_cnt() > 0;
+			Event event = eventRepository.findById(eventId).get();
+			Long bookCnt = event.getBookCnt();
+			boolean isSuccess = bookCnt > 0;
 
 			// 이벤트 결과 메시지 전송
 			if (isSuccess) {
@@ -64,7 +65,7 @@ public class KafkaConsumer {
 	}
 
 	// 파티션 2개씩 나눠서 1개의 컨슈머 그룹 내의 5개의 컨슈머가 작업 진행처리
-	@KafkaListener(topicPartitions = @TopicPartition(topic = "book-1", partitions = {"0", "1"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"0", "1"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
 	public void consumerGroupFirst(ConsumerRecord<Long, String> record) {
 		int partition = record.partition();
 		long offset = record.offset();
@@ -72,7 +73,7 @@ public class KafkaConsumer {
 		processMessage(record);
 	}
 
-	@KafkaListener(topicPartitions = @TopicPartition(topic = "book-1", partitions = {"2", "3"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"2", "3"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
 	public void consumerGroupSecond(ConsumerRecord<Long, String> record) {
 		int partition = record.partition();
 		long offset = record.offset();
@@ -80,7 +81,7 @@ public class KafkaConsumer {
 		processMessage(record);
 	}
 
-	@KafkaListener(topicPartitions = @TopicPartition(topic = "book-1", partitions = {"4", "5"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"4", "5"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
 	public void consumerGroupThird(ConsumerRecord<Long, String> record) {
 		int partition = record.partition();
 		long offset = record.offset();
@@ -88,7 +89,7 @@ public class KafkaConsumer {
 		processMessage(record);
 	}
 
-	@KafkaListener(topicPartitions = @TopicPartition(topic = "book-1", partitions = {"6", "7"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"6", "7"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
 	public void consumerGroupFourth(ConsumerRecord<Long, String> record) {
 		int partition = record.partition();
 		long offset = record.offset();
@@ -96,7 +97,7 @@ public class KafkaConsumer {
 		processMessage(record);
 	}
 
-	@KafkaListener(topicPartitions = @TopicPartition(topic = "book-1", partitions = {"8", "9"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "booker", partitions = {"8", "9"}), groupId = KafkaProperties.CONSUMER_GROUP_ID)
 	public void consumerGroupFifth(ConsumerRecord<Long, String> record) {
 		int partition = record.partition();
 		long offset = record.offset();
@@ -105,7 +106,7 @@ public class KafkaConsumer {
 	}
 
 	public void sendSuccessMessage(Long eventId, String userId, String applicationDate, String applicationTime) {
-		log.debug("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 성공", eventId, userId, applicationDate, applicationTime);
+		log.info("Event ID : {}, User ID : {}, Time : {} - 이벤트 신청 성공", eventId, userId, applicationDate, applicationTime);
 		eventRequestRepository.save(new EventRequest(eventId, userId, applicationDate, applicationTime));
 	}
 }

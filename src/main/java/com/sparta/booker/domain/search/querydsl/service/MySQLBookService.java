@@ -82,4 +82,8 @@ public class MySQLBookService {
 			}
 			return new LikeDto(findbook.getId(), findbook.getLikeCount());
 	}
+
+	public List<BookDto> getLike(User user){
+			return bookLikeRepository.findByUserId(user.getUserId()).stream().map(BookDto::new).collect(Collectors.toList());
+	}
 }

@@ -23,9 +23,12 @@ public class MainController {
 		return "main";
 	}
 
-	@PostMapping("/evnet")
-	@ResponseBody
-	public String evnet() {
-		return "main";
+	@GetMapping("/event")
+	public String event() {
+		return "event";
 	}
+
+	@GetMapping("/mypage")
+	public String mypage(){return "mypage";}
+
 }

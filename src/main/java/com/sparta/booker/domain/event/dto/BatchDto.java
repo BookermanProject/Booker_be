@@ -9,6 +9,7 @@ import java.time.LocalTime;
 @Setter
 public class BatchDto {
     private String eventDate;
+    private String eventTime;
     private Long bookId;
     private Long eventId;
     private String userId;

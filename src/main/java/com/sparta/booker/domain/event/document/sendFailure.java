@@ -21,12 +21,15 @@ public class sendFailure {
     @Field(type = FieldType.Text)
     private String userId;
     @Field(type = FieldType.Text)
-    private String appDate;
+    private String eventDate;
+    @Field(type = FieldType.Text)
+    private String eventTime;
 
-
-    public sendFailure(Long eventId, String userId, String appDate) {
+    public sendFailure(Long eventId, String userId, String eventDate, String eventTime) {
+        this.id = id;
         this.eventId = eventId;
         this.userId = userId;
-        this.appDate = appDate;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
     }
 }
