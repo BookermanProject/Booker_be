@@ -19,9 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("/elastic")
 public class ElasticSearchBookController {
-
 	private final ElasticSearchBookService elasticSearchBookService;
-
 	//기본검색
 	@GetMapping("/search")
 	@ResponseBody
