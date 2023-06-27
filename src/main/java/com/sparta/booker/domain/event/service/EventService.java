@@ -1,6 +1,8 @@
 package com.sparta.booker.domain.event.service;
 
 import com.sparta.booker.domain.event.dto.EventResponseDto;
+import com.sparta.booker.domain.event.entity.EventRequest;
+import com.sparta.booker.domain.event.repository.EventRequestRepository;
 import com.sparta.booker.domain.search.querydsl.entity.Book;
 import com.sparta.booker.domain.search.querydsl.repository.BookRepository;
 import com.sparta.booker.domain.event.dto.EventRequestDto;
@@ -15,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @Transactional
@@ -23,6 +27,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final BookRepository bookRepository;
+    private final EventRequestRepository eventRequestRepository;
 
     // 이벤트 등록
     public ResponseEntity<EventResponseDto> createEvent(EventRequestDto eventRequestDto, User user) {
@@ -41,7 +46,9 @@ public class EventService {
         return ResponseEntity.ok().body(new EventResponseDto("이벤트 등록 성공"));
     }
 
-
-
+    //성공한 이벤트 조회
+    public List<EventRequest> geteventlist(String userId) {
+        return eventRequestRepository.findByUserId(userId);
+    }
 
 }
