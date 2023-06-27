@@ -4,7 +4,12 @@ import com.sparta.booker.domain.event.dto.BatchDto;
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.event.repository.EventRequestRepository;
 import com.sparta.booker.domain.event.repository.SendFailureRepository;
+<<<<<<< HEAD
+import nonapi.io.github.classgraph.json.JSONSerializer;
+import com.sparta.booker.domain.kafka.service.ConsumerWorker;
+=======
 //import com.sparta.booker.domain.kafka.service.ConsumerWorker;
+>>>>>>> 8e69477b96051784382e57d0be19ab033885272e
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.LongDeserializer;
@@ -33,7 +38,7 @@ import java.util.*;
 public class KafkaConfig {
 
     private final KafkaProperties kafkaProperties;
-    //private final static List<ConsumerWorker> workerThreads = new ArrayList<>();
+    private final static List<ConsumerWorker> workerThreads = new ArrayList<>();
     private final EventRepository eventRepository;
     private final EventRequestRepository eventRequestRepository;
     private final SendFailureRepository sendFailureRepository;
@@ -109,48 +114,69 @@ public class KafkaConfig {
         return factory;
     }
 
-    @Bean
-    public ConsumerFactory<Long, String> consumerFactory() {
-        Map<String, Object> config = new HashMap<>();
-        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
-        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, KafkaProperties.CONSUMER_GROUP_ID);
-        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
-        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-
-        return new DefaultKafkaConsumerFactory<>(config);
-    }
-
 //    @Bean
 //    public ConsumerFactory<Long, String> consumerFactory() {
-//        Runtime.getRuntime().addShutdownHook(new KafkaConfig.ShutdownThread());
 //        Map<String, Object> config = new HashMap<>();
 //        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
 //        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, KafkaProperties.CONSUMER_GROUP_ID);
 //        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
 //        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-////        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 30000);
-////        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 1000);
-//
-//        int CONSUMER_COUNT = getPartitionSize(KafkaProperties.TOPIC_NAME);
-//        log.info("=============== Set thread count: {} ===============", CONSUMER_COUNT);
-//
-//        ExecutorService executorService = Executors.newCachedThreadPool();
-//        for (int i = 0; i < CONSUMER_COUNT; i++) {
-//            ConsumerWorker worker = new ConsumerWorker(config, KafkaProperties.TOPIC_NAME, i,
-//                    eventRepository, eventRequestRepository, sendFailureRepository);
-//            workerThreads.add(worker);
-//            workerThreads.add(worker);
-//            executorService.execute(worker);
-//        }
 //
 //        return new DefaultKafkaConsumerFactory<>(config);
 //    }
-//
-//
-//    //주어진 토픽의 파티션 수를 얻는 메서드
-//    public int getPartitionSize(String topic) {
-//        log.info("=============== Get {} partition size ===============", topic);
-//        int partitions;
+
+    @Bean
+    public ConsumerFactory<Long, String> consumerFactory() {
+        Runtime.getRuntime().addShutdownHook(new KafkaConfig.ShutdownThread());
+        Map<String, Object> config = new HashMap<>();
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, KafkaProperties.CONSUMER_GROUP_ID);
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 30000);
+//        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 1000);
+
+        int CONSUMER_COUNT = getPartitionSize(KafkaProperties.TOPIC_NAME);
+        log.info("=============== Set thread count: {} ===============", CONSUMER_COUNT);
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        for (int i = 0; i < CONSUMER_COUNT; i++) {
+            ConsumerWorker worker = new ConsumerWorker(config, KafkaProperties.TOPIC_NAME, i,
+                    eventRepository, eventRequestRepository, sendFailureRepository);
+            workerThreads.add(worker);
+            workerThreads.add(worker);
+            executorService.execute(worker);
+        }
+
+        return new DefaultKafkaConsumerFactory<>(config);
+    }
+
+
+    //주어진 토픽의 파티션 수를 얻는 메서드
+    public int getPartitionSize(String topic) {
+        log.info("=============== Get {} partition size ===============", topic);
+        int partitions;
+        Properties adminConfigs = new Properties();
+        adminConfigs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
+        // AdminClient는 관리 작업을 수행하기 위해 Kafka 클러스터와 통신하고, 토픽, 파티션, 컨슈머 그룹 등과 관련된 메타데이터를 조회하고 수정할 수 있다.
+        AdminClient admin = AdminClient.create(adminConfigs);
+        try {
+            DescribeTopicsResult result = admin.describeTopics(Arrays.asList(topic));
+            Map<String, KafkaFuture<TopicDescription>> values = result.values();
+            KafkaFuture<TopicDescription> topicDescription = values.get(topic);
+            partitions = topicDescription.get().partitions().size();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            partitions = 10;
+        }
+        admin.close();
+        return partitions;
+    }
+
+    // Kafka 클러스터의 기본 파티션 수를 조회하는 메서드
+//    public int getDefaultPartitionSize() {
+//        log.info("=============== getDefaultPartitionSize ===============");
+//        int partitions = 1;
 //        Properties adminConfigs = new Properties();
 //        adminConfigs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
 //        // AdminClient는 관리 작업을 수행하기 위해 Kafka 클러스터와 통신하고, 토픽, 파티션, 컨슈머 그룹 등과 관련된 메타데이터를 조회하고 수정할 수 있다.
@@ -167,35 +193,14 @@ public class KafkaConfig {
 //        admin.close();
 //        return partitions;
 //    }
-//
-//    // Kafka 클러스터의 기본 파티션 수를 조회하는 메서드
-////    public int getDefaultPartitionSize() {
-////        log.info("=============== getDefaultPartitionSize ===============");
-////        int partitions = 1;
-////        Properties adminConfigs = new Properties();
-////        adminConfigs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootStrapServers());
-////        // AdminClient는 관리 작업을 수행하기 위해 Kafka 클러스터와 통신하고, 토픽, 파티션, 컨슈머 그룹 등과 관련된 메타데이터를 조회하고 수정할 수 있다.
-////        AdminClient admin = AdminClient.create(adminConfigs);
-////        try {
-////            DescribeTopicsResult result = admin.describeTopics(Arrays.asList(topic));
-////            Map<String, KafkaFuture<TopicDescription>> values = result.values();
-////            KafkaFuture<TopicDescription> topicDescription = values.get(topic);
-////            partitions = topicDescription.get().partitions().size();
-////        } catch (Exception e) {
-////            log.error(e.getMessage(), e);
-////            partitions = 10;
-////        }
-////        admin.close();
-////        return partitions;
-////    }
-//
-//
-//    static class ShutdownThread extends Thread {
-//        public void run() {
-//            workerThreads.forEach(ConsumerWorker::shutdown);
-//            System.out.println("================== END ==================");
-//        }
-//    }
+
+
+    static class ShutdownThread extends Thread {
+        public void run() {
+            workerThreads.forEach(ConsumerWorker::shutdown);
+            System.out.println("================== END ==================");
+        }
+    }
 
 
     //멀티스레드 방식 컨슈머 설정값

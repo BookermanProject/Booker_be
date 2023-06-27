@@ -1,5 +1,7 @@
 package com.sparta.booker.domain.event.controller;
 
+import com.sparta.booker.domain.event.dto.EventRequestDto;
+import com.sparta.booker.domain.event.dto.EventResponseDto;
 import com.sparta.booker.domain.event.dto.*;
 import com.sparta.booker.domain.event.entity.EventRequest;
 import com.sparta.booker.domain.event.service.EventService;
@@ -55,9 +57,9 @@ public class EventController {
         return eventService.getSearchDatList();
     }
 
-
     @GetMapping("/event")
     public List<EventRequest> geteventlist(@AuthenticationPrincipal UserDetailsImpl user){
         return eventService.geteventlist(user.getUser().getUserId());
     }
+
 }
