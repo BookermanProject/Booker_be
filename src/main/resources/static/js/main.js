@@ -1,11 +1,8 @@
 // html 문서 로드와 함께진행
-
 // 검색 필터링을 담당하는 전역변수
 var filterdata = {};
 var type = 'default';
 var jwt ;
-
-
 
 $(document).ready(async function() {
     jwt = $.cookie('jwt')
@@ -209,10 +206,10 @@ async function RenderEventList(){
         data : {},
         success : function(data){
             $("#rankhead").empty();
-            $("#rankhead").append("<tr><th>책이름</th><th>책이름</th><th>좋아요</th></tr>");
+            $("#rankhead").append("<tr><th>책이름</th><th>나눔권수</th><th>신청</th></tr>");
             $("#rankbox").empty();
             for(var i =0; i<data.length; i++){
-                $("#rankbox").append("<tr><td>"+(i+1)+"</td><td>"+data[i].bookName+"</td><td>"+data[i].likeCount+"</td></tr>")
+                $("#rankbox").append("<tr><td>"data[i]"</td><td>"+data[i].bookName+"</td><td>"+data[i].likeCount+"</td></tr>")
             }
         },
         error : function (data){}
