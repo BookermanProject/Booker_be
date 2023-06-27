@@ -1,15 +1,17 @@
 package com.sparta.booker.domain.event.controller;
 
 import com.sparta.booker.domain.event.dto.*;
+import com.sparta.booker.domain.event.entity.EventRequest;
 import com.sparta.booker.domain.event.service.EventService;
-import com.sparta.booker.domain.user.dto.ResponseDto;
-import com.sparta.booker.domain.user.entity.User;
 import com.sparta.booker.domain.kafka.service.KafkaProducer;
+import com.sparta.booker.domain.user.dto.ResponseDto;
 import com.sparta.booker.domain.user.util.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,5 +53,11 @@ public class EventController {
     @GetMapping("/event/searchDat")
     public ResponseEntity<EventDateDto> getSearchDat() {
         return eventService.getSearchDatList();
+    }
+
+
+    @GetMapping("/event")
+    public List<EventRequest> geteventlist(@AuthenticationPrincipal UserDetailsImpl user){
+        return eventService.geteventlist(user.getUser().getUserId());
     }
 }
