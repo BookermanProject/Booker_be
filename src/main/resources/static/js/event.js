@@ -107,100 +107,100 @@ function getPreEventList() {
                     $("#bookList").append(temp_html);
                     getCalender();
 
-            },
-            error : function (request, status, error) {
-                console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
-                alert("error : " + error)
-            }
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function saveEvent() {
-    console.log("이벤트 저장하기 클릭")
-    try {
-        // let table = document.getElementById("eventTable");
-        let chkbox = $("input[name=chkEnable]:checked");
-        // let rowDat = new Array();
-        // let tdArr = new Array();
-        let chkTr;
-        let chkTd;
-        let bookId;
-        let bookCnt;
-        let bookTotalCnt;
-        let eventDate;
-        let eventTime;
-        let isValid;
-        let reason;
-
-        chkbox.each(function (i) {
-            chkTr = chkbox.parent().parent().eq(i);
-            chkTd = chkTr.children();
-            bookId = chkTd.eq(1).text();
-            bookTotalCnt = chkTd.eq(3).text();
-            bookCnt = chkTd.eq(4).text();
-            reason = chkTd.eq(5).text();
-            eventDate = chkTd.eq(6).text();
-            eventTime = chkTd.eq(7).text();
-            isValid = chkTd.eq(8).text();
-            // rowDat.push(chkTr.text());
-            $.ajax({
-                url: "/evnet/saveEvent",
-                type: "POST",
-                data: {
-                    "bookId": bookId,
-                    "bookCnt": bookCnt,
-                    "bookTotalCnt": bookTotalCnt,
-                    "eventDate": eventDate,
-                    "eventTime": eventTime,
-                    "isValid": isValid,
-                    "reason": reason
-                },
-                dataType: "JSON",
-                success: function(response){
-                    alert("저장 완료!");
                 },
                 error : function (request, status, error) {
                     console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
                     alert("error : " + error)
                 }
             })
-        })
     } catch (error) {
-        console.log(error);
-    }
-}
-
-function getEventList() {
-
-    $.ajax({
-        url : "/api/event/getEventDat",
-        type: "GET",
-        data: {},
-        dataType: "JSON",
-        success: function(response){
-            console.log(response);
-            let rows = response.result;
-            console.log(rows);
-
-            $("#searchToggle").empty();
-            // rows.forEach(i => {
-            //     let datList = i;
-            //     let temp_html = `<option value="${i}">${datList}</option>`
-            //     $("#searchToggle").append(temp_html);
-            // });
-            for(let i =0; i<rows.length; i++){
-                let datList = rows[i];
-                let temp_html = `<option value="${i}">${datList}</option>`
-                $("#searchToggle").append(temp_html);
-            }
-        },
-        error : function (request, status, error) {
-            console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
-            alert("error : " + error)
+            console.log(error);
         }
-    })
+    }
 
-}
+    function saveEvent() {
+        console.log("이벤트 저장하기 클릭")
+        try {
+            // let table = document.getElementById("eventTable");
+            let chkbox = $("input[name=chkEnable]:checked");
+            // let rowDat = new Array();
+            // let tdArr = new Array();
+            let chkTr;
+            let chkTd;
+            let bookId;
+            let bookCnt;
+            let bookTotalCnt;
+            let eventDate;
+            let eventTime;
+            let isValid;
+            let reason;
+
+            chkbox.each(function (i) {
+                chkTr = chkbox.parent().parent().eq(i);
+                chkTd = chkTr.children();
+                bookId = chkTd.eq(1).text();
+                bookTotalCnt = chkTd.eq(3).text();
+                bookCnt = chkTd.eq(4).text();
+                reason = chkTd.eq(5).text();
+                eventDate = chkTd.eq(6).text();
+                eventTime = chkTd.eq(7).text();
+                isValid = chkTd.eq(8).text();
+                // rowDat.push(chkTr.text());
+                $.ajax({
+                    url: "/evnet/saveEvent",
+                    type: "POST",
+                    data: {
+                        "bookId": bookId,
+                        "bookCnt": bookCnt,
+                        "bookTotalCnt": bookTotalCnt,
+                        "eventDate": eventDate,
+                        "eventTime": eventTime,
+                        "isValid": isValid,
+                        "reason": reason
+                    },
+                    dataType: "JSON",
+                    success: function(response){
+                        alert("저장 완료!");
+                    },
+                    error : function (request, status, error) {
+                        console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
+                        alert("error : " + error)
+                    }
+                })
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    function getEventList() {
+
+        $.ajax({
+            url : "/api/event/getEventDat",
+            type: "GET",
+            data: {},
+            dataType: "JSON",
+            success: function(response){
+                console.log(response);
+                let rows = response.result;
+                console.log(rows);
+
+                $("#searchToggle").empty();
+                // rows.forEach(i => {
+                //     let datList = i;
+                //     let temp_html = `<option value="${i}">${datList}</option>`
+                //     $("#searchToggle").append(temp_html);
+                // });
+                for(let i =0; i<rows.length; i++){
+                    let datList = rows[i];
+                    let temp_html = `<option value="${i}">${datList}</option>`
+                    $("#searchToggle").append(temp_html);
+                }
+            },
+            error : function (request, status, error) {
+                console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)
+                alert("error : " + error)
+            }
+        })
+
+    }
