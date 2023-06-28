@@ -54,8 +54,8 @@ public class MySQLBookController {
 	}
 
 	// 좋아요 누른 목록 가지고오기
-	@GetMapping("books/list")
-	public List<BookDto> getLike(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+	@GetMapping("books/like/list")
+	public List<Long> getLike(@AuthenticationPrincipal UserDetailsImpl userDetails) {
 		return mySQLBookService.getLike(userDetails.getUser());
 	}
 
