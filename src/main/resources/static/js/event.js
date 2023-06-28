@@ -162,7 +162,6 @@ function saveEvent() {
                 dataType: "JSON",
                 success: function(response){
                     alert("저장 완료!");
->>>>>>> fb4089599d7ca823b07db06bfb8d5b4f3b9f2b56
                 },
                 error : function (request, status, error) {
                     console.log("error code : " + request.status + "\n message : " + request.responseText + "\n error : " + error)

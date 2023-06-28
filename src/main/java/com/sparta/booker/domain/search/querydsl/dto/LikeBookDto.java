@@ -6,8 +6,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class LikeBookDto {
+
 	private String bookName;
 	private int likeCount;
+
 	public LikeBookDto(String bookName, int likeCount){
 		this.bookName=bookName;
 		this.likeCount=likeCount;
