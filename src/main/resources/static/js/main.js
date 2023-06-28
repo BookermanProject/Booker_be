@@ -3,37 +3,17 @@
 var filterdata = {};
 var type = 'default';
 var jwt ;
-var likeList;
 
 $(document).ready(async function() {
-
     jwt = $.cookie('jwt')
-
-    if(jwt == null){
-        try {
-            await RenderLikeTop();
-            // console.log("시작" + likeList);
-            const searchResult = await Search(0, 10);
-            RenderBookList(searchResult.get('booklist'));
-            RenderPagination(searchResult.get('totalPages'));
-        } catch (error) {
-            console.log(error);
-        }
+    try {
+        await RenderLikeTop();
+        const searchResult = await Search(1, 10);
+        RenderBookList(searchResult.get('booklist'));
+        RenderPagination(searchResult.get('totalPages'));
+    } catch (error) {
+        console.log(error);
     }
-    else{
-        try {
-            await getLikeList();
-            await RenderLikeTop();
-            // console.log("시작" + likeList);
-            const searchResult = await Search(0, 10);
-            RenderBookList(searchResult.get('booklist'));
-            RenderPagination(searchResult.get('totalPages'));
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
 });
 
 // 검색 기능
@@ -57,7 +37,7 @@ $("#searchbutton").on("click",async function(){
                 sortCategory: sortCategory
             };
         }
-        const searchResult = await Search(0, 10);
+        const searchResult = await Search(1, 10);
         RenderBookList(searchResult.get('booklist'));
         RenderPagination(searchResult.get('totalPages'));
     } catch (error) {
@@ -74,14 +54,14 @@ function RenderPagination(totalPages){
         visiblePages: 10,
         onPageClick: async function (event, page) {
             try {
-                    if(page-1 == 0){
-                        await SearchUpCount();
-                    }
-                    // 검색 결과 가지고 오기
-                    const searchResult = await Search(page-1, 10);
-                    // 검색 결과기반으로 책 테이블. 페이지네이션 그리기
-                    RenderBookList(searchResult.get('booklist'));
-                    // 검색어 카운트 올리기
+                if(page == 1){
+                    await SearchUpCount();
+                }
+                // 검색 결과 가지고 오기
+                const searchResult = await Search(page, 10);
+                // 검색 결과기반으로 책 테이블. 페이지네이션 그리기
+                RenderBookList(searchResult.get('booklist'));
+                // 검색어 카운트 올리기
 
             } catch (error) {
                 console.log(error);
@@ -102,7 +82,9 @@ async function SearchUpCount(){
         });
     }
 
+
     // 실시간 검색어 업데이트 하기
+
     await RendersearchTop()
 
 }
@@ -121,13 +103,6 @@ function RenderBookList(list) {
         var pub_date = book.pub_date;
         var star = book.star;
         var like_count = book.like_count;
-
-        if (jwt == null){
-
-        }else{
-            var hasid = likeList.includes(bookId);
-        }
-
         table += "<tr>";
         table += "<td><img class='main_img' src='" + imgSrc + "' alt='book_img'></td>";
         table += "<td>" + bookName + "</td>";
@@ -135,13 +110,7 @@ function RenderBookList(list) {
         table += "<td>" + publisher + "</td>";
         table += "<td>" + pub_date + "</td>";
         table += "<td>" + star + "</td>";
-
-        if (hasid) {
-            table += "<td class ='like_count' id=likecount" + bookId + ">" + like_count + "<i class='fa-solid fa-heart like' id=" + bookId + "></i>" + "</td>";
-        } else {
-            table += "<td class ='like_count' id=likecount" + bookId + ">" + like_count + "<i class='fa-regular fa-heart like' id=" + bookId + "></i>" + "</td>";
-        }
-
+        table += "<td class ='like_count' id=likecount" + bookId + ">" + like_count + "<i class='fa-regular fa-heart like' id=" + bookId + "></i>"  + "</td>";
         table += "</tr>";
     }
     $("#rankinglist").append(table);
@@ -188,11 +157,6 @@ $("#realtime").on("click",function(){
     RendersearchTop()
 })
 
-$("#event").on("click",function(){
-    RenderEventList()
-})
-
-
 // 실시간 검색어 그리기
 
 async function RendersearchTop(){
@@ -233,9 +197,17 @@ async function RenderLikeTop(){
     })
 }
 
-
-
 // 이벤트 목록 불러오기
+
+$("#event").on("click",function(){
+    RenderEventList()
+})
+
+
+$(document).on("click", ".fa-square-check", function() {
+    alert("이벤트 신청 완료");
+})
+
 
 function RenderEventList(){
     $("#rankhead").empty();
@@ -380,35 +352,9 @@ $(document).on("click", ".fa-heart.like", function() {
     })
 })
 
-$(document).on("click", ".fa-square-check", function() {
-    alert("이벤트 신청 완료");
-})
-
-// 좋아요 리스트 가져오기
-async function getLikeList() {
-
-    await $.ajax({
-        url : "/api/mysql/books/like/list",
-        type : "get",
-        data : {},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Content-type","application/json");
-            xhr.setRequestHeader("Authorization", jwt);
-        },
-        success : function(data){
-            console.log(data)
-            likeList = data
-        },
-
-        error : function (error){
-            console.log(error);
-        }
-    })
-}
-
 $(function(){
     if(localStorage.getItem('login') == 'true'){
-        $("#loginline").html("</li> <li class=\"nav-item\"><a class=\"nav-link\" href=\mypage\><i class=\"fa-solid fa-user\"></i></a></li><li class='nav-item'><a class='nav-link' id='logout'>Logout</a>");
+        $("#loginline").html("</li> <li class=\"nav-item\"><a class=\"nav-link\" href=\"login\"><i class=\"fa-solid fa-user\"></i></a></li><li class='nav-item'><a class='nav-link' id='logout'>Logout</a>");
     }
     $("#logout").on("click",function (){
         $.post("api/users/logout/redis",{token: jwt},function(){
@@ -416,4 +362,3 @@ $(function(){
         });
     })
 })
-
