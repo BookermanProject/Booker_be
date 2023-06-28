@@ -6,11 +6,9 @@ import com.sparta.booker.domain.event.dto.EventResponseDto;
 import com.sparta.booker.domain.event.entity.Event;
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.event.repository.SendFailureRepository;
-import com.sparta.booker.domain.user.dto.ResponseDto;
 import com.sparta.booker.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -74,12 +72,12 @@ public class KafkaProducer {
 
 			// 선택할 파티션 계산
 			// ex) eventId 1 -> partiction 0, eventId 2 -> partiction 1
-			//int partition = (eventId.intValue() - 1) % 10;
+			int partition = (eventId.intValue() - 1) % 10;
 
 			// ListenableFuture는 비동기 작업의 결과를 나타내는 인터페이스이고 비동기 작업의 상태 추적, 콜백 등록 가능
 			// KafkaTemplate의 send() 메서드를 호출하여 비동기적으로 메시지를 전송
 			// SendResult 객체에는 전송 결과에 대한 정보가 포함됩니다.
-			ListenableFuture<SendResult<Long, String>> listenableFuture = kafkaTemplate.send("booker", eventId, eventMessage);
+			ListenableFuture<SendResult<Long, String>> listenableFuture = kafkaTemplate.send("book-4", partition, eventId, eventMessage);
 
 
 			// 비동기 전송의 성공 또는 실패에 대한 콜백을 등록
