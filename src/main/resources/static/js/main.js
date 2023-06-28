@@ -408,7 +408,7 @@ async function getLikeList() {
 
 $(function(){
     if(localStorage.getItem('login') == 'true'){
-        $("#loginline").html("</li> <li class=\"nav-item\"><a class=\"nav-link\" href=\mypage\><i class=\"fa-solid fa-user\"></i></a></li><li class='nav-item'><a class='nav-link' id='logout'>Logout</a>");
+        $("#loginline").html("</li> <li class=\"nav-item\"><a class=\"nav-link\" href=\"login\"><i class=\"fa-solid fa-user\"></i></a></li><li class='nav-item'><a class='nav-link' id='logout'>Logout</a> <li class=\"nav-item\"><a class=\"nav-link\" href=\"mypage\">mypage</a></li>");
     }
     $("#logout").on("click",function (){
         $.post("api/users/logout/redis",{token: jwt},function(){

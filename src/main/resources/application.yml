@@ -1,13 +1,17 @@
 spring:
   thymeleaf:
   redis:
-    host: 211.178.235.51
+    host: localhost
     port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ENC(qlJNQTS8l1To7FbGyT6m1A==)
-    url: ENC(iaoon0t1k7A1VlZGodTTMa+mSnyroY5tbjeLXAAUTZ+c4TrHHzwyWJw0q7cH563LW9WHTz6q36aZsXPiTAnMrJQwyGnmis9QpBphuummoz5PSeUfHvhzccmlGURro3F4)
-    password: ENC(d4B1ht0mxIDZpWTHLvy56wZBaJa/EEm8)
+
+    username: root
+    url: jdbc:mysql://211.178.235.51:3306/BOOKER
+    password: haha5032
+#    username: ENC(qlJNQTS8l1To7FbGyT6m1A==)
+#    url: ENC(iaoon0t1k7A1VlZGodTTMa+mSnyroY5tbjeLXAAUTZ+c4TrHHzwyWJw0q7cH563LW9WHTz6q36aZsXPiTAnMrJQwyGnmis9QpBphuummoz5PSeUfHvhzccmlGURro3F4)
+#    password: ENC(d4B1ht0mxIDZpWTHLvy56wZBaJa/EEm8)
   jpa:
     hibernate:
       ddl-auto: none

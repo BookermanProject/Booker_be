@@ -1,11 +1,12 @@
 package com.sparta.booker.domain.event.service;
 
-import com.sparta.booker.domain.event.dto.EventDateDto;
+
 import com.sparta.booker.domain.event.dto.EventResponseDto;
-import com.sparta.booker.domain.event.dto.EventSearchDto;
+import com.sparta.booker.domain.event.dto.*;
+import com.sparta.booker.domain.event.entity.EventRequest;
+import com.sparta.booker.domain.event.repository.EventRequestRepository;
 import com.sparta.booker.domain.search.querydsl.entity.Book;
 import com.sparta.booker.domain.search.querydsl.repository.BookRepository;
-import com.sparta.booker.domain.event.dto.EventRequestDto;
 import com.sparta.booker.domain.event.entity.Event;
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.user.entity.User;
@@ -16,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,6 +29,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final BookRepository bookRepository;
+    private final EventRequestRepository eventRequestRepository;
 
     // 이벤트 등록
     public ResponseEntity<EventResponseDto> createEvent(EventRequestDto eventRequestDto, User user) {
@@ -44,6 +46,11 @@ public class EventService {
             throw new IllegalArgumentException("관리자만 등록 가능합니다.");
         }
         return ResponseEntity.ok().body(new EventResponseDto("이벤트 등록 성공"));
+    }
+
+    //성공한 이벤트 조회
+    public List<EventRequest> geteventlist(String userId) {
+        return eventRequestRepository.findByUserId(userId);
     }
 
     //등록된 이벤트 날짜 가져오기

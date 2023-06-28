@@ -74,7 +74,7 @@
 //            String applicationDate = eventJson.getString("applicationDate");
 //            String applicationTime = eventJson.getString("applicationTime");
 //
-//            Event event = new Event();
+//            Event event = eventRepository.findById(eventId).get();
 //            int bookCnt = event.getBook_cnt();
 //            boolean isSuccess = event.getBook_cnt() > 0;
 //
