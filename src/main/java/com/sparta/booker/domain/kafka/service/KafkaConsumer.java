@@ -1,19 +1,15 @@
 package com.sparta.booker.domain.kafka.service;
 
-import com.sparta.booker.domain.event.document.sendFailure;
-import com.sparta.booker.domain.event.dto.EventResponseDto;
 import com.sparta.booker.domain.event.entity.Event;
 import com.sparta.booker.domain.event.entity.EventRequest;
 import com.sparta.booker.domain.event.repository.EventRepository;
 import com.sparta.booker.domain.event.repository.EventRequestRepository;
-import com.sparta.booker.domain.event.repository.SendFailureRepository;
 import com.sparta.booker.domain.kafka.config.KafkaProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Service;
@@ -110,3 +106,4 @@ public class KafkaConsumer {
 		eventRequestRepository.save(new EventRequest(eventId, userId, applicationDate, applicationTime));
 	}
 }
+
