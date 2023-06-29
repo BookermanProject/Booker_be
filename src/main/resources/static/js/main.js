@@ -8,7 +8,7 @@ $(document).ready(async function() {
     jwt = $.cookie('jwt')
     try {
         await RenderLikeTop();
-        const searchResult = await Search(0, 10);
+        const searchResult = await Search(1, 10);
         RenderBookList(searchResult.get('booklist'));
         RenderPagination(searchResult.get('totalPages'));
     } catch (error) {
@@ -37,7 +37,7 @@ $("#searchbutton").on("click",async function(){
                 sortCategory: sortCategory
             };
         }
-        const searchResult = await Search(0, 10);
+        const searchResult = await Search(1, 10);
         RenderBookList(searchResult.get('booklist'));
         RenderPagination(searchResult.get('totalPages'));
     } catch (error) {
@@ -54,14 +54,14 @@ function RenderPagination(totalPages){
         visiblePages: 10,
         onPageClick: async function (event, page) {
             try {
-                    if(page-1 == 0){
-                        await SearchUpCount();
-                    }
-                    // 검색 결과 가지고 오기
-                    const searchResult = await Search(page-1, 10);
-                    // 검색 결과기반으로 책 테이블. 페이지네이션 그리기
-                    RenderBookList(searchResult.get('booklist'));
-                    // 검색어 카운트 올리기
+                if(page == 1){
+                    await SearchUpCount();
+                }
+                // 검색 결과 가지고 오기
+                const searchResult = await Search(page, 10);
+                // 검색 결과기반으로 책 테이블. 페이지네이션 그리기
+                RenderBookList(searchResult.get('booklist'));
+                // 검색어 카운트 올리기
 
             } catch (error) {
                 console.log(error);
@@ -199,23 +199,36 @@ async function RenderLikeTop(){
 
 // 이벤트 목록 불러오기
 
-async function RenderEventList(){
-    await $.ajax({
-        url : "/elastic/liketop",
-        type : "get",
-        data : {},
-        success : function(data){
-            $("#rankhead").empty();
-            $("#rankhead").append("<tr><th>책이름</th><th>나눔권수</th><th>신청</th></tr>");
-            $("#rankbox").empty();
-            for(var i =0; i<data.length; i++){
-                $("#rankbox").append("<tr><td>"data[i]"</td><td>"+data[i].bookName+"</td><td>"+data[i].likeCount+"</td></tr>")
-            }
-        },
-        error : function (data){}
-    })
-}
+$("#event").on("click",function(){
+    RenderEventList()
+})
 
+
+$(document).on("click", ".fa-square-check", function() {
+    alert("이벤트 신청 완료");
+})
+
+
+function RenderEventList(){
+    $("#rankhead").empty();
+
+    $("#rankhead").append("<tr><th>책이름</th><th>저자</th><th>나눔권수</th><th>신청</th></tr>");
+
+    $("#rankbox").empty();
+
+    $("#rankbox").append("<tr><td>사랑의 기술</td><td>에리히 프롬</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+    $("#rankbox").append("<tr><td>선과 정신분석</td><td>에리히 프롬</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+    $("#rankbox").append("<tr><td>12가지 인생의 법칙</td><td>조던 피터슨</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+    $("#rankbox").append("<tr><td>토비의 스프링부트</td><td>이일민</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+    $("#rankbox").append("<tr><td>오브젝트</td><td>조영호</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+    $("#rankbox").append("<tr><td>총균쇠</td><td>제레드 다이아몬드</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+    $("#rankbox").append("<tr><td>기사단장 죽이기1</td><td>무라카미 하루키</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+    $("#rankbox").append("<tr><td>기사단장 죽이기2</td><td>무라카미 하루키</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+    $("#rankbox").append("<tr><td>해변의 카프카</td><td>무라카미 하루키</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+    $("#rankbox").append("<tr><td>문화의 신학</td><td>폴 틸리히</td><td>10</td><td><i class=\"fa-regular fa-square-check\"></i></td></tr>");
+
+
+}
 
 $("#likecount").on("click",function(){
     $.ajax({
