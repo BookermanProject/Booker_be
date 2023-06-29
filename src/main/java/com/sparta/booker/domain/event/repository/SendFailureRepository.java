@@ -7,4 +7,5 @@ import java.util.List;
 @Repository
 public interface SendFailureRepository extends ElasticsearchRepository<sendFailure, Long> {
     List<sendFailure> findByEventId(Long eventId);
+    List<sendFailure> findByUserId(String userId);
 }
