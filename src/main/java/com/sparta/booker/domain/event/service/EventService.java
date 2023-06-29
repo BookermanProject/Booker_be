@@ -1,10 +1,12 @@
 package com.sparta.booker.domain.event.service;
 
 
+import com.sparta.booker.domain.event.document.sendFailure;
 import com.sparta.booker.domain.event.dto.EventResponseDto;
 import com.sparta.booker.domain.event.dto.*;
 import com.sparta.booker.domain.event.entity.EventRequest;
 import com.sparta.booker.domain.event.repository.EventRequestRepository;
+import com.sparta.booker.domain.event.repository.SendFailureRepository;
 import com.sparta.booker.domain.search.querydsl.entity.Book;
 import com.sparta.booker.domain.search.querydsl.repository.BookRepository;
 import com.sparta.booker.domain.event.entity.Event;
@@ -30,6 +32,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final BookRepository bookRepository;
     private final EventRequestRepository eventRequestRepository;
+    private final SendFailureRepository sendFailureRepository;
 
     // 이벤트 등록
     public ResponseEntity<EventResponseDto> createEvent(EventRequestDto eventRequestDto, User user) {
@@ -48,9 +51,38 @@ public class EventService {
         return ResponseEntity.ok().body(new EventResponseDto("이벤트 등록 성공"));
     }
 
-    //성공한 이벤트 조회
-    public List<EventRequest> geteventlist(String userId) {
-        return eventRequestRepository.findByUserId(userId);
+    //성공 이벤트 조회
+    public ResponseEntity<EventSuccessResponseDto> getSuccessEventList(String userId) {
+        List<EventRequest> eventRequests = eventRequestRepository.findByUserId(userId);
+        if (!eventRequests.isEmpty()) {
+            EventRequest eventRequest = eventRequests.get(0); // 여러 개의 이벤트 중에서 첫 번째 이벤트 선택
+            EventSuccessResponseDto eventSuccessDto = new EventSuccessResponseDto(
+                    eventRequest.getEventId(),
+                    eventRequest.getEventDate(),
+                    eventRequest.getEventTime()
+            );
+            return ResponseEntity.ok(eventSuccessDto);
+        } else {
+            // 이벤트 신청 정보가 없을 경우 처리
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    //실패 이벤트 조회
+    public ResponseEntity<EventFailResponseDto> getFailEventList(String userId) {
+        List<sendFailure> failures = sendFailureRepository.findByUserId(userId);
+        if (!failures.isEmpty()) {
+            sendFailure sf = failures.get(0); // 여러 개의 이벤트 중에서 첫 번째 이벤트 선택
+            EventFailResponseDto eventFailResponseDto = new EventFailResponseDto(
+                    sf.getEventId(),
+                    sf.getEventDate(),
+                    sf.getEventTime()
+            );
+            return ResponseEntity.ok(eventFailResponseDto);
+        } else {
+            // 이벤트 신청 정보가 없을 경우 처리
+            return ResponseEntity.notFound().build();
+        }
     }
 
     //등록된 이벤트 날짜 가져오기

@@ -27,9 +27,6 @@ public class EventRequest {
     @Column(nullable = false)
     private String eventTime;
 
-    @OneToOne
-    private Book book;
-
     public EventRequest(Long eventId, String userId, String eventDate, String eventTime) {
         this.eventId = eventId;
         this.userId = userId;

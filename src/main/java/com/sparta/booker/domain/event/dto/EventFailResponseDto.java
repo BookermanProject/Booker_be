@@ -5,8 +5,8 @@ import lombok.ToString;
 
 @AllArgsConstructor
 @ToString
-public class EventSuccessDto {
-    private String bookName;
+public class EventFailResponseDto {
+    private Long eventId;
     private String eventDate;
     private String eventTime;
 }

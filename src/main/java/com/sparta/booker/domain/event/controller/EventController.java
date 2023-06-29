@@ -3,7 +3,6 @@ package com.sparta.booker.domain.event.controller;
 import com.sparta.booker.domain.event.dto.EventRequestDto;
 import com.sparta.booker.domain.event.dto.EventResponseDto;
 import com.sparta.booker.domain.event.dto.*;
-import com.sparta.booker.domain.event.entity.EventRequest;
 import com.sparta.booker.domain.event.service.EventService;
 import com.sparta.booker.domain.kafka.service.KafkaProducer;
 import com.sparta.booker.domain.user.dto.ResponseDto;
@@ -12,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -57,9 +54,14 @@ public class EventController {
         return eventService.getSearchDatList();
     }
 
-    @GetMapping("/event")
-    public List<EventRequest> geteventlist(@AuthenticationPrincipal UserDetailsImpl user){
-        return eventService.geteventlist(user.getUser().getUserId());
+    @GetMapping("/event/success")
+    public ResponseEntity<EventSuccessResponseDto> getSuccessEventList(@AuthenticationPrincipal UserDetailsImpl user){
+        return eventService.getSuccessEventList(user.getUser().getUserId());
+    }
+
+    @GetMapping("/event/fail")
+    public ResponseEntity<EventFailResponseDto> getFailEventList(@AuthenticationPrincipal UserDetailsImpl user){
+        return eventService.getFailEventList(user.getUser().getUserId());
     }
 
 }
