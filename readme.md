@@ -49,3 +49,15 @@
 
 # 서버 구조 
 ![인프라서버찐찌ㅏ](https://github.com/BookermanProject/Booker_be/assets/40461588/df99d92c-7175-4b0a-bcc8-9424d430e71f)
+
+## 👬팀원
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://github.com/kanteluv"><img src="https://avatars.githubusercontent.com/u/105421031?v=4" width="100px;" alt=""/><br /><sub><b>리더 : 정성윤</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/jwodn123"><img src="https://avatars.githubusercontent.com/u/68779402?v=4" width="100px;" alt=""/><br /><sub><b>BE 팀원 : 전재우</b></sub></a><br /></td>
+        <td align="center"><a href="https://github.com/kkj5158"><img src="https://avatars.githubusercontent.com/u/40461588?v=4" width="100px;" alt=""/><br /><sub><b>BE 팀원 : 김지승</b></sub></a><br /></td>
+        <td align="center"><a href="https://github.com/YooMyeonggeun"><img src="https://avatars.githubusercontent.com/u/129927506?v=4" width="100px;" alt=""/><br /><sub><b>BE 팀원 : 유명근</b></sub></a><br /></td>
+    </tr>
+  </tbody>
+</table>
