@@ -48,7 +48,7 @@
 ![카프카 기술단카프카기술구조도완완완](https://github.com/BookermanProject/Booker_be/assets/40461588/b86b60f0-4480-4559-9e4f-3f2895b3929f)
 
 # 서버 구조 
-![인프라서버찐찌ㅏ](https://github.com/BookermanProject/Booker_be/assets/40461588/df99d92c-7175-4b0a-bcc8-9424d430e71f)
+![인프라서버 구축 2222](https://github.com/BookermanProject/Booker_be/assets/40461588/0690570a-6f27-4fa6-9fb4-2fb6f1fcfaeb)
 
 ## 👬팀원
 <table>
